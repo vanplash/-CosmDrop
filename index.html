@@ -21,7 +21,7 @@
         .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
 
         .glass-card { 
-            background: rgba(13, 14, 28, 0.92); 
+            background: rgba(13, 14, 28, 0.95); 
             border: 1px solid rgba(139, 92, 246, 0.4); 
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 20px rgba(139, 92, 246, 0.2); 
             border-radius: 20px; 
@@ -31,6 +31,7 @@
             z-index: 5;
         }
 
+        /* Гарантія клікабельності для всіх інтерактивних елементів */
         button, input, select, .tab-btn, .speed-btn { 
             cursor: pointer !important; 
             pointer-events: auto !important; 
@@ -64,7 +65,7 @@
             background: rgba(15, 15, 35, 0.9); 
             border: 1px solid rgba(139, 92, 246, 0.4); 
             color: #94a3b8; 
-            padding: 10px 20px; 
+            padding: 10px 16px; 
             border-radius: 12px; 
             font-family: 'Orbitron', sans-serif;
             font-weight: 700; 
@@ -161,10 +162,11 @@
             </div>
 
             <!-- TABS -->
-            <div style="display: flex; gap: 8px; background: rgba(5, 5, 15, 0.8); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.4);">
-                <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 6px;"></i>Апгрейд</button>
-                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 6px;"></i>Кейси</button>
-                <button type="button" onclick="switchTab('profile')" id="tab-btn-profile" class="tab-btn"><i class="fa-solid fa-user" style="margin-right: 6px;"></i>Профіль та Інвентар</button>
+            <div style="display: flex; gap: 6px; background: rgba(5, 5, 15, 0.8); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.4);">
+                <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 4px;"></i>Апгрейд</button>
+                <button type="button" onclick="switchTab('shop')" id="tab-btn-shop" class="tab-btn"><i class="fa-solid fa-store" style="margin-right: 4px;"></i>Магазин</button>
+                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 4px;"></i>Кейси</button>
+                <button type="button" onclick="switchTab('profile')" id="tab-btn-profile" class="tab-btn"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Профіль</button>
             </div>
 
             <!-- USER & BALANCE & ADMIN -->
@@ -224,7 +226,7 @@
                 </div>
             </div>
 
-            <!-- Center: Circular Upgrader Wheel -->
+            <!-- Center: Circular Upgrader Wheel (Фіолетово-чорна зона) -->
             <div class="glass-card" style="height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative;">
                 <div style="text-align: center; width: 100%;">
                     <span id="targetBadge" style="font-size: 10px; background: rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.5); text-transform: uppercase; font-weight: 700;">Шанс виграшу</span>
@@ -275,12 +277,23 @@
             </div>
         </div>
 
-        <!-- TAB 2: CASES -->
+        <!-- TAB 2: SHOP (МАГАЗИН ПРЕДМЕТІВ) -->
+        <div id="section-shop" class="hidden" style="max-width: 900px; margin: 0 auto;">
+            <div class="glass-card">
+                <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 10px;">
+                    <i class="fa-solid fa-store" style="margin-right: 8px;"></i> Магазин предметів (Пряма покупка)
+                </h3>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Тут ви можете придбати будь-який предмет із каталогу за Cosmic Coins безпосередньо у свій інвентар.</p>
+                <div id="shopCatalogGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: CASES -->
         <div id="section-cases" class="hidden" style="max-width: 900px; margin: 0 auto;">
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;" id="casesContainer"></div>
         </div>
 
-        <!-- TAB 3: PROFILE & INVENTORY & CHAT -->
+        <!-- TAB 4: PROFILE & INVENTORY & CHAT -->
         <div id="section-profile" class="hidden" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px;">
             <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 20px; flex-wrap: wrap; gap: 15px;">
@@ -468,17 +481,20 @@
         }
 
         function switchTab(tab) {
-            ['upgrader', 'cases', 'profile'].forEach(t => {
-                document.getElementById(`section-${t}`).classList.add('hidden');
+            ['upgrader', 'shop', 'cases', 'profile'].forEach(t => {
+                let section = document.getElementById(`section-${t}`);
+                if(section) section.classList.add('hidden');
                 let btn = document.getElementById(`tab-btn-${t}`);
                 if(btn) btn.classList.remove('active');
             });
-            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            let targetSec = document.getElementById(`section-${tab}`);
+            if(targetSec) targetSec.classList.remove('hidden');
             let activeBtn = document.getElementById(`tab-btn-${tab}`);
             if(activeBtn) activeBtn.classList.add('active');
 
             if(tab === 'profile') updateProfileUI();
             if(tab === 'cases') renderCasesList();
+            if(tab === 'shop') renderShopCatalog();
         }
 
         function updateUI() {
@@ -538,7 +554,45 @@
             location.reload();
         }
 
-        // Обробка зміни відсотка (максимум 75%)
+        // Рендеринг магазину предметів
+        function renderShopCatalog() {
+            const grid = document.getElementById('shopCatalogGrid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            dummyItems.forEach(item => {
+                let div = document.createElement('div');
+                div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;";
+                div.innerHTML = `
+                    <div>
+                        <div style="font-size: 36px; color: ${item.color}; margin-bottom: 8px;"><i class="fa-solid ${item.icon}"></i></div>
+                        <div style="font-size: 13px; font-weight: 700; color: #fff;">${item.name}</div>
+                        <div style="font-size: 13px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 4px;">${item.price} CC</div>
+                    </div>
+                    <button type="button" onclick="buyShopItem('${item.id}')" class="cosmo-btn" style="padding: 8px; font-size: 11px;">Купити</button>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function buyShopItem(itemId) {
+            let item = dummyItems.find(x => x.id === itemId);
+            if(!item) return;
+            if(balance < item.price) {
+                alert("Недостатньо Cosmic Coins на балансі!");
+                return;
+            }
+            balance -= item.price;
+            let newItem = { ...item, uniqueId: Date.now() + Math.random() };
+            inventory.push(newItem);
+
+            if(userStats.bestDrop === 'Ще немає' || newItem.price > dummyItems.find(i => i.name === userStats.bestDrop)?.price || 0) {
+                userStats.bestDrop = newItem.name;
+            }
+
+            updateUI();
+            alert(`✅ Ви успішно придбали ${item.name} за ${item.price} CC! Предмет додано до інвентарю.`);
+        }
+
         function onPercentSliderInput() {
             let val = parseInt(document.getElementById('percentRangeInput').value);
             currentPercent = Math.max(1, Math.min(75, val));
@@ -559,15 +613,12 @@
             updateMatchedSkin();
         }
 
-        // Авто-підтягування скіна з перевіркою, щоб він не був дешевшим за ставку
         function updateMatchedSkin() {
             if(isSpinning) return;
             let bet = parseFloat(document.getElementById('directBetInput').value) || 0;
             document.getElementById('totalBet').innerText = `${bet.toFixed(0)} CC`;
 
             let idealPrice = currentPercent > 0 ? bet / (currentPercent / 100) : 0;
-
-            // Фільтруємо предмети, залишаючи тільки дорожчі за ставку (щоб не можна було апгрейдити на дешевше)
             let validItems = dummyItems.filter(item => item.price > bet);
 
             let btn = document.getElementById('upgradeBtn');
@@ -580,11 +631,10 @@
                 document.getElementById('matchedSkinName').innerText = 'Немає цілі';
                 document.getElementById('matchedSkinPrice').innerText = '0 CC';
                 if(btn) btn.disabled = true;
-                drawWheel(0, null);
+                drawWheel(0, null, currentPercent);
                 return;
             }
 
-            // Знаходимо найближчий дорожчий скін
             targetItem = validItems.reduce((prev, curr) => {
                 return (Math.abs(curr.price - idealPrice) < Math.abs(prev.price - idealPrice) ? curr : prev);
             });
@@ -603,13 +653,15 @@
             } else {
                 if(btn) btn.disabled = false;
             }
-            drawWheel(0, null);
+            drawWheel(0, null, currentPercent);
         }
 
-        function drawWheel(angle = 0, statusText = null) {
-            const canvas = document.getElementById('wheelCanvas');
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
+        // Рендеринг фіолетово-чорного колеса з урахуванням поточного відсотка
+        function drawWheel(angle = 0, statusText = null, percent = 50) {
+            const canvas = 'wheelCanvas';
+            const el = document.getElementById(canvas);
+            if(!el) return;
+            const ctx = el.getContext('2d');
             ctx.clearRect(0, 0, 260, 260);
 
             ctx.save();
@@ -617,12 +669,32 @@
             ctx.rotate(angle);
             ctx.translate(-130, -130);
 
+            // Зовнішній обідок
             ctx.beginPath(); ctx.arc(130, 130, 120, 0, Math.PI * 2); ctx.fillStyle = '#05050d'; ctx.fill();
             ctx.beginPath(); ctx.arc(130, 130, 115, 0, Math.PI * 2); ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 4; ctx.stroke();
 
+            // Розрахунок кута для фіолетової зони (успіх) та чорної (програш)
+            let successAngle = (percent / 100) * (Math.PI * 2);
+
+            // Чорна зона (програш)
+            ctx.beginPath();
+            ctx.moveTo(130, 130);
+            ctx.arc(130, 130, 115, successAngle - Math.PI/2, Math.PI * 2 - Math.PI/2);
+            ctx.fillStyle = '#0f1020';
+            ctx.fill();
+
+            // Фіолетова зона (успіх)
+            ctx.beginPath();
+            ctx.moveTo(130, 130);
+            ctx.arc(130, 130, 115, -Math.PI/2, successAngle - Math.PI/2);
+            ctx.fillStyle = '#8b5cf6';
+            ctx.fill();
+
+            // Внутрішній темний круг
             ctx.beginPath(); ctx.arc(130, 130, 85, 0, Math.PI * 2); ctx.fillStyle = '#0d0e1c'; ctx.fill();
             ctx.restore();
 
+            // Відображення тексту в центрі або статусу
             if(statusText) {
                 ctx.fillStyle = '#ef4444';
                 ctx.font = '700 13px Orbitron, sans-serif';
@@ -631,6 +703,11 @@
                 ctx.fillStyle = '#06b6d4';
                 ctx.font = '600 11px Rajdhani, sans-serif';
                 ctx.fillText(statusText, 130, 140);
+            } else {
+                ctx.fillStyle = '#06b6d4';
+                ctx.font = '700 16px Orbitron, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${percent}%`, 130, 135);
             }
         }
 
@@ -660,7 +737,7 @@
                 let ease = 1 - Math.pow(1 - progress, 3);
                 
                 let targetAngle = (Math.PI * 2 * (upgradeSpeed === 'fast' ? 4 : 8) + (win ? Math.PI * 0.9 : Math.PI * 1.5)) * ease;
-                drawWheel(targetAngle, null);
+                drawWheel(targetAngle, null, currentPercent);
 
                 if(progress < 1) {
                     requestAnimationFrame(spinAnim);
@@ -680,7 +757,7 @@
                     } else {
                         let compensation = targetItem.price * 0.07;
                         balance += compensation;
-                        drawWheel(targetAngle, `Компенсація: +${compensation.toFixed(1)} CC`);
+                        drawWheel(targetAngle, `Компенсація: +${compensation.toFixed(1)} CC`, currentPercent);
                         updateUI();
                         alert(`❌ ПРОГРАШ! Нараховано компенсацію 7%: +${compensation.toFixed(1)} CC`);
                     }
@@ -885,3 +962,37 @@
             alert(`Успішно зараховано ${amount} CC гравцю з ID #${targetId}!`);
             closeAdmin();
         }
+
+        function renderAdminData() {
+            let list = document.getElementById('adminWithdrawalsList');
+            if(withdrawals.length === 0) {
+                list.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів</p>`;
+                return;
+            }
+            list.innerHTML = '';
+            withdrawals.forEach((w, idx) => {
+                let div = document.createElement('div');
+                div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #05050d; padding: 8px; border-radius: 6px; font-size: 12px;";
+                div.innerHTML = `
+                    <span>Гравець #${w.id} (${w.name}) — <b>${w.amount} CC</b></span>
+                    <button type="button" onclick="approveWithdrawal(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Вивести</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function approveWithdrawal(idx) {
+            withdrawals[idx].status = 'Виведено';
+            localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
+            renderAdminData();
+            alert("Вивід підтверджено!");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if(isAdmin) currentUser.id = 777;
+            updateUI();
+            updateMatchedSkin();
+        });
+    </script>
+</body>
+</html>
