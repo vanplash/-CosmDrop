@@ -122,4 +122,179 @@
 
             <!-- BALANCE & ADMIN -->
             <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="background: rgba(15, 15, 35, 0.7); padding: 8px
+                <div style="background: rgba(15, 15, 35, 0.7); padding: 8px 20px; border-radius: 30px; border: 1px solid rgba(139, 92, 246, 0.4); display: flex; align-items: center; gap: 16px; box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);">
+                    <div>
+                        <span style="font-size: 9px; color: #94a3b8; display: block; font-weight: 700; letter-spacing: 1px;">БАЛАНС</span>
+                        <span id="balCoins" class="cosmo-head" style="font-size: 20px; color: #06b6d4;">100 ТК</span>
+                    </div>
+                    <button type="button" onclick="requestAdmin()" style="width: 36px; height: 36px; background: rgba(139, 92, 246, 0.2); border: 1px solid #8b5cf6; border-radius: 50%; color: #06b6d4; display: flex; align-items: center; justify-content: center; transition: 0.2s;" title="Адмін-панель">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main style="max-width: 1200px; width: 100%; margin: 40px auto; padding: 0 20px;">
+        <h2 class="cosmo-head" style="font-size: 32px; color: #fff; text-align: center; margin-bottom: 35px; text-shadow: 0 0 20px rgba(139, 92, 246, 0.6);">
+            <i class="fa-solid fa-meteor" style="color: #06b6d4; margin-right: 10px;"></i>Обирай кейс
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
+            <!-- CASE 1 -->
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px;">
+                <div style="font-size: 60px; color: #06b6d4; margin: auto; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.5));"><i class="fa-solid fa-shuttle-space"></i></div>
+                <div>
+                    <h3 class="cosmo-head" style="font-size: 22px; color: #fff; margin: 0;">Орбітальний</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Початковий космічний контейнер.</p>
+                </div>
+                <button type="button" onclick="openCase('bomzh')" class="cosmo-btn">Відкрити (10 ТК)</button>
+            </div>
+
+            <!-- CASE 2 -->
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px; border-color: rgba(239, 68, 68, 0.4);">
+                <div style="font-size: 60px; color: #ef4444; margin: auto; filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.5));"><i class="fa-solid fa-hospital-user"></i></div>
+                <div>
+                    <h3 class="cosmo-head" style="font-size: 22px; color: #ef4444; margin: 0;">Медичний 🚑</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Медичне спорядження та ін'єкції.</p>
+                </div>
+                <button type="button" onclick="openCase('medic')" class="cosmo-btn" style="background: linear-gradient(135deg, #ef4444, #991b1b); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);">Відкрити (35 ТК)</button>
+            </div>
+
+            <!-- CASE 3 -->
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px; border-color: rgba(236, 72, 153, 0.4);">
+                <div style="font-size: 60px; color: #ec4899; margin: auto; filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.5));"><i class="fa-solid fa-sparkles"></i></div>
+                <div>
+                    <h3 class="cosmo-head" style="font-size: 22px; color: #ec4899; margin: 0;">Туманність ✨</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Кавайний та рідкісний лут.</p>
+                </div>
+                <button type="button" onclick="openCase('nyah')" class="cosmo-btn" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);">Відкрити (150 ТК)</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- CASE MODAL -->
+    <div id="caseModal" class="modal hidden">
+        <div class="glass-card" style="max-width: 500px; width: 100%; text-align: center;">
+            <h3 class="cosmo-head" style="font-size: 26px; color: #06b6d4; margin: 0;">Сканування сектора...</h3>
+            <div class="case-roulette-container">
+                <div class="case-marker"></div>
+                <div id="caseRouletteTrack" class="case-roulette-track"></div>
+            </div>
+            <div id="caseWonResult" class="hidden" style="margin-bottom: 20px;">
+                <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 8px; letter-spacing: 1px;">ОТРИМАНО ПРЕДМЕТ:</span>
+                <div id="caseWonItemBox" style="display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(5, 5, 15, 0.8); padding: 12px; border-radius: 12px; border: 1px solid #06b6d4;"></div>
+            </div>
+            <button type="button" id="caseCloseBtn" onclick="closeCaseModal()" disabled class="cosmo-btn">Забрати в трюм</button>
+        </div>
+    </div>
+
+    <!-- ADMIN MODAL (PIN: 11111) -->
+    <div id="adminModal" class="modal hidden">
+        <div class="glass-card" style="max-width: 420px; width: 100%; position: relative;">
+            <button type="button" onclick="toggleAdmin()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="cosmo-head" style="font-size: 24px; color: #06b6d4; margin: 0 0 20px;">Адмін-Панель</h3>
+            
+            <label style="font-size: 12px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 8px;">Кількість ТК:</label>
+            <input id="adminInput" type="number" value="1000" style="width: 100%; background: rgba(5, 5, 15, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); padding: 12px; border-radius: 10px; color: #06b6d4; font-family: 'Orbitron', sans-serif; font-size: 16px; margin-bottom: 16px; outline: none;">
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;">
+                <button type="button" onclick="setAdminAmount(100)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+100</button>
+                <button type="button" onclick="setAdminAmount(1000)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+1000</button>
+                <button type="button" onclick="setAdminAmount(5000)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+5000</button>
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <button type="button" onclick="addAdminRef()" class="cosmo-btn">Видати</button>
+                <button type="button" onclick="resetUserBalance()" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 12px; border-radius: 12px; font-weight: 700; text-transform: uppercase; font-family: 'Orbitron', sans-serif;">Скинути</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        let balance = parseFloat(localStorage.getItem('cosm_coins')) || 100.0;
+
+        const dummyItems = [
+            { name: 'Метеоритний фрагмент', icon: 'fa-cube', color: '#94a3b8' },
+            { name: 'Кристал плазми', icon: 'fa-gem', color: '#06b6d4' },
+            { name: 'Енерго-ядро', icon: 'fa-bolt-lightning', color: '#8b5cf6' },
+            { name: 'Сонячний спалах', icon: 'fa-sun', color: '#f59e0b' },
+            { name: 'Галактична корона', icon: 'fa-crown', color: '#ec4899' }
+        ];
+
+        const caseCosts = { bomzh: 10, medic: 35, nyah: 150 };
+
+        function updateUI() {
+            document.getElementById('balCoins').innerText = `${balance.toFixed(0)} ТК`;
+            localStorage.setItem('cosm_coins', balance);
+        }
+
+        function openCase(caseKey) {
+            const cost = caseCosts[caseKey];
+            if(balance < cost) { alert('Недостатньо ТК на балансі!'); return; }
+            balance -= cost;
+            updateUI();
+
+            const won = dummyItems[Math.floor(Math.random() * dummyItems.length)];
+            const track = document.getElementById('caseRouletteTrack');
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+            track.innerHTML = '';
+
+            let strip = [];
+            for(let i = 0; i < 30; i++) {
+                let rnd = dummyItems[Math.floor(Math.random() * dummyItems.length)];
+                if(i === 24) rnd = won;
+                strip.push(rnd);
+            }
+
+            strip.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "case-item-card";
+                div.innerHTML = `<div style="font-size:24px; color:${item.color};"><i class="fa-solid ${item.icon}"></i></div><div style="font-size:9px; font-weight:700; color:#fff; margin-top:4px;">${item.name}</div>`;
+                track.appendChild(div);
+            });
+
+            document.getElementById('caseWonResult').classList.add('hidden');
+            document.getElementById('caseCloseBtn').disabled = true;
+            document.getElementById('caseModal').classList.remove('hidden');
+
+            setTimeout(() => {
+                track.style.transition = 'transform 4s cubic-bezier(0.1, 1, 0.1, 1)';
+                track.style.transform = `translateX(-${24 * 115 - 150}px)`;
+            }, 50);
+
+            setTimeout(() => {
+                document.getElementById('caseWonItemBox').innerHTML = `<div style="font-size:28px; color:${won.color};"><i class="fa-solid ${won.icon}"></i></div><div><div style="font-weight:700; color:#fff; font-size:14px; font-family:'Orbitron', sans-serif;">${won.name}</div></div>`;
+                document.getElementById('caseWonResult').classList.remove('hidden');
+                document.getElementById('caseCloseBtn').disabled = false;
+            }, 4200);
+        }
+
+        function closeCaseModal() {
+            document.getElementById('caseModal').classList.add('hidden');
+        }
+
+        /* --- ADMIN PANEL --- */
+        function requestAdmin() {
+            let pin = prompt("Введіть PIN Адміністратора:");
+            if(pin === "11111") {
+                document.getElementById('adminModal').classList.remove('hidden');
+            } else if(pin !== null) { alert("Невірний PIN!"); }
+        }
+        function toggleAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
+        function setAdminAmount(amt) { document.getElementById('adminInput').value = amt; }
+        function addAdminRef() {
+            let amt = parseFloat(document.getElementById('adminInput').value) || 0;
+            balance += amt; updateUI(); toggleAdmin(); alert(`Нараховано ${amt} ТК!`);
+        }
+        function resetUserBalance() { balance = 0; updateUI(); toggleAdmin(); alert('Баланс скинуто!'); }
+
+        window.onload = function() {
+            updateUI();
+        };
+    </script>
+</body>
+</html>
