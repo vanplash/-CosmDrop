@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Minecraft Upgrade & Shop</title>
+    <title>CosmDrop — Steam Auth & Minecraft Upgrader</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
         .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
 
         .glass-card { 
-            background: rgba(10, 11, 24, 0.85); 
+            background: rgba(10, 11, 24, 0.88); 
             border: 1px solid rgba(139, 92, 246, 0.35); 
             box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8), 0 0 25px rgba(139, 92, 246, 0.15); 
             border-radius: 22px; 
@@ -33,7 +33,6 @@
             position: relative;
         }
 
-        /* Гарантія клікабельності для всіх інтерактивних елементів */
         button, input, select, .tab-btn, .speed-btn { 
             cursor: pointer !important; 
             pointer-events: auto !important; 
@@ -61,9 +60,7 @@
             box-shadow: 0 0 25px rgba(6, 182, 212, 0.8); 
             transform: translateY(-2px);
         }
-        .cosmo-btn:active:not(:disabled) {
-            transform: translateY(1px);
-        }
+        .cosmo-btn:active:not(:disabled) { transform: translateY(1px); }
         .cosmo-btn:disabled { opacity: 0.4; cursor: not-allowed !important; transform: none !important; }
 
         .tab-btn { 
@@ -128,11 +125,11 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
             <div style="display: flex; align-items: center; gap: 14px;">
                 <div style="width: 44px; height: 44px; background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);">
-                    <i class="fa-solid fa-cubes"></i>
+                    <i class="fa-solid fa-meteor"></i>
                 </div>
                 <div>
                     <h1 class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
-                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 1.5px;">MINECRAFT UPGRADER & SHOP</p>
+                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 1.5px;">STEAM AUTH & UPGRADER</p>
                 </div>
             </div>
 
@@ -149,7 +146,7 @@
                 <div style="background: rgba(15, 15, 35, 0.95); padding: 8px 18px; border-radius: 30px; border: 1px solid rgba(139, 92, 246, 0.5); display: flex; align-items: center; gap: 15px; box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);">
                     
                     <div id="userProfileArea" style="display: flex; align-items: center; gap: 10px;">
-                        <button type="button" onclick="openSteamSettings()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px;"><i class="fa-solid fa-gamepad" style="margin-right: 6px;"></i> Профіль</button>
+                        <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px; background: linear-gradient(135deg, #1b2838, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
                     </div>
 
                     <div style="height: 25px; width: 1px; background: rgba(139, 92, 246, 0.4);"></div>
@@ -203,7 +200,7 @@
                 
                 <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #94a3b8; font-size: 12px; border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px;">
                     <i class="fa-solid fa-shield-halved" style="font-size: 24px; color: #8b5cf6; margin-bottom: 8px;"></i>
-                    <span>Виберіть скін або коїни для апгрейду предмета з Minecraft!</span>
+                    <span>Оберіть ставку та відсоток для апгрейду майнкрафт-предмета!</span>
                 </div>
 
                 <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(139, 92, 246, 0.4); text-align: center; background: rgba(5, 5, 15, 0.9); padding: 12px; border-radius: 12px;">
@@ -251,7 +248,7 @@
                 <div style="margin-top: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; background: rgba(20, 20, 40, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
                     <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 5px;">АВТО-ПІДТЯГНУТИЙ МІЙНБІЛД:</span>
                     <div id="matchedSkinBox" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-                        <i id="matchedSkinIcon" class="fa-solid fa-gem" style="font-size: 24px; color: #06b6d4;"></i>
+                        <img id="matchedSkinImg" src="" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div style="text-align: left;">
                             <div id="matchedSkinName" style="font-size: 13px; font-weight: 700; color: #fff;">Назва</div>
                             <div id="matchedSkinPrice" style="font-size: 11px; color: #06b6d4; font-weight: 700; font-family: 'Orbitron', sans-serif;">0 CC</div>
@@ -268,7 +265,7 @@
                 <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 10px;">
                     <i class="fa-solid fa-store" style="margin-right: 8px;"></i> Магазин Minecraft предметів
                 </h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Купуйте броню, мечі, кірки та інші унікальні предмети з сервера за Cosmic Coins.</p>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Купуйте броню, мечі та зброю за Cosmic Coins.</p>
                 <div id="shopCatalogGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;"></div>
             </div>
         </div>
@@ -278,7 +275,7 @@
             <div class="glass-card" style="text-align: center; padding: 50px 20px;">
                 <i class="fa-solid fa-box-open" style="font-size: 48px; color: #8b5cf6; margin-bottom: 15px;"></i>
                 <h3 class="cosmo-head" style="font-size: 22px; color: #fff; margin-bottom: 10px;">Кейси готуються!</h3>
-                <p style="font-size: 13px; color: #94a3b8;">Незабаром тут з'являться ексклюзивні кейси з Minecraft сертифікатами.</p>
+                <p style="font-size: 13px; color: #94a3b8;">Незабаром тут з'являться ексклюзивні кейси з майнкрафт-предметами.</p>
             </div>
         </div>
 
@@ -290,11 +287,11 @@
                         <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;">
                         <div>
                             <h2 id="profName" class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0 0 5px;">Гравець</h2>
-                            <p style="font-size: 12px; color: #06b6d4; margin: 0; font-weight: 700;">Порядковий ID: <span id="profIdNum" style="color: #fff;">#1</span></p>
+                            <p style="font-size: 12px; color: #06b6d4; margin: 0; font-weight: 700;">Статус: <span id="profStatus" style="color: #22c55e;">Авторизовано через Steam</span></p>
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <button type="button" onclick="openSteamSettings()" class="cosmo-btn" style="width: auto; padding: 10px 18px; font-size: 11px;"><i class="fa-solid fa-pen" style="margin-right: 6px;"></i> Змінити нік/аву</button>
+                        <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="width: auto; padding: 10px 18px; font-size: 11px; background: linear-gradient(135deg, #1b2838, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Змінити акаунт Steam</button>
                         <button type="button" onclick="logoutSteam()" class="cosmo-btn" style="width: auto; padding: 10px 18px; font-size: 11px; background: linear-gradient(135deg, #ef4444, #991b1b);"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Вийти</button>
                     </div>
                 </div>
@@ -367,6 +364,28 @@
 
     </main>
 
+    <!-- STEAM LOGIN MODAL -->
+    <div id="steamLoginModal" class="modal hidden">
+        <div class="glass-card" style="max-width: 420px; width: 100%; position: relative; text-align: center;">
+            <div style="font-size: 42px; color: #66c0f4; margin-bottom: 10px;"><i class="fa-brands fa-steam"></i></div>
+            <h3 class="cosmo-head" style="font-size: 20px; color: #fff; margin: 0 0 10px;">Авторизація через Steam</h3>
+            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Введіть ваш нікнейм та посилання на аватарку:</p>
+            
+            <div style="text-align: left; margin-bottom: 10px;">
+                <label style="font-size: 11px; color: #94a3b8; font-weight: 700;">Нікнейм Steam:</label>
+                <input id="inputSteamName" type="text" placeholder="Miner_PRO" style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #fff; margin-top: 4px; outline: none;">
+            </div>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+                <label style="font-size: 11px; color: #94a3b8; font-weight: 700;">URL Аватарки:</label>
+                <input id="inputSteamAvatar" type="text" placeholder="https://..." style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #fff; margin-top: 4px; outline: none;">
+            </div>
+
+            <button type="button" onclick="performSteamLogin()" class="cosmo-btn" style="background: linear-gradient(135deg, #1b2838, #2a475e); margin-bottom: 10px;">Увійти у свій акаунт</button>
+            <button type="button" onclick="closeSteamLoginModal()" class="cosmo-btn" style="background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">Скасувати</button>
+        </div>
+    </div>
+
     <!-- INVENTORY SELECTOR MODAL -->
     <div id="inventorySelectorModal" class="modal hidden">
         <div class="glass-card" style="max-width: 500px; width: 100%; position: relative;">
@@ -391,23 +410,7 @@
         </div>
     </div>
 
-    <!-- STEAM SETTINGS MODAL -->
-    <div id="steamModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 400px; width: 100%; position: relative;">
-            <button type="button" onclick="closeSteamSettings()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin: 0 0 15px;">Налаштування профілю</h3>
-            
-            <label style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 4px;">Нікнейм:</label>
-            <input id="inputSteamName" type="text" style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #fff; margin-bottom: 12px; outline: none;">
-
-            <label style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 4px;">Аватарка (URL):</label>
-            <input id="inputSteamAvatar" type="text" placeholder="https://..." style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #fff; margin-bottom: 16px; outline: none;">
-            
-            <button type="button" onclick="saveSteamSettings()" class="cosmo-btn">Зберегти</button>
-        </div>
-    </div>
-
-    <!-- ADVANCED ADMIN MODAL -->
+    <!-- ADMIN MODAL -->
     <div id="adminModal" class="modal hidden">
         <div class="glass-card" style="max-width: 750px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;">
             <button type="button" onclick="closeAdmin()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
@@ -437,46 +440,18 @@
                     <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на вивід</p>
                 </div>
             </div>
-
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Персональний чат з гравцем</h4>
-                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                    <input id="adminChatUserId" type="text" placeholder="Введіть ID гравця" style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
-                    <button type="button" onclick="loadAdminChatForUser()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Відкрити чат</button>
-                </div>
-                <div id="adminChatContainer" class="hidden">
-                    <div id="adminActiveChatBox" style="height: 120px; background: #030308; border-radius: 8px; padding: 8px; overflow-y: auto; font-size: 12px; margin-bottom: 8px; border: 1px solid rgba(139, 92, 246, 0.2); display: flex; flex-direction: column; gap: 4px;"></div>
-                    <div style="display: flex; gap: 8px;">
-                        <input id="adminChatMsgInput" type="text" placeholder="Написати гравцю..." style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
-                        <button type="button" onclick="adminSendMsgToUser()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Надіслати</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- SCRIPT LOGIC -->
     <script>
-        let totalUsers = parseInt(localStorage.getItem('cosm_total_users')) || 0;
         let currentUser = JSON.parse(localStorage.getItem('cosm_user')) || null;
         let isAdmin = localStorage.getItem('cosm_is_admin') === 'true';
 
         const defaultAvatar = 'https://i.imgur.com/8Km9tLL.png';
 
-        if(!currentUser) {
-            totalUsers++;
-            localStorage.setItem('cosm_total_users', totalUsers);
-            currentUser = {
-                id: isAdmin ? 777 : totalUsers,
-                name: `MINER_${Math.floor(1000 + Math.random() * 9000)}`,
-                avatar: defaultAvatar
-            };
-            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-        }
-
-        if(isAdmin) currentUser.id = 777;
-
-        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 250.0;
+        // Баланс рівно 0 CC на початку за твоїм запитом
+        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 0.0;
         let userStats = JSON.parse(localStorage.getItem('cosm_stats')) || {
             depositsCount: 0,
             upgradesCount: 0,
@@ -495,13 +470,14 @@
         let isSpinning = false;
         let upgradeSpeed = 'slow';
 
+        // База Minecraft предметів із реальним піксельним артом
         const dummyItems = [
-            { id: '1', name: 'Залізний меч', price: 25, icon: 'fa-sword', color: '#94a3b8' },
-            { id: '2', name: 'Алмазна кірка', price: 70, icon: 'fa-hammer', color: '#06b6d4' },
-            { id: '3', name: 'Незеритовий нагрудник', price: 180, icon: 'fa-vest', color: '#8b5cf6' },
-            { id: '4', name: 'Золоте яблуко', price: 450, icon: 'fa-apple-whole', color: '#f59e0b' },
-            { id: '5', name: 'Елітри дракона', price: 1200, icon: 'fa-feather', color: '#ec4899' },
-            { id: '6', name: 'Матриця Пустоти (Легенда)', price: 3000, icon: 'fa-gem', color: '#e11d48' }
+            { id: '1', name: 'Залізний меч', price: 25, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png', color: '#94a3b8' },
+            { id: '2', name: 'Алмазна кірка', price: 70, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/diamond_pickaxe.png', color: '#06b6d4' },
+            { id: '3', name: 'Незеритовий нагрудник', price: 180, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/netherite_chestplate.png', color: '#8b5cf6' },
+            { id: '4', name: 'Золоте яблуко', price: 450, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/golden_apple.png', color: '#f59e0b' },
+            { id: '5', name: 'Елітри', price: 1200, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/elytra.png', color: '#ec4899' },
+            { id: '6', name: 'Зірка Нетеру', price: 3000, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/nether_star.png', color: '#e11d48' }
         ];
 
         function showCustomAlert(title, message) {
@@ -535,6 +511,35 @@
 
         function closeCustomModal() {
             document.getElementById('customModal').classList.add('hidden');
+        }
+
+        function openSteamLoginModal() {
+            if(currentUser) {
+                document.getElementById('inputSteamName').value = currentUser.name;
+                document.getElementById('inputSteamAvatar').value = currentUser.avatar;
+            } else {
+                document.getElementById('inputSteamName').value = "Steam_Player_" + Math.floor(100 + Math.random() * 900);
+                document.getElementById('inputSteamAvatar').value = defaultAvatar;
+            }
+            document.getElementById('steamLoginModal').classList.remove('hidden');
+        }
+
+        function closeSteamLoginModal() {
+            document.getElementById('steamLoginModal').classList.add('hidden');
+        }
+
+        function performSteamLogin() {
+            let name = document.getElementById('inputSteamName').value.trim() || "Steam_User";
+            let avatar = document.getElementById('inputSteamAvatar').value.trim() || defaultAvatar;
+            currentUser = {
+                id: Math.floor(10000 + Math.random() * 90000),
+                name: name,
+                avatar: avatar
+            };
+            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+            closeSteamLoginModal();
+            updateUI();
+            showCustomAlert("Успіх!", "Ви успішно увійшли через Steam!");
         }
 
         function setUpgradeSpeed(speed) {
@@ -571,11 +576,15 @@
             const profileArea = document.getElementById('userProfileArea');
             if(currentUser) {
                 profileArea.innerHTML = `
-                    <img src="${currentUser.avatar}" onerror="this.src='${defaultAvatar}'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #06b6d4; object-fit: cover;">
+                    <img src="${currentUser.avatar}" onerror="this.src='${defaultAvatar}'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #66c0f4; object-fit: cover;">
                     <div style="text-align: left; line-height: 1.1;">
                         <span style="font-size: 11px; font-weight: 700; color: #fff; display: block; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
-                        <span style="font-size: 9px; color: #06b6d4;">ID: #${currentUser.id}</span>
+                        <span style="font-size: 9px; color: #66c0f4;"><i class="fa-brands fa-steam"></i> Steam ID</span>
                     </div>
+                `;
+            } else {
+                profileArea.innerHTML = `
+                    <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px; background: linear-gradient(135deg, #1b2838, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
                 `;
             }
         }
@@ -589,10 +598,9 @@
 
         function updateProfileUI() {
             let avatarImg = document.getElementById('profAvatar');
-            avatarImg.src = currentUser.avatar;
+            avatarImg.src = currentUser ? currentUser.avatar : defaultAvatar;
             avatarImg.onerror = function() { this.src = defaultAvatar; };
-            document.getElementById('profName').innerText = currentUser.name;
-            document.getElementById('profIdNum').innerText = `#${currentUser.id}`;
+            document.getElementById('profName').innerText = currentUser ? currentUser.name : 'Гість';
             document.getElementById('statDeposits').innerText = userStats.depositsCount;
             document.getElementById('statUpgrades').innerText = userStats.upgradesCount;
             document.getElementById('statBestDrop').innerText = userStats.bestDrop;
@@ -601,35 +609,18 @@
             renderPlayerChat();
         }
 
-        function openSteamSettings() {
-            document.getElementById('inputSteamName').value = currentUser.name;
-            document.getElementById('inputSteamAvatar').value = currentUser.avatar;
-            document.getElementById('steamModal').classList.remove('hidden');
-        }
-
-        function closeSteamSettings() {
-            document.getElementById('steamModal').classList.add('hidden');
-        }
-
-        function saveSteamSettings() {
-            let name = document.getElementById('inputSteamName').value.trim();
-            let avatar = document.getElementById('inputSteamAvatar').value.trim();
-            if(name) currentUser.name = name;
-            if(avatar) currentUser.avatar = avatar;
-            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-            updateUI();
-            closeSteamSettings();
-        }
-
         function logoutSteam() {
             localStorage.removeItem('cosm_user');
-            localStorage.removeItem('cosm_is_admin');
-            location.reload();
+            currentUser = null;
+            updateUI();
+            switchTab('upgrader');
+            showCustomAlert("Вихід", "Ви вийшли з акаунта Steam.");
         }
 
         function openInventorySelector() {
+            if(!currentUser) { openSteamLoginModal(); return; }
             if(inventory.length === 0) {
-                showCustomAlert("Інвентар порожній", "У вас немає скінів у інвентарі, щоб поставити їх на апгрейд!");
+                showCustomAlert("Інвентар порожній", "У вас немає предметів у інвентарі, щоб поставити їх на апгрейд!");
                 return;
             }
             const list = document.getElementById('modalInventoryList');
@@ -639,7 +630,7 @@
                 div.style.cssText = "background: rgba(5,5,15,0.8); padding: 10px; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); display: flex; align-items: center; justify-content: space-between; gap: 8px;";
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid ${item.icon}" style="font-size: 20px; color: ${item.color};"></i>
+                        <img src="${item.img}" style="width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div>
                             <div style="font-size: 11px; font-weight: 700; color: #fff;">${item.name}</div>
                             <div style="font-size: 10px; color: #06b6d4;">${item.price} CC</div>
@@ -678,6 +669,7 @@
         }
 
         function requestDeposit() {
+            if(!currentUser) { openSteamLoginModal(); return; }
             let amount = parseFloat(document.getElementById('customDepositInput').value);
             if(!amount || amount <= 0) {
                 showCustomAlert("Помилка", "Будь ласка, оберіть або введіть коректну суму для поповнення!");
@@ -692,6 +684,7 @@
         }
 
         function openWithdrawModal() {
+            if(!currentUser) { openSteamLoginModal(); return; }
             showCustomPrompt("Вивід коштів", "Введіть суму CC для виводу:", function(val) {
                 let amount = parseFloat(val);
                 if(!amount || amount <= 0 || amount > balance) {
@@ -716,7 +709,7 @@
                 div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;";
                 div.innerHTML = `
                     <div>
-                        <div style="font-size: 36px; color: ${item.color}; margin-bottom: 8px;"><i class="fa-solid ${item.icon}"></i></div>
+                        <img src="${item.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; margin-bottom: 8px;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div style="font-size: 13px; font-weight: 700; color: #fff;">${item.name}</div>
                         <div style="font-size: 13px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 4px;">${item.price} CC</div>
                     </div>
@@ -727,10 +720,11 @@
         }
 
         function buyShopItem(itemId) {
+            if(!currentUser) { openSteamLoginModal(); return; }
             let item = dummyItems.find(x => x.id === itemId);
             if(!item) return;
             if(balance < item.price) {
-                showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі!");
+                showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі! Поповніть баланс через профіль.");
                 return;
             }
             balance -= item.price;
@@ -771,13 +765,15 @@
             document.getElementById('totalBet').innerText = `${bet.toFixed(0)} CC`;
 
             let idealPrice = currentPercent > 0 ? bet / (currentPercent / 100) : 0;
+            
+            // СУВОРИЙ ФІЛЬТР: ціна предмета ПОВИННА бути строго більшою за ставку (не можна на такий самий або дешевший)
             let validItems = dummyItems.filter(item => item.price > bet);
 
             let btn = document.getElementById('upgradeBtn');
             let warningBox = document.getElementById('warningText');
 
             if (validItems.length === 0) {
-                warningBox.innerText = 'Немає скінів дорожчих за вашу ставку!';
+                warningBox.innerText = 'Немає предметів дорожчих за вашу ставку!';
                 document.getElementById('targetName').innerText = 'Оберіть вищу ставку';
                 document.getElementById('targetBadge').innerText = '---';
                 document.getElementById('matchedSkinName').innerText = 'Немає цілі';
@@ -791,16 +787,23 @@
                 return (Math.abs(curr.price - idealPrice) < Math.abs(prev.price - idealPrice) ? curr : prev);
             });
 
+            // Додаткова перевірка безпеки: якщо раптом ціль рівна або дешевша
+            if (!targetItem || targetItem.price <= bet) {
+                warningBox.innerText = 'Неможливо апгрейдити на рівний чи дешевший предмет!';
+                if(btn) btn.disabled = true;
+                drawWheel(0, null, currentPercent);
+                return;
+            }
+
             warningBox.innerText = '';
             document.getElementById('targetName').innerText = `${targetItem.name} (${currentPercent}%)`;
             document.getElementById('targetBadge').innerText = `${currentPercent}%`;
             
             document.getElementById('matchedSkinName').innerText = targetItem.name;
             document.getElementById('matchedSkinPrice').innerText = `${targetItem.price} CC`;
-            document.getElementById('matchedSkinIcon').className = `fa-solid ${targetItem.icon}`;
-            document.getElementById('matchedSkinIcon').style.color = targetItem.color;
+            document.getElementById('matchedSkinImg').src = targetItem.img;
 
-            if(bet <= 0 || !targetItem) {
+            if(bet <= 0 || !targetItem || targetItem.price <= bet) {
                 if(btn) btn.disabled = true;
             } else {
                 if(btn) btn.disabled = false;
@@ -856,12 +859,16 @@
         }
 
         function startUpgrade() {
+            if(!currentUser) { openSteamLoginModal(); return; }
             if(isSpinning || !targetItem) return;
             let direct = getActiveBet();
 
             if(!selectedInventorySkin && direct > balance) { showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі!"); return; }
             if(direct <= 0) { showCustomAlert("Помилка", "Введіть суму ставки!"); return; }
-            if(targetItem.price <= direct) { showCustomAlert("Помилка", "Не можна апгрейдити на дешевший або рівний за вартістю скін!"); return; }
+            if(targetItem.price <= direct) { 
+                showCustomAlert("Помилка", "Не можна апгрейдити на дешевший або рівний за вартістю предмет!"); 
+                return; 
+            }
 
             if(selectedInventorySkin) {
                 let skinIndex = inventory.findIndex(i => i.uniqueId === selectedInventorySkin.uniqueId);
@@ -937,7 +944,7 @@
                 div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;";
                 div.innerHTML = `
                     <div>
-                        <div style="font-size: 28px; color: ${item.color}; margin-bottom: 4px;"><i class="fa-solid ${item.icon}"></i></div>
+                        <img src="${item.img}" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; margin-bottom: 4px;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
                         <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 2px;">${item.price} CC</div>
                     </div>
@@ -970,6 +977,7 @@
 
         /* --- CHAT --- */
         function playerSendMsg() {
+            if(!currentUser) { openSteamLoginModal(); return; }
             let input = document.getElementById('playerChatInput');
             let text = input.value.trim();
             if(!text) return;
@@ -985,6 +993,10 @@
         function renderPlayerChat() {
             let box = document.getElementById('playerChatBox');
             if(!box) return;
+            if(!currentUser) {
+                box.innerHTML = `<div style="color: #94a3b8;">Увійдіть через Steam, щоб користуватися чатом.</div>`;
+                return;
+            }
             let myChat = chats[currentUser.id] || [];
             if(myChat.length === 0) {
                 box.innerHTML = `<div style="color: #94a3b8;">Немає повідомлень. Напишіть адміністратору.</div>`;
@@ -999,47 +1011,6 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        let activeAdminChatId = null;
-
-        function loadAdminChatForUser() {
-            let uid = document.getElementById('adminChatUserId').value.trim();
-            if(!uid) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
-            activeAdminChatId = uid;
-            document.getElementById('adminChatContainer').classList.remove('hidden');
-            renderAdminActiveChat();
-        }
-
-        function renderAdminActiveChat() {
-            if(!activeAdminChatId) return;
-            let box = document.getElementById('adminActiveChatBox');
-            let userMsgs = chats[activeAdminChatId] || [];
-            if(userMsgs.length === 0) {
-                box.innerHTML = `<div style="color: #94a3b8;">Історія чату з гравцем #${activeAdminChatId} порожня.</div>`;
-                return;
-            }
-            box.innerHTML = '';
-            userMsgs.forEach(m => {
-                let div = document.createElement('div');
-                div.innerHTML = `<b style="color: ${m.sender === 'admin' ? '#06b6d4' : '#f59e0b'};">${m.sender === 'admin' ? 'Ви (Адмін)' : 'Гравець #' + activeAdminChatId}:</b> ${m.text}`;
-                box.appendChild(div);
-            });
-            box.scrollTop = box.scrollHeight;
-        }
-
-        function adminSendMsgToUser() {
-            if(!activeAdminChatId) return;
-            let input = document.getElementById('adminChatMsgInput');
-            let text = input.value.trim();
-            if(!text) return;
-
-            if(!chats[activeAdminChatId]) chats[activeAdminChatId] = [];
-            chats[activeAdminChatId].push({ sender: 'admin', text: text });
-            localStorage.setItem('cosm_chats', JSON.stringify(chats));
-
-            input.value = '';
-            renderAdminActiveChat();
-        }
-
         /* --- ADMIN PANEL --- */
         function openAdmin() {
             if (!isAdmin) {
@@ -1047,9 +1018,6 @@
                     if (val === "777") {
                         isAdmin = true;
                         localStorage.setItem('cosm_is_admin', 'true');
-                        currentUser.id = 777;
-                        localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-                        updateUI();
                         renderAdminData();
                         document.getElementById('adminModal').classList.remove('hidden');
                     } else {
@@ -1069,7 +1037,7 @@
             let amount = parseFloat(document.getElementById('adminAmount').value) || 0;
             if(!targetId) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
             
-            if(currentUser.id.toString() === targetId) {
+            if(currentUser && currentUser.id.toString() === targetId) {
                 balance += amount;
                 updateUI();
             }
@@ -1121,7 +1089,7 @@
         function approveDeposit(idx) {
             let dep = deposits[idx];
             dep.status = 'Зараховано';
-            if(currentUser.id.toString() === dep.id.toString()) {
+            if(currentUser && currentUser.id.toString() === dep.id.toString()) {
                 balance += dep.amount;
                 updateUI();
             }
@@ -1131,7 +1099,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            if(isAdmin) currentUser.id = 777;
             updateUI();
             updateMatchedSkin();
         });
