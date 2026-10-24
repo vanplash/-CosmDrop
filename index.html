@@ -31,7 +31,6 @@
             z-index: 5;
         }
 
-        /* Гарантія клікабельності для всіх інтерактивних елементів */
         button, input, select, .tab-btn, .speed-btn { 
             cursor: pointer !important; 
             pointer-events: auto !important; 
@@ -65,7 +64,7 @@
             background: rgba(15, 15, 35, 0.9); 
             border: 1px solid rgba(139, 92, 246, 0.4); 
             color: #94a3b8; 
-            padding: 10px 16px; 
+            padding: 10px 18px; 
             border-radius: 12px; 
             font-family: 'Orbitron', sans-serif;
             font-weight: 700; 
@@ -108,37 +107,6 @@
             border: 1px solid rgba(6, 182, 212, 0.5);
         }
 
-        .case-box {
-            background: rgba(13, 14, 28, 0.85);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .case-box:hover {
-            border-color: #06b6d4;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
-        }
-        .case-img-container {
-            width: 100%;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .case-img-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
-        }
-
         .modal { position: fixed; inset: 0; background: rgba(3, 3, 10, 0.88); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
         .hidden { display: none !important; }
         
@@ -161,11 +129,10 @@
                 </div>
             </div>
 
-            <!-- TABS -->
+            <!-- TABS (Кейси прибрані звідси) -->
             <div style="display: flex; gap: 6px; background: rgba(5, 5, 15, 0.8); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.4);">
                 <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 4px;"></i>Апгрейд</button>
                 <button type="button" onclick="switchTab('shop')" id="tab-btn-shop" class="tab-btn"><i class="fa-solid fa-store" style="margin-right: 4px;"></i>Магазин</button>
-                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 4px;"></i>Кейси</button>
                 <button type="button" onclick="switchTab('profile')" id="tab-btn-profile" class="tab-btn"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Профіль</button>
             </div>
 
@@ -226,7 +193,7 @@
                 </div>
             </div>
 
-            <!-- Center: Circular Upgrader Wheel (Фіолетово-чорна зона) -->
+            <!-- Center: Circular Upgrader Wheel -->
             <div class="glass-card" style="height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative;">
                 <div style="text-align: center; width: 100%;">
                     <span id="targetBadge" style="font-size: 10px; background: rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.5); text-transform: uppercase; font-weight: 700;">Шанс виграшу</span>
@@ -255,7 +222,6 @@
                         <span id="percentDisplay" class="cosmo-head" style="font-size: 36px; color: #06b6d4;">50%</span>
                     </div>
 
-                    <!-- Слайдер обмежений до 75% -->
                     <input id="percentRangeInput" type="range" min="1" max="75" value="50" oninput="onPercentSliderInput()" style="width: 100%; accent-color: #06b6d4; cursor: pointer;">
 
                     <div style="display: flex; gap: 8px;">
@@ -288,12 +254,7 @@
             </div>
         </div>
 
-        <!-- TAB 3: CASES -->
-        <div id="section-cases" class="hidden" style="max-width: 900px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;" id="casesContainer"></div>
-        </div>
-
-        <!-- TAB 4: PROFILE & INVENTORY & CHAT -->
+        <!-- TAB 3: PROFILE & INVENTORY & CHAT & DEPOSIT -->
         <div id="section-profile" class="hidden" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px;">
             <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 20px; flex-wrap: wrap; gap: 15px;">
@@ -310,10 +271,29 @@
                     </div>
                 </div>
 
+                <!-- Блок поповнення (Деп) -->
+                <div style="background: rgba(5, 5, 15, 0.8); padding: 18px; border-radius: 16px; border: 1px solid rgba(6, 182, 212, 0.4);">
+                    <h3 class="cosmo-head" style="font-size: 14px; color: #06b6d4; margin: 0 0 10px;">
+                        <i class="fa-solid fa-wallet" style="margin-right: 6px;"></i> Поповнення балансу (Депозит через Minecraft)
+                    </h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">Оберіть або введіть суму, відправте ресурси адміністратору в грі та створіть заявку на зарахування:</p>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                        <button type="button" onclick="setDepositAmount(500)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">500 CC</button>
+                        <button type="button" onclick="setDepositAmount(1000)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">1000 CC</button>
+                        <button type="button" onclick="setDepositAmount(1500)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">1500 CC</button>
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <input id="customDepositInput" type="number" placeholder="Інша сума CC..." style="flex: 1; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.5); padding: 10px; border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 700; outline: none;">
+                        <button type="button" onclick="requestDeposit()" class="cosmo-btn" style="width: auto; padding: 10px 20px;">Подати заявку</button>
+                    </div>
+                </div>
+
                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
                     <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">КЕЙСІВ</span>
-                        <span id="statCases" class="cosmo-head" style="font-size: 20px; color: #fff;">0</span>
+                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">ДЕПОЗИТІВ</span>
+                        <span id="statDeposits" class="cosmo-head" style="font-size: 20px; color: #fff;">0</span>
                     </div>
                     <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
                         <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">АПГРЕЙДІВ</span>
@@ -329,7 +309,7 @@
                     </div>
                 </div>
 
-                <button type="button" onclick="requestWithdrawal()" class="cosmo-btn">Створити запит на вивід</button>
+                <button type="button" onclick="openWithdrawModal()" class="cosmo-btn">Створити запит на вивід</button>
             </div>
 
             <!-- PLAYER CHAT -->
@@ -359,7 +339,22 @@
 
     </main>
 
-    <!-- CASE CONTENTS MODAL -->
+    <!-- CUSTOM SITE MODAL (Естетична заміна системним alert/prompt) -->
+    <div id="customModal" class="modal hidden">
+        <div class="glass-card" style="max-width: 400px; width: 100%; text-align: center; position: relative;">
+            <h3 id="modalTitle" class="cosmo-head" style="font-size: 18px; color: #06b6d4; margin: 0 0 10px;">Повідомлення</h3>
+            <p id="modalMessage" style="font-size: 13px; color: #e2e8f0; margin-bottom: 20px;"></p>
+            <div id="modalInputContainer" style="margin-bottom: 15px;" class="hidden">
+                <input id="modalInputField" type="text" style="width: 100%; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.5); padding: 10px; border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 700; text-align: center; outline: none;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" id="modalCancelBtn" onclick="closeCustomModal()" class="cosmo-btn" style="background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">Скасувати</button>
+                <button type="button" id="modalOkBtn" class="cosmo-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE CONTENTS MODAL (Збережено для цілісності коду) -->
     <div id="caseContentsModal" class="modal hidden">
         <div class="glass-card" style="max-width: 500px; width: 100%; position: relative;">
             <button type="button" onclick="closeCaseContents()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
@@ -386,7 +381,7 @@
 
     <!-- ADVANCED ADMIN MODAL -->
     <div id="adminModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 700px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;">
+        <div class="glass-card" style="max-width: 750px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;">
             <button type="button" onclick="closeAdmin()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="cosmo-head" style="font-size: 22px; color: #06b6d4; margin: 0 0 15px;">Адмін-Панель (ID: 777)</h3>
             
@@ -396,6 +391,22 @@
                     <input id="adminTargetId" type="text" placeholder="ID гравця" style="flex: 1; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
                     <input id="adminAmount" type="number" value="100" style="width: 100px; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
                     <button type="button" onclick="adminGrantCoins()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Видати</button>
+                </div>
+            </div>
+
+            <!-- Запити на поповнення (Депозити) -->
+            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Запити на поповнення (Депозити)</h4>
+                <div id="adminDepositsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
+                    <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на поповнення</p>
+                </div>
+            </div>
+
+            <!-- Запити на вивід -->
+            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Запити на вивід</h4>
+                <div id="adminWithdrawalsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
+                    <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на вивід</p>
                 </div>
             </div>
 
@@ -411,13 +422,6 @@
                         <input id="adminChatMsgInput" type="text" placeholder="Написати гравцю..." style="flex: 1; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
                         <button type="button" onclick="adminSendMsgToUser()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Надіслати</button>
                     </div>
-                </div>
-            </div>
-
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Запити на вивід</h4>
-                <div id="adminWithdrawalsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
-                    <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів</p>
                 </div>
             </div>
         </div>
@@ -444,7 +448,7 @@
 
         let balance = parseFloat(localStorage.getItem('cosm_cc')) || 250.0;
         let userStats = JSON.parse(localStorage.getItem('cosm_stats')) || {
-            casesOpened: 0,
+            depositsCount: 0,
             upgradesCount: 0,
             bestDrop: 'Ще немає',
             totalWithdrawn: 0
@@ -452,6 +456,7 @@
 
         let inventory = JSON.parse(localStorage.getItem('cosm_inventory')) || [];
         let withdrawals = JSON.parse(localStorage.getItem('cosm_withdrawals')) || [];
+        let deposits = JSON.parse(localStorage.getItem('cosm_deposits')) || [];
         let chats = JSON.parse(localStorage.getItem('cosm_chats')) || {};
 
         let currentPercent = 50;
@@ -468,11 +473,39 @@
             { id: '6', name: 'Чорна діра (Легенда)', price: 2500, icon: 'fa-meteor', color: '#e11d48' }
         ];
 
-        const casesData = [
-            { key: 'bomzh', name: 'Астронавт', price: 10, img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop' },
-            { key: 'medic', name: 'Медік Case', price: 35, img: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=400&auto=format&fit=crop' },
-            { key: 'nyah', name: 'Туманність', price: 150, img: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=400&auto=format&fit=crop' }
-        ];
+        // Кастомні модальні вікна (заміна системних alert/prompt)
+        function showCustomAlert(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modalInputContainer').classList.add('hidden');
+            document.getElementById('modalCancelBtn').classList.add('hidden');
+            let okBtn = document.getElementById('modalOkBtn');
+            okBtn.innerText = "OK";
+            okBtn.onclick = closeCustomModal;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function showCustomPrompt(title, message, callback) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modalInputContainer').classList.remove('hidden');
+            document.getElementById('modalCancelBtn').classList.remove('hidden');
+            let inputField = document.getElementById('modalInputField');
+            inputField.value = "";
+            let okBtn = document.getElementById('modalOkBtn');
+            okBtn.innerText = "Підтвердити";
+            okBtn.onclick = function() {
+                let val = inputField.value;
+                closeCustomModal();
+                if(callback) callback(val);
+            };
+            document.getElementById('customModal').classList.remove('hidden');
+            setTimeout(() => inputField.focus(), 100);
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
 
         function setUpgradeSpeed(speed) {
             upgradeSpeed = speed;
@@ -481,7 +514,7 @@
         }
 
         function switchTab(tab) {
-            ['upgrader', 'shop', 'cases', 'profile'].forEach(t => {
+            ['upgrader', 'shop', 'profile'].forEach(t => {
                 let section = document.getElementById(`section-${t}`);
                 if(section) section.classList.add('hidden');
                 let btn = document.getElementById(`tab-btn-${t}`);
@@ -493,7 +526,6 @@
             if(activeBtn) activeBtn.classList.add('active');
 
             if(tab === 'profile') updateProfileUI();
-            if(tab === 'cases') renderCasesList();
             if(tab === 'shop') renderShopCatalog();
         }
 
@@ -520,7 +552,7 @@
             document.getElementById('profAvatar').src = currentUser.avatar;
             document.getElementById('profName').innerText = currentUser.name;
             document.getElementById('profIdNum').innerText = `#${currentUser.id}`;
-            document.getElementById('statCases').innerText = userStats.casesOpened;
+            document.getElementById('statDeposits').innerText = userStats.depositsCount;
             document.getElementById('statUpgrades').innerText = userStats.upgradesCount;
             document.getElementById('statBestDrop').innerText = userStats.bestDrop;
             document.getElementById('statWithdrawn').innerText = `${userStats.totalWithdrawn.toFixed(0)} CC`;
@@ -554,7 +586,42 @@
             location.reload();
         }
 
-        // Рендеринг магазину предметів
+        // Логіка поповнення (Депозит)
+        function setDepositAmount(amount) {
+            document.getElementById('customDepositInput').value = amount;
+        }
+
+        function requestDeposit() {
+            let amount = parseFloat(document.getElementById('customDepositInput').value);
+            if(!amount || amount <= 0) {
+                showCustomAlert("Помилка", "Будь ласка, оберіть або введіть коректну суму для поповнення!");
+                return;
+            }
+            deposits.push({ id: currentUser.id, name: currentUser.name, amount: amount, status: 'Очікує' });
+            localStorage.setItem('cosm_deposits', JSON.stringify(deposits));
+            userStats.depositsCount++;
+            updateUI();
+            document.getElementById('customDepositInput').value = "";
+            showCustomAlert("Успіх!", `Заявку на поповнення ${amount} CC успішно надіслано! Віддайте відповідні ресурси адміністратору в майнкрафті.`);
+        }
+
+        function openWithdrawModal() {
+            showCustomPrompt("Вивід коштів", "Введіть суму CC для виводу:", function(val) {
+                let amount = parseFloat(val);
+                if(!amount || amount <= 0 || amount > balance) {
+                    showCustomAlert("Помилка", "Некоректна сума для виводу!");
+                    return;
+                }
+                balance -= amount;
+                userStats.totalWithdrawn += amount;
+                withdrawals.push({ id: currentUser.id, name: currentUser.name, amount: amount, status: 'Очікує' });
+                localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
+                updateUI();
+                showCustomAlert("Успіх!", "Запит на вивід успішно створено!");
+            });
+        }
+
+        // Магазин предметів
         function renderShopCatalog() {
             const grid = document.getElementById('shopCatalogGrid');
             if(!grid) return;
@@ -578,7 +645,7 @@
             let item = dummyItems.find(x => x.id === itemId);
             if(!item) return;
             if(balance < item.price) {
-                alert("Недостатньо Cosmic Coins на балансі!");
+                showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі!");
                 return;
             }
             balance -= item.price;
@@ -590,7 +657,7 @@
             }
 
             updateUI();
-            alert(`✅ Ви успішно придбали ${item.name} за ${item.price} CC! Предмет додано до інвентарю.`);
+            showCustomAlert("Успіх!", `Ви успішно придбали ${item.name} за ${item.price} CC! Предмет додано до інвентарю.`);
         }
 
         function onPercentSliderInput() {
@@ -656,7 +723,6 @@
             drawWheel(0, null, currentPercent);
         }
 
-        // Рендеринг фіолетово-чорного колеса з урахуванням поточного відсотка
         function drawWheel(angle = 0, statusText = null, percent = 50) {
             const canvas = 'wheelCanvas';
             const el = document.getElementById(canvas);
@@ -669,32 +735,26 @@
             ctx.rotate(angle);
             ctx.translate(-130, -130);
 
-            // Зовнішній обідок
             ctx.beginPath(); ctx.arc(130, 130, 120, 0, Math.PI * 2); ctx.fillStyle = '#05050d'; ctx.fill();
             ctx.beginPath(); ctx.arc(130, 130, 115, 0, Math.PI * 2); ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 4; ctx.stroke();
 
-            // Розрахунок кута для фіолетової зони (успіх) та чорної (програш)
             let successAngle = (percent / 100) * (Math.PI * 2);
 
-            // Чорна зона (програш)
             ctx.beginPath();
             ctx.moveTo(130, 130);
             ctx.arc(130, 130, 115, successAngle - Math.PI/2, Math.PI * 2 - Math.PI/2);
             ctx.fillStyle = '#0f1020';
             ctx.fill();
 
-            // Фіолетова зона (успіх)
             ctx.beginPath();
             ctx.moveTo(130, 130);
             ctx.arc(130, 130, 115, -Math.PI/2, successAngle - Math.PI/2);
             ctx.fillStyle = '#8b5cf6';
             ctx.fill();
 
-            // Внутрішній темний круг
             ctx.beginPath(); ctx.arc(130, 130, 85, 0, Math.PI * 2); ctx.fillStyle = '#0d0e1c'; ctx.fill();
             ctx.restore();
 
-            // Відображення тексту в центрі або статусу
             if(statusText) {
                 ctx.fillStyle = '#ef4444';
                 ctx.font = '700 13px Orbitron, sans-serif';
@@ -715,9 +775,9 @@
             if(isSpinning || !targetItem) return;
             let direct = parseFloat(document.getElementById('directBetInput').value) || 0;
 
-            if(direct > balance) { alert('Недостатньо Cosmic Coins на балансі!'); return; }
-            if(direct <= 0) { alert('Введіть суму ставки!'); return; }
-            if(targetItem.price <= direct) { alert('Не можна апгрейдити на дешевший або рівний за вартістю скін!'); return; }
+            if(direct > balance) { showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі!"); return; }
+            if(direct <= 0) { showCustomAlert("Помилка", "Введіть суму ставки!"); return; }
+            if(targetItem.price <= direct) { showCustomAlert("Помилка", "Не можна апгрейдити на дешевший або рівний за вартістю скін!"); return; }
 
             balance -= direct;
             userStats.upgradesCount++;
@@ -752,63 +812,18 @@
                         }
 
                         updateUI();
-                        alert(`✨ УСПІХ! Ви виграли ${rewardItem.name}! Предмет додано до інвентарю.`);
+                        showCustomAlert("Успіх!", `✨ Ви виграли ${rewardItem.name}! Предмет додано до інвентарю.`);
                         updateMatchedSkin();
                     } else {
                         let compensation = targetItem.price * 0.07;
                         balance += compensation;
                         drawWheel(targetAngle, `Компенсація: +${compensation.toFixed(1)} CC`, currentPercent);
                         updateUI();
-                        alert(`❌ ПРОГРАШ! Нараховано компенсацію 7%: +${compensation.toFixed(1)} CC`);
+                        showCustomAlert("Програш", `❌ Нараховано компенсацію 7%: +${compensation.toFixed(1)} CC`);
                     }
                 }
             }
             requestAnimationFrame(spinAnim);
-        }
-
-        function renderCasesList() {
-            const container = document.getElementById('casesContainer');
-            if(!container) return;
-            container.innerHTML = '';
-            casesData.forEach(c => {
-                let div = document.createElement('div');
-                div.className = "case-box glass-card";
-                div.innerHTML = `
-                    <div class="case-img-container">
-                        <img src="${c.img}" alt="Case">
-                    </div>
-                    <h3 class="cosmo-head" style="font-size: 18px; color: #fff; margin: 0 0 4px;">${c.name}</h3>
-                    <p style="font-size: 12px; color: #94a3b8; margin: 0 0 15px;"> ${c.price} CC</p>
-                    <div style="display: flex; gap: 8px; width: 100%;">
-                        <button type="button" onclick="openCaseContents('${c.key}')" class="cosmo-btn" style="background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">Предмети</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function openCaseContents(caseKey) {
-            let c = casesData.find(x => x.key === caseKey);
-            document.getElementById('modalCaseTitle').innerText = `Предмети у кейсі: ${c.name}`;
-            let list = document.getElementById('modalCaseItemsList');
-            list.innerHTML = '';
-            dummyItems.forEach(item => {
-                let div = document.createElement('div');
-                div.style.cssText = "background: rgba(5,5,15,0.7); padding: 10px; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); display: flex; align-items: center; gap: 10px;";
-                div.innerHTML = `
-                    <div style="font-size: 20px; color: ${item.color};"><i class="fa-solid ${item.icon}"></i></div>
-                    <div>
-                        <div style="font-size: 11px; font-weight: 700; color: #fff;">${item.name}</div>
-                        <div style="font-size: 10px; color: #06b6d4;">${item.price} CC</div>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-            document.getElementById('caseContentsModal').classList.remove('hidden');
-        }
-
-        function closeCaseContents() {
-            document.getElementById('caseContentsModal').classList.add('hidden');
         }
 
         function renderInventory() {
@@ -839,22 +854,7 @@
             balance += item.price;
             inventory.splice(index, 1);
             updateUI();
-            alert(`Успішно продано за ${item.price} CC!`);
-        }
-
-        function requestWithdrawal() {
-            let amount = prompt("Введіть суму CC для виводу:");
-            amount = parseFloat(amount);
-            if(!amount || amount <= 0 || amount > balance) {
-                alert("Некоректна сума!");
-                return;
-            }
-            balance -= amount;
-            userStats.totalWithdrawn += amount;
-            withdrawals.push({ id: currentUser.id, name: currentUser.name, amount: amount, status: 'Очікує' });
-            localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
-            updateUI();
-            alert("Запит на вивід успішно створено!");
+            showCustomAlert("Успіх", `Успішно продано за ${item.price} CC!`);
         }
 
         /* --- CHAT --- */
@@ -892,7 +892,7 @@
 
         function loadAdminChatForUser() {
             let uid = document.getElementById('adminChatUserId').value.trim();
-            if(!uid) { alert('Введіть ID гравця!'); return; }
+            if(!uid) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
             activeAdminChatId = uid;
             document.getElementById('adminChatContainer').classList.remove('hidden');
             renderAdminActiveChat();
@@ -932,17 +932,20 @@
         /* --- ADMIN PANEL --- */
         function openAdmin() {
             if (!isAdmin) {
-                let enteredId = prompt("Введіть ID адміністратора:");
-                if (enteredId === "777") {
-                    isAdmin = true;
-                    localStorage.setItem('cosm_is_admin', 'true');
-                    currentUser.id = 777;
-                    localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-                    updateUI();
-                } else {
-                    alert("Доступ заборонено!");
-                    return;
-                }
+                showCustomPrompt("Адмін-панель", "Введіть ID адміністратора:", function(val) {
+                    if (val === "777") {
+                        isAdmin = true;
+                        localStorage.setItem('cosm_is_admin', 'true');
+                        currentUser.id = 777;
+                        localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+                        updateUI();
+                        renderAdminData();
+                        document.getElementById('adminModal').classList.remove('hidden');
+                    } else {
+                        showCustomAlert("Доступ заборонено", "Невірний ID адміністратора!");
+                    }
+                });
+                return;
             }
             renderAdminData();
             document.getElementById('adminModal').classList.remove('hidden');
@@ -953,39 +956,70 @@
         function adminGrantCoins() {
             let targetId = document.getElementById('adminTargetId').value.trim();
             let amount = parseFloat(document.getElementById('adminAmount').value) || 0;
-            if(!targetId) { alert('Введіть ID гравця!'); return; }
+            if(!targetId) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
             
             if(currentUser.id.toString() === targetId) {
                 balance += amount;
                 updateUI();
             }
-            alert(`Успішно зараховано ${amount} CC гравцю з ID #${targetId}!`);
+            showCustomAlert("Успіх", `Успішно зараховано ${amount} CC гравцю з ID #${targetId}!`);
             closeAdmin();
         }
 
         function renderAdminData() {
-            let list = document.getElementById('adminWithdrawalsList');
+            // Вивід
+            let wList = document.getElementById('adminWithdrawalsList');
             if(withdrawals.length === 0) {
-                list.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів</p>`;
-                return;
+                wList.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на вивід</p>`;
+            } else {
+                wList.innerHTML = '';
+                withdrawals.forEach((w, idx) => {
+                    let div = document.createElement('div');
+                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #05050d; padding: 8px; border-radius: 6px; font-size: 12px;";
+                    div.innerHTML = `
+                        <span>Гравець #${w.id} (${w.name}) — <b>${w.amount} CC</b></span>
+                        <button type="button" onclick="approveWithdrawal(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Вивести</button>
+                    `;
+                    wList.appendChild(div);
+                });
             }
-            list.innerHTML = '';
-            withdrawals.forEach((w, idx) => {
-                let div = document.createElement('div');
-                div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #05050d; padding: 8px; border-radius: 6px; font-size: 12px;";
-                div.innerHTML = `
-                    <span>Гравець #${w.id} (${w.name}) — <b>${w.amount} CC</b></span>
-                    <button type="button" onclick="approveWithdrawal(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Вивести</button>
-                `;
-                list.appendChild(div);
-            });
+
+            // Депозити
+            let dList = document.getElementById('adminDepositsList');
+            if(deposits.length === 0) {
+                dList.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на поповнення</p>`;
+            } else {
+                dList.innerHTML = '';
+                deposits.forEach((d, idx) => {
+                    let div = document.createElement('div');
+                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #05050d; padding: 8px; border-radius: 6px; font-size: 12px;";
+                    div.innerHTML = `
+                        <span>Гравець #${d.id} (${d.name}) — Деп: <b>${d.amount} CC</b></span>
+                        <button type="button" onclick="approveDeposit(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Підтвердити</button>
+                    `;
+                    dList.appendChild(div);
+                });
+            }
         }
 
         function approveWithdrawal(idx) {
             withdrawals[idx].status = 'Виведено';
             localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
             renderAdminData();
-            alert("Вивід підтверджено!");
+            showCustomAlert("Успіх", "Вивід підтверджено!");
+        }
+
+        function approveDeposit(idx) {
+            let dep = deposits[idx];
+            dep.status = 'Зараховано';
+            // Якщо адмін підтверджує свій власний або іншого гравця деп, додаємо баланс (якщо це поточний користувач)
+            if(currentUser.id.toString() === dep.id.toString()) {
+                balance += dep.amount;
+                updateUI();
+            }
+            localStorage.setItem('cosm_deposits', JSON.stringify(deposits));
+            renderAdminData();
+            showCustomAlert("Успіх!", `Депозит на ${dep.amount} CC успішно підтверджено та зараховано гравцю #${dep.id}!`);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
