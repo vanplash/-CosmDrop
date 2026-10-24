@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Cosmic Drop Platform</title>
+    <title>CosmDrop — Галактичні Апгрейди та Кейси</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,28 +18,19 @@
             min-height: 100vh;
         }
 
-        /* Футуристичні шрифти */
         .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        /* Ефект скла та неону (Glassmorphism) */
         .glass-card { 
             background: rgba(13, 14, 28, 0.75); 
             border: 1px solid rgba(139, 92, 246, 0.3); 
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.15); 
             border-radius: 20px; 
-            padding: 24px; 
+            padding: 20px; 
             backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            border-color: rgba(6, 182, 212, 0.6);
-            box-shadow: 0 10px 40px rgba(6, 182, 212, 0.25);
-            transform: translateY(-4px);
         }
 
-        button, input { cursor: pointer !important; pointer-events: auto !important; }
+        button, input, .clickable { cursor: pointer !important; pointer-events: auto !important; }
 
-        /* Космічна неон-кнопка */
         .cosmo-btn { 
             background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%); 
             color: #ffffff; 
@@ -60,64 +51,76 @@
             box-shadow: 0 0 25px rgba(6, 182, 212, 0.7); 
             transform: scale(1.02);
         }
+        .cosmo-btn:disabled { opacity: 0.4; cursor: not-allowed !important; }
 
-        /* Горизонтальна космічна рулетка */
-        .case-roulette-container { 
-            overflow: hidden; 
-            position: relative; 
-            width: 100%; 
-            height: 130px; 
-            background: rgba(5, 5, 15, 0.9); 
-            border-radius: 16px; 
-            border: 2px solid #8b5cf6; 
-            margin: 20px 0; 
-            box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.3);
-        }
-        .case-roulette-track { display: flex; position: absolute; left: 0; top: 12px; height: 100px; transition: transform 4.5s cubic-bezier(0.1, 1, 0.1, 1); }
-        .case-item-card { 
-            width: 105px; 
-            height: 100px; 
-            flex-shrink: 0; 
-            background: rgba(20, 20, 40, 0.8); 
+        .tab-btn { 
+            background: rgba(15, 15, 35, 0.6); 
             border: 1px solid rgba(139, 92, 246, 0.3); 
-            margin: 0 5px; 
+            color: #94a3b8; 
+            padding: 10px 20px; 
             border-radius: 12px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            padding: 6px; 
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700; 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            transition: 0.2s; 
         }
-        .case-marker { 
-            position: absolute; 
-            left: 50%; 
-            top: 0; 
-            bottom: 0; 
-            width: 3px; 
-            background: #06b6d4; 
-            transform: translateX(-50%); 
-            z-index: 20; 
-            box-shadow: 0 0 15px #06b6d4, 0 0 30px #06b6d4; 
+        .tab-btn.active { 
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4); 
+            color: #fff; 
+            border-color: #06b6d4; 
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4); 
         }
+
+        /* Стиль карток вибору цілей/ставок */
+        .item-card { 
+            background: rgba(20, 20, 40, 0.6); 
+            border: 1px solid rgba(139, 92, 246, 0.2); 
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .item-card:hover { border-color: #06b6d4; transform: translateY(-2px); }
+        .item-card.selected { border-color: #06b6d4 !important; background: rgba(6, 182, 212, 0.15); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+
+        /* Рулетка кейсів */
+        .case-roulette-container { overflow: hidden; position: relative; width: 100%; height: 130px; background: rgba(5, 5, 15, 0.9); border-radius: 16px; border: 2px solid #8b5cf6; margin: 20px 0; box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.3); }
+        .case-roulette-track { display: flex; position: absolute; left: 0; top: 12px; height: 100px; transition: transform 4.5s cubic-bezier(0.1, 1, 0.1, 1); }
+        .case-item-card { width: 105px; height: 100px; flex-shrink: 0; background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); margin: 0 5px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6px; }
+        .case-marker { position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: #06b6d4; transform: translateX(-50%); z-index: 20; box-shadow: 0 0 15px #06b6d4; }
 
         .modal { position: fixed; inset: 0; background: rgba(3, 3, 10, 0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
         .hidden { display: none !important; }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 3px; }
     </style>
 </head>
 <body>
 
     <!-- NAVBAR -->
-    <header style="background: rgba(10, 10, 25, 0.8); border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding: 16px 32px; sticky; top: 0; z-index: 100; backdrop-filter: blur(15px);">
+    <header style="background: rgba(10, 10, 25, 0.8); border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding: 16px 32px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px);">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
             <div style="display: flex; align-items: center; gap: 14px;">
-                <div style="width: 48px; height: 48px; background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 22px; box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);">
-                    <i class="fa-solid fa-planet-moon"></i>
+                <div style="width: 44px; height: 44px; background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);">
+                    <i class="fa-solid fa-meteor"></i>
                 </div>
                 <div>
-                    <h1 class="cosmo-head" style="font-size: 26px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
-                    <p style="font-size: 10px; color: #94a3b8; margin: 4px 0 0; font-weight: 600; letter-spacing: 2px;">GALACTIC DROP STATION</p>
+                    <h1 class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
+                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 2px;">SPACE PLATFORM</p>
                 </div>
+            </div>
+
+            <!-- TABS -->
+            <div style="display: flex; gap: 8px; background: rgba(5, 5, 15, 0.5); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 6px;"></i>Апгрейд</button>
+                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 6px;"></i>Кейси</button>
             </div>
 
             <!-- BALANCE & ADMIN -->
@@ -128,7 +131,7 @@
                         <span id="balCoins" class="cosmo-head" style="font-size: 20px; color: #06b6d4;">100 ТК</span>
                     </div>
                     <button type="button" onclick="requestAdmin()" style="width: 36px; height: 36px; background: rgba(139, 92, 246, 0.2); border: 1px solid #8b5cf6; border-radius: 50%; color: #06b6d4; display: flex; align-items: center; justify-content: center; transition: 0.2s;" title="Адмін-панель">
-                        <i class="fa-solid fa-user-gear"></i>
+                        <i class="fa-solid fa-shield-halved"></i>
                     </button>
                 </div>
             </div>
@@ -136,57 +139,103 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main style="max-width: 1200px; width: 100%; margin: 40px auto; padding: 0 20px;">
-        <h2 class="cosmo-head" style="font-size: 32px; color: #fff; text-align: center; margin-bottom: 35px; text-shadow: 0 0 20px rgba(139, 92, 246, 0.6);">
-            <i class="fa-solid fa-meteor" style="color: #06b6d4; margin-right: 10px;"></i>Обирай кейс
-        </h2>
+    <main style="max-width: 1200px; width: 100%; margin: 30px auto; padding: 0 20px;">
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px;">
-            <!-- CASE 1 -->
-            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px;">
-                <div style="font-size: 60px; color: #06b6d4; margin: auto; filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.5));"><i class="fa-solid fa-shuttle-space"></i></div>
+        <!-- TAB 1: UPGRADER -->
+        <div id="section-upgrader" style="display: grid; grid-template-columns: 280px 1fr 280px; gap: 20px; align-items: start;">
+            <!-- Left: Direct Balance / Bet -->
+            <div class="glass-card" style="height: 560px; display: flex; flex-direction: column;">
+                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin: 0 0 12px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 8px;">
+                    <i class="fa-solid fa-coins" style="margin-right: 6px;"></i> Ставка ТК
+                </h3>
+                <div style="margin-bottom: 15px; background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.3);">
+                    <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 6px;">Введіть суму ставки:</span>
+                    <input id="directBetInput" type="number" min="0" value="10" oninput="calcOdds()" style="width: 100%; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #06b6d4; font-family: 'Orbitron', sans-serif; font-weight: 700; outline: none;">
+                </div>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; color: #94a3b8; font-size: 12px; border: 1px dashed rgba(139, 92, 246, 0.2); border-radius: 12px; padding: 15px;">
+                    <span>Предмети інвентарю тимчасово приховані за твоїм запитом. Ставка робиться напряму з балансу ТК!</span>
+                </div>
+                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(139, 92, 246, 0.3); text-align: center; background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 12px;">
+                    <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; letter-spacing: 1px;">ЗАГАЛЬНА СТАВКА</span>
+                    <div id="totalBet" class="cosmo-head" style="font-size: 26px; color: #06b6d4;">10 ТК</div>
+                </div>
+            </div>
+
+            <!-- Center: Wheel -->
+            <div class="glass-card" style="height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative;">
+                <div style="text-align: center; width: 100%;">
+                    <span id="targetBadge" style="font-size: 10px; background: rgba(139, 92, 246, 0.2); color: #06b6d4; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.4); text-transform: uppercase; font-weight: 700;">Оберіть ціль справа</span>
+                    <h2 id="targetName" class="cosmo-head" style="font-size: 30px; color: #fff; margin: 8px 0 0;">Оберіть предмет</h2>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; margin: auto;">
+                    <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                        <canvas id="wheelCanvas" width="240" height="240" style="border-radius: 50%; box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);"></canvas>
+                        <div style="position: absolute; top: -12px; color: #06b6d4; font-size: 26px; filter: drop-shadow(0 0 8px #06b6d4);"><i class="fa-solid fa-caret-down"></i></div>
+                    </div>
+                    <div style="margin-top: 15px; background: rgba(5, 5, 15, 0.7); padding: 8px 22px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.3); text-align: center;">
+                        <span style="font-size: 9px; color: #94a3b8; text-transform: uppercase; font-weight: 700; display: block; letter-spacing: 1px;">Шанс виграшу</span>
+                        <span id="chanceText" class="cosmo-head" style="font-size: 34px; color: #06b6d4; line-height: 1;">0.00%</span>
+                    </div>
+                </div>
+
+                <button type="button" id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="font-size: 20px; padding: 14px;">ПОКРАЩИТИ</button>
+            </div>
+
+            <!-- Right: Upgrade Targets Catalog -->
+            <div class="glass-card" style="height: 560px; display: flex; flex-direction: column;">
+                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin: 0 0 12px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 8px;">
+                    <i class="fa-solid fa-crosshairs" style="margin-right: 6px;"></i> Цілі апгрейду
+                </h3>
+                <div id="catalogGrid" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 2: CASES -->
+        <div id="section-cases" class="hidden" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 390px;">
+                <div style="font-size: 64px; color: #818cf8; margin: auto; filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.3));"><i class="fa-solid fa-shuttle-space"></i></div>
                 <div>
-                    <h3 class="cosmo-head" style="font-size: 22px; color: #fff; margin: 0;">Орбітальний</h3>
-                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Початковий космічний контейнер.</p>
+                    <h3 class="cosmo-head" style="font-size: 22px; color: #fff; margin: 0;">Астронавт</h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 6px 0 18px;">Легкий старт для новачків.</p>
                 </div>
                 <button type="button" onclick="openCase('bomzh')" class="cosmo-btn">Відкрити (10 ТК)</button>
             </div>
 
-            <!-- CASE 2 -->
-            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px; border-color: rgba(239, 68, 68, 0.4);">
-                <div style="font-size: 60px; color: #ef4444; margin: auto; filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.5));"><i class="fa-solid fa-hospital-user"></i></div>
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 390px; border-color: rgba(239, 68, 68, 0.4);">
+                <div style="font-size: 64px; color: #ef4444; margin: auto; filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.3));"><i class="fa-solid fa-hospital-user"></i></div>
                 <div>
-                    <h3 class="cosmo-head" style="font-size: 22px; color: #ef4444; margin: 0;">Медичний 🚑</h3>
-                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Медичне спорядження та ін'єкції.</p>
+                    <h3 class="cosmo-head" style="font-size: 22px; color: #ef4444; margin: 0;">Медік Case 🚑</h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 6px 0 18px;">Медичне спорядження та аптечки.</p>
                 </div>
-                <button type="button" onclick="openCase('medic')" class="cosmo-btn" style="background: linear-gradient(135deg, #ef4444, #991b1b); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);">Відкрити (35 ТК)</button>
+                <button type="button" onclick="openCase('medic')" class="cosmo-btn" style="background: linear-gradient(135deg, #ef4444, #991b1b);">Відкрити (35 ТК)</button>
             </div>
 
-            <!-- CASE 3 -->
-            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 380px; border-color: rgba(236, 72, 153, 0.4);">
-                <div style="font-size: 60px; color: #ec4899; margin: auto; filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.5));"><i class="fa-solid fa-sparkles"></i></div>
+            <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 390px; border-color: rgba(236, 72, 153, 0.4);">
+                <div style="font-size: 64px; color: #ec4899; margin: auto; filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.3));"><i class="fa-solid fa-sparkles"></i></div>
                 <div>
                     <h3 class="cosmo-head" style="font-size: 22px; color: #ec4899; margin: 0;">Туманність ✨</h3>
-                    <p style="font-size: 13px; color: #94a3b8; margin: 8px 0 20px;">Кавайний та рідкісний лут.</p>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 6px 0 18px;">Кавайні космічні атрибути.</p>
                 </div>
-                <button type="button" onclick="openCase('nyah')" class="cosmo-btn" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);">Відкрити (150 ТК)</button>
+                <button type="button" onclick="openCase('nyah')" class="cosmo-btn" style="background: linear-gradient(135deg, #ec4899, #831843);">Відкрити (150 ТК)</button>
             </div>
         </div>
+
     </main>
 
     <!-- CASE MODAL -->
     <div id="caseModal" class="modal hidden">
         <div class="glass-card" style="max-width: 500px; width: 100%; text-align: center;">
-            <h3 class="cosmo-head" style="font-size: 26px; color: #06b6d4; margin: 0;">Сканування сектора...</h3>
+            <h3 class="cosmo-head" style="font-size: 26px; color: #06b6d4; margin: 0;">ВІДКРИТТЯ КЕЙСУ</h3>
             <div class="case-roulette-container">
                 <div class="case-marker"></div>
                 <div id="caseRouletteTrack" class="case-roulette-track"></div>
             </div>
             <div id="caseWonResult" class="hidden" style="margin-bottom: 20px;">
-                <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 8px; letter-spacing: 1px;">ОТРИМАНО ПРЕДМЕТ:</span>
+                <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 6px;">ВИ ВИГРАЛИ:</span>
                 <div id="caseWonItemBox" style="display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(5, 5, 15, 0.8); padding: 12px; border-radius: 12px; border: 1px solid #06b6d4;"></div>
             </div>
-            <button type="button" id="caseCloseBtn" onclick="closeCaseModal()" disabled class="cosmo-btn">Забрати в трюм</button>
+            <button type="button" id="caseCloseBtn" onclick="closeCaseModal()" disabled class="cosmo-btn">Забрати лут</button>
         </div>
     </div>
 
@@ -194,12 +243,12 @@
     <div id="adminModal" class="modal hidden">
         <div class="glass-card" style="max-width: 420px; width: 100%; position: relative;">
             <button type="button" onclick="toggleAdmin()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 24px; color: #06b6d4; margin: 0 0 20px;">Адмін-Панель</h3>
+            <h3 class="cosmo-head" style="font-size: 24px; color: #06b6d4; margin: 0 0 18px;">Адмін-Панель</h3>
             
-            <label style="font-size: 12px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 8px;">Кількість ТК:</label>
-            <input id="adminInput" type="number" value="1000" style="width: 100%; background: rgba(5, 5, 15, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); padding: 12px; border-radius: 10px; color: #06b6d4; font-family: 'Orbitron', sans-serif; font-size: 16px; margin-bottom: 16px; outline: none;">
+            <label style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 6px;">Сума ТК для видачі:</label>
+            <input id="adminInput" type="number" value="1000" style="width: 100%; background: #05050d; border: 1px solid rgba(139, 92, 246, 0.4); padding: 12px; border-radius: 10px; color: #06b6d4; font-family: 'Orbitron', sans-serif; font-weight: 700; margin-bottom: 14px; outline: none;">
             
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px;">
                 <button type="button" onclick="setAdminAmount(100)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+100</button>
                 <button type="button" onclick="setAdminAmount(1000)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+1000</button>
                 <button type="button" onclick="setAdminAmount(5000)" style="background: rgba(20, 20, 40, 0.8); border: 1px solid rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 10px; border-radius: 8px; font-weight: 700;">+5000</button>
@@ -215,20 +264,134 @@
     <!-- SCRIPT LOGIC -->
     <script>
         let balance = parseFloat(localStorage.getItem('cosm_coins')) || 100.0;
+        let targetItem = null;
+        let isSpinning = false;
 
         const dummyItems = [
-            { name: 'Метеоритний фрагмент', icon: 'fa-cube', color: '#94a3b8' },
-            { name: 'Кристал плазми', icon: 'fa-gem', color: '#06b6d4' },
-            { name: 'Енерго-ядро', icon: 'fa-bolt-lightning', color: '#8b5cf6' },
-            { name: 'Сонячний спалах', icon: 'fa-sun', color: '#f59e0b' },
-            { name: 'Галактична корона', icon: 'fa-crown', color: '#ec4899' }
+            { id: '1', name: 'Метеоритний фрагмент', price: 15, icon: 'fa-cube', color: '#94a3b8' },
+            { id: '2', name: 'Кристал плазми', price: 35, icon: 'fa-gem', color: '#06b6d4' },
+            { id: '3', name: 'Енерго-ядро', price: 75, icon: 'fa-bolt-lightning', color: '#8b5cf6' },
+            { id: '4', name: 'Сонячний спалах', price: 200, icon: 'fa-sun', color: '#f59e0b' },
+            { id: '5', name: 'Галактична корона', price: 650, icon: 'fa-crown', color: '#ec4899' },
+            { id: '6', name: 'чорна діра (Легенда)', price: 2500, icon: 'fa-meteor', color: '#e11d48' }
         ];
 
         const caseCosts = { bomzh: 10, medic: 35, nyah: 150 };
 
+        function switchTab(tab) {
+            ['upgrader', 'cases'].forEach(t => {
+                document.getElementById(`section-${t}`).classList.add('hidden');
+                let btn = document.getElementById(`tab-btn-${t}`);
+                if(btn) btn.classList.remove('active');
+            });
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            let activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if(activeBtn) activeBtn.classList.add('active');
+        }
+
         function updateUI() {
             document.getElementById('balCoins').innerText = `${balance.toFixed(0)} ТК`;
             localStorage.setItem('cosm_coins', balance);
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            dummyItems.forEach(item => {
+                const isSel = targetItem && targetItem.id === item.id;
+                const div = document.createElement('div');
+                div.className = `item-card ${isSel ? 'selected' : ''}`;
+                div.style.flexDirection = "row";
+                div.style.padding = "10px 14px";
+                div.onclick = () => {
+                    targetItem = item;
+                    document.getElementById('targetName').innerText = item.name;
+                    document.getElementById('targetBadge').innerText = `${item.price} ТК`;
+                    renderCatalog();
+                    calcOdds();
+                };
+                div.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="font-size: 22px; color: ${item.color};"><i class="fa-solid ${item.icon}"></i></div>
+                        <span style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</span>
+                    </div>
+                    <span style="font-size: 12px; color: #06b6d4; font-weight: 700; font-family:'Orbitron', sans-serif;">${item.price} ТК</span>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function calcOdds() {
+            if(isSpinning) return;
+            let direct = parseFloat(document.getElementById('directBetInput').value) || 0;
+            document.getElementById('totalBet').innerText = `${direct.toFixed(0)} ТК`;
+
+            let btn = document.getElementById('upgradeBtn');
+            if(!targetItem || direct <= 0 || direct >= targetItem.price) {
+                drawWheel(0);
+                if(btn) btn.disabled = true;
+                return;
+            }
+            let chance = Math.min((direct / targetItem.price) * 100, 95);
+            drawWheel(chance);
+            if(btn) btn.disabled = false;
+        }
+
+        function drawWheel(chance, angle = 0) {
+            document.getElementById('chanceText').innerText = `${chance.toFixed(2)}%`;
+            const canvas = document.getElementById('wheelCanvas');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 240, 240);
+
+            ctx.save();
+            ctx.translate(120, 120);
+            ctx.rotate(angle);
+            ctx.translate(-120, -120);
+
+            ctx.beginPath(); ctx.arc(120, 120, 110, 0, Math.PI * 2); ctx.fillStyle = 'rgba(13, 14, 28, 0.9)'; ctx.fill();
+            let rad = (chance / 100) * (Math.PI * 2);
+            ctx.beginPath(); ctx.moveTo(120, 120); ctx.arc(120, 120, 100, -Math.PI/2, -Math.PI/2 + rad); ctx.lineTo(120, 120); ctx.fillStyle = '#06b6d4'; ctx.fill();
+            ctx.restore();
+        }
+
+        function startUpgrade() {
+            if(isSpinning || !targetItem) return;
+            let direct = parseFloat(document.getElementById('directBetInput').value) || 0;
+
+            if(direct > balance) { alert('Недостатньо ТК на балансі!'); return; }
+            if(direct <= 0) { alert('Введіть суму ставки!'); return; }
+
+            balance -= direct;
+            updateUI();
+
+            isSpinning = true;
+            document.getElementById('upgradeBtn').disabled = true;
+
+            let chance = Math.min((direct / targetItem.price) * 100, 95);
+            let win = Math.random() * 100 < chance;
+
+            let start = null, duration = 3000;
+            function spinAnim(timestamp) {
+                if(!start) start = timestamp;
+                let progress = Math.min((timestamp - start) / duration, 1);
+                let ease = 1 - Math.pow(1 - progress, 3);
+                drawWheel(chance, (Math.PI * 2 * 5 + (win ? Math.random()*(chance/100)*Math.PI*2 : Math.PI)) * ease);
+
+                if(progress < 1) {
+                    requestAnimationFrame(spinAnim);
+                } else {
+                    isSpinning = false;
+                    if(win) {
+                        balance += targetItem.price;
+                        updateUI();
+                    }
+                    alert(win ? `УСПІХ! Ви виграли ${targetItem.price} ТК (+ до балансу)!` : "ПРОГРАШ! Спробуй ще раз.");
+                    calcOdds();
+                }
+            }
+            requestAnimationFrame(spinAnim);
         }
 
         function openCase(caseKey) {
@@ -294,6 +457,8 @@
 
         window.onload = function() {
             updateUI();
+            renderCatalog();
+            calcOdds();
         };
     </script>
 </body>
