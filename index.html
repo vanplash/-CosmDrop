@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Cosmic Platform</title>
+    <title>CosmDrop — Лучший апгрейдер по майнкрафту</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -29,11 +29,11 @@
             backdrop-filter: blur(12px);
         }
 
-        button, input, .clickable { 
+        button, input, select, .clickable { 
             cursor: pointer !important; 
             pointer-events: auto !important; 
             position: relative;
-            z-index: 10;
+            z-index: 20;
         }
 
         .cosmo-btn { 
@@ -137,7 +137,7 @@
                 </div>
                 <div>
                     <h1 class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
-                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 2px;">MINECRAFT EDITION</p>
+                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 1px;">Лучший апгрейдер по майнкрафту</p>
                 </div>
             </div>
 
@@ -214,7 +214,6 @@
                 <div style="display: flex; flex-direction: column; align-items: center; margin: auto;">
                     <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 260px; height: 260px;">
                         <canvas id="wheelCanvas" width="260" height="260" style="border-radius: 50%; box-shadow: 0 0 35px rgba(139, 92, 246, 0.6);"></canvas>
-                        <!-- Стрілка зверху -->
                         <div style="position: absolute; top: -8px; color: #facc15; font-size: 30px; filter: drop-shadow(0 0 10px #facc15); z-index: 20;"><i class="fa-solid fa-caret-down"></i></div>
                     </div>
                     <div style="margin-top: 15px; background: rgba(5, 5, 15, 0.95); padding: 8px 22px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.4); text-align: center;">
@@ -313,7 +312,10 @@
     <!-- SCRIPT LOGIC -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem('cosm_user')) || null;
-        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 100.0; // Початковий бонус 100 CC
+        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 100.0;
+        
+        // Динамічний бонус удачі (Luck Balance)
+        let luckBonus = parseFloat(localStorage.getItem('cosm_luck_bonus')) || 0.0;
 
         let targetItem = null;
         let isSpinning = false;
@@ -357,6 +359,7 @@
         function updateUI() {
             document.getElementById('balCoins').innerText = `${balance.toFixed(0)} CC`;
             localStorage.setItem('cosm_cc', balance);
+            localStorage.setItem('cosm_luck_bonus', luckBonus);
 
             const profileArea = document.getElementById('userProfileArea');
 
@@ -408,3 +411,270 @@
                 div.className = `item-card ${isSel ? 'selected' : ''}`;
                 div.onclick = () => {
                     targetItem = item;
+                    document.getElementById('targetName').innerText = item.name;
+                    document.getElementById('targetBadge').innerText = `${item.price} CC`;
+                    renderCatalog();
+                    calcOdds();
+                };
+                div.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div style="font-size: 22px; color: ${item.color};"><i class="fa-solid ${item.icon}"></i></div>
+                        <span style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</span>
+                    </div>
+                    <span style="font-size: 12px; color: #06b6d4; font-weight: 700; font-family:'Orbitron', sans-serif;">${item.price} CC</span>
+                `;
+                grid.appendChild(div);
+            });
+            if(!targetItem && dummyItems.length > 0) {
+                targetItem = dummyItems[0];
+                document.getElementById('targetName').innerText = targetItem.name;
+                document.getElementById('targetBadge').innerText = `${targetItem.price} CC`;
+                renderCatalog();
+                calcOdds();
+            }
+        }
+
+        function calcOdds() {
+            if(isSpinning) return;
+            let direct = parseFloat(document.getElementById('directBetInput').value) || 0;
+            document.getElementById('totalBet').innerText = `${direct.toFixed(0)} CC`;
+
+            let btn = document.getElementById('upgradeBtn');
+            if(!targetItem || direct <= 0 || direct >= targetItem.price) {
+                drawWheel(0, 0, false);
+                if(btn) btn.disabled = true;
+                return;
+            }
+            let baseChance = Math.min((direct / targetItem.price) * 100, 95);
+            let displayChance = Math.max(0.1, Math.min(95, baseChance + luckBonus));
+            drawWheel(displayChance, 0, false);
+            if(btn) btn.disabled = false;
+        }
+
+        function drawWheel(chance, angle = 0, hasBlueZone = false) {
+            document.getElementById('chanceText').innerText = `${chance.toFixed(2)}%`;
+            const canvas = document.getElementById('wheelCanvas');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 260, 260);
+
+            ctx.save();
+            ctx.translate(130, 130);
+            ctx.rotate(angle);
+            ctx.translate(-130, -130);
+
+            // Чорна зона (програш)
+            ctx.beginPath(); ctx.arc(130, 130, 120, 0, Math.PI * 2); ctx.fillStyle = '#05050d'; ctx.fill();
+
+            // Фіолетова зона (виграш)
+            let winAngle = (chance / 100) * (Math.PI * 2);
+            ctx.beginPath(); 
+            ctx.moveTo(130, 130); 
+            ctx.arc(130, 130, 115, -Math.PI/2, -Math.PI/2 + winAngle); 
+            ctx.lineTo(130, 130); 
+            ctx.fillStyle = '#8b5cf6'; 
+            ctx.fill();
+
+            // Синя бонус-зона
+            if(hasBlueZone && chance > 5) {
+                let blueAngle = Math.PI * 0.15;
+                ctx.beginPath();
+                ctx.moveTo(130, 130);
+                ctx.arc(130, 130, 115, -Math.PI/2 + winAngle - blueAngle, -Math.PI/2 + winAngle);
+                ctx.lineTo(130, 130);
+                ctx.fillStyle = '#06b6d4';
+                ctx.fill();
+            }
+
+            // Внутрішнє кільце
+            ctx.beginPath(); ctx.arc(130, 130, 85, 0, Math.PI * 2); ctx.fillStyle = '#0d0e1c'; ctx.fill();
+
+            ctx.restore();
+        }
+
+        function playCosmicWinSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.6);
+            } catch(e) {}
+        }
+
+        function startUpgrade() {
+            if(isSpinning || !targetItem) return;
+            let direct = parseFloat(document.getElementById('directBetInput').value) || 0;
+
+            if(direct > balance) { alert('Недостатньо Cosmic Coins на балансі!'); return; }
+            if(direct <= 0) { alert('Введіть суму ставки!'); return; }
+
+            balance -= direct;
+            updateUI();
+
+            isSpinning = true;
+            document.getElementById('upgradeBtn').disabled = true;
+
+            let baseChance = Math.min((direct / targetItem.price) * 100, 95);
+            let finalChance = Math.max(1.0, Math.min(95, baseChance + luckBonus));
+            
+            let win = Math.random() * 100 < finalChance;
+            
+            let hasBlue = Math.random() * 100 < 35;
+            let hitBlue = hasBlue && (Math.random() * 100 < 2);
+
+            let start = null;
+            let duration = upgradeSpeed === 'fast' ? 1200 : 3000;
+
+            function spinAnim(timestamp) {
+                if(!start) start = timestamp;
+                let progress = Math.min((timestamp - start) / duration, 1);
+                let ease = 1 - Math.pow(1 - progress, 3);
+                
+                let targetAngle = Math.PI * 2 * (upgradeSpeed === 'fast' ? 3 : 6);
+                if(win) {
+                    targetAngle += Math.random() * (finalChance / 100) * Math.PI * 2;
+                } else {
+                    targetAngle += (Math.PI * 2 * (finalChance / 100)) + Math.random() * (Math.PI * 2 * (1 - finalChance / 100));
+                }
+
+                drawWheel(finalChance, targetAngle * ease, hasBlue);
+
+                if(progress < 1) {
+                    requestAnimationFrame(spinAnim);
+                } else {
+                    isSpinning = false;
+                    if(win) {
+                        let reward = targetItem.price;
+                        let bonusMsg = "";
+                        
+                        // Під час виграшу шанс підкрутки знижується
+                        luckBonus = Math.max(-5.0, luckBonus - 2.5);
+
+                        if(hitBlue) {
+                            let multiplier = 1 + (Math.random() * 0.5);
+                            let bonusReward = direct * multiplier;
+                            reward += bonusReward;
+                            playCosmicWinSound();
+                            bonusMsg = ` 🔥 БОНУС СИНЬОЇ ЗОНИ! +${bonusReward.toFixed(1)} CC`;
+                        }
+                        balance += reward;
+                        updateUI();
+                        alert(`✨ УСПІХ! Ви виграли ${targetItem.price} CC!${bonusMsg}`);
+                    } else {
+                        // Якщо луз — накопичується підкрутка удачі
+                        luckBonus = Math.min(7.5, luckBonus + 1.5);
+                        updateUI();
+                        alert("❌ ПРОГРАШ! Спробуй ще раз.");
+                    }
+                    calcOdds();
+                }
+            }
+            requestAnimationFrame(spinAnim);
+        }
+
+        function openCase(caseKey) {
+            const cost = caseCosts[caseKey];
+            if(balance < cost) { alert('Недостатньо Cosmic Coins на балансі!'); return; }
+            balance -= cost;
+            updateUI();
+
+            const won = dummyItems[Math.floor(Math.random() * dummyItems.length)];
+            
+            // Залежно від виграшу в кейсі трохи коригуємо удачу
+            if(won.price <= 35) {
+                luckBonus = Math.min(7.5, luckBonus + 1.0);
+            } else if(won.price >= 200) {
+                luckBonus = Math.max(-5.0, luckBonus - 3.0);
+            }
+
+            const track = document.getElementById('caseRouletteTrack');
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+            track.innerHTML = '';
+
+            let winningIndex = caseSpeed === 'fast' ? 15 : 24;
+            let strip = [];
+
+            for(let i = 0; i < (caseSpeed === 'fast' ? 20 : 30); i++) {
+                let rnd = dummyItems[Math.floor(Math.random() * dummyItems.length)];
+                if(i === winningIndex) rnd = won;
+                strip.push(rnd);
+            }
+
+            strip.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "item-card";
+                div.style.width = "105px";
+                div.style.height = "100px";
+                div.style.flexShrink = "0";
+                div.style.margin = "0 5px";
+                div.style.flexDirection = "column";
+                div.style.justifyContent = "center";
+                div.innerHTML = `<div style="font-size:24px; color:${item.color};"><i class="fa-solid ${item.icon}"></i></div><div style="font-size:9px; font-weight:700; color:#fff; margin-top:4px;">${item.name}</div>`;
+                track.appendChild(div);
+            });
+
+            document.getElementById('caseWonResult').classList.add('hidden');
+            document.getElementById('caseCloseBtn').disabled = true;
+            document.getElementById('caseModal').classList.remove('hidden');
+
+            let animTime = caseSpeed === 'fast' ? 1.2 : 4.0;
+
+            setTimeout(() => {
+                track.style.transition = `transform ${animTime}s cubic-bezier(0.1, 1, 0.1, 1)`;
+                track.style.transform = `translateX(-${winningIndex * 115 - 150}px)`;
+            }, 50);
+
+            setTimeout(() => {
+                playCosmicWinSound();
+                document.getElementById('caseWonItemBox').innerHTML = `<div style="font-size:28px; color:${won.color};"><i class="fa-solid ${won.icon}"></i></div><div><div style="font-weight:700; color:#fff; font-size:14px; font-family:'Orbitron', sans-serif;">${won.name}</div></div>`;
+                document.getElementById('caseWonResult').classList.remove('hidden');
+                document.getElementById('caseCloseBtn').disabled = false;
+            }, (animTime * 1000) + 200);
+        }
+
+        function closeCaseModal() {
+            document.getElementById('caseModal').classList.add('hidden');
+        }
+
+        /* --- ADMIN PANEL (ID 777) --- */
+        function requestAdmin() {
+            let enteredId = prompt("Введіть ID адміністратора:");
+            if (enteredId === "777") {
+                document.getElementById('adminModal').classList.remove('hidden');
+            } else if (enteredId !== null) {
+                alert("Доступ заборонено! Невірний ID.");
+            }
+        }
+        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
+        
+        function adminGrantCoins() {
+            let targetId = document.getElementById('adminTargetId').value.trim();
+            let amount = parseFloat(document.getElementById('adminAmount').value) || 0;
+            if(!targetId) { alert('Введіть ID користувача!'); return; }
+            
+            if(currentUser && currentUser.id === targetId) {
+                balance += amount;
+                updateUI();
+            }
+            alert(`Успішно зараховано ${amount} CC користувачу з ID: ${targetId}!`);
+            closeAdmin();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSteamAuth();
+            updateUI();
+            renderCatalog();
+            calcOdds();
+        });
+    </script>
+</body>
+</html>
