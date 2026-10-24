@@ -248,7 +248,7 @@
                 <div style="margin-top: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; background: rgba(20, 20, 40, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
                     <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 5px;">АВТО-ПІДТЯГНУТИЙ МІЙНБІЛД:</span>
                     <div id="matchedSkinBox" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-                        <img id="matchedSkinImg" src="" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+                        <img id="matchedSkinImg" src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/diamond_pickaxe.png" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
                         <div style="text-align: left;">
                             <div id="matchedSkinName" style="font-size: 13px; font-weight: 700; color: #fff;">Назва</div>
                             <div id="matchedSkinPrice" style="font-size: 11px; color: #06b6d4; font-weight: 700; font-family: 'Orbitron', sans-serif;">0 CC</div>
@@ -284,7 +284,7 @@
             <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 20px; flex-wrap: wrap; gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+                        <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <span id="profPrefix" style="background: rgba(139, 92, 246, 0.3); color: #06b6d4; border: 1px solid rgba(139, 92, 246, 0.5); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: none;">[VIP]</span>
@@ -472,4 +472,690 @@
     <!-- SCRIPT LOGIC -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem('cosm_user')) || null;
-        let isAdmin = localStorage.getItem('
+        let isAdmin = localStorage.getItem('cosm_is_admin') === 'true';
+
+        const defaultAvatar = 'https://i.imgur.com/8Km9tLL.png';
+
+        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 0.0;
+        let userStats = JSON.parse(localStorage.getItem('cosm_stats')) || {
+            depositsCount: 0,
+            upgradesCount: 0,
+            bestDrop: 'Ще немає',
+            totalWithdrawn: 0
+        };
+
+        let inventory = JSON.parse(localStorage.getItem('cosm_inventory')) || [];
+        let withdrawals = JSON.parse(localStorage.getItem('cosm_withdrawals')) || [];
+        let deposits = JSON.parse(localStorage.getItem('cosm_deposits')) || [];
+        let chats = JSON.parse(localStorage.getItem('cosm_chats')) || {};
+        let userPrefixes = JSON.parse(localStorage.getItem('cosm_prefixes')) || {};
+
+        let currentPercent = 50;
+        let targetItem = null;
+        let selectedInventorySkin = null;
+        let isSpinning = false;
+        let upgradeSpeed = 'slow';
+
+        const dummyItems = [
+            { id: '1', name: 'Залізний меч', price: 25, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png', color: '#94a3b8' },
+            { id: '2', name: 'Алмазна кірка', price: 70, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/diamond_pickaxe.png', color: '#06b6d4' },
+            { id: '3', name: 'Незеритовий нагрудник', price: 180, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/netherite_chestplate.png', color: '#8b5cf6' },
+            { id: '4', name: 'Золоте яблуко', price: 450, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/golden_apple.png', color: '#f59e0b' },
+            { id: '5', name: 'Елітри', price: 1200, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/elytra.png', color: '#ec4899' },
+            { id: '6', name: 'Зірка Нетеру', price: 3000, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/nether_star.png', color: '#e11d48' }
+        ];
+
+        function showCustomAlert(title, message) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modalInputContainer').classList.add('hidden');
+            document.getElementById('modalCancelBtn').classList.add('hidden');
+            let okBtn = document.getElementById('modalOkBtn');
+            okBtn.innerText = "OK";
+            okBtn.onclick = closeCustomModal;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function showCustomPrompt(title, message, callback) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modalInputContainer').classList.remove('hidden');
+            document.getElementById('modalCancelBtn').classList.remove('hidden');
+            let inputField = document.getElementById('modalInputField');
+            inputField.value = "";
+            let okBtn = document.getElementById('modalOkBtn');
+            okBtn.innerText = "Підтвердити";
+            okBtn.onclick = function() {
+                let val = inputField.value;
+                closeCustomModal();
+                if(callback) callback(val);
+            };
+            document.getElementById('customModal').classList.remove('hidden');
+            setTimeout(() => inputField.focus(), 100);
+        }
+
+        function closeCustomModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+
+        function openSteamLoginModal() {
+            if(currentUser) {
+                document.getElementById('inputSteamName').value = currentUser.name;
+                document.getElementById('inputSteamAvatar').value = currentUser.avatar;
+            } else {
+                document.getElementById('inputSteamName').value = "Steam_Player_" + Math.floor(100 + Math.random() * 900);
+                document.getElementById('inputSteamAvatar').value = defaultAvatar;
+            }
+            document.getElementById('steamLoginModal').classList.remove('hidden');
+        }
+
+        function closeSteamLoginModal() {
+            document.getElementById('steamLoginModal').classList.add('hidden');
+        }
+
+        function openEditProfileModal() {
+            openSteamLoginModal();
+        }
+
+        function performSteamLogin() {
+            let name = document.getElementById('inputSteamName').value.trim() || "Steam_User";
+            let avatar = document.getElementById('inputSteamAvatar').value.trim() || defaultAvatar;
+            currentUser = {
+                id: currentUser ? currentUser.id : Math.floor(10000 + Math.random() * 90000),
+                name: name,
+                avatar: avatar
+            };
+            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+            closeSteamLoginModal();
+            updateUI();
+            if(document.getElementById('section-profile').style.display !== 'none') {
+                updateProfileUI();
+            }
+            showCustomAlert("Успіх!", "Дані профілю Steam успішно оновлено!");
+        }
+
+        function setUpgradeSpeed(speed) {
+            upgradeSpeed = speed;
+            document.getElementById('upg-speed-fast').classList.toggle('active', speed === 'fast');
+            document.getElementById('upg-speed-slow').classList.toggle('active', speed === 'slow');
+        }
+
+        function switchTab(tab) {
+            ['upgrader', 'shop', 'cases', 'profile'].forEach(t => {
+                let section = document.getElementById(`section-${t}`);
+                if(section) section.classList.add('hidden');
+                let btn = document.getElementById(`tab-btn-${t}`);
+                if(btn) btn.classList.remove('active');
+            });
+            let targetSec = document.getElementById(`section-${tab}`);
+            if(targetSec) targetSec.classList.remove('hidden');
+            let activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            if(tab === 'profile') updateProfileUI();
+            if(tab === 'shop') renderShopCatalog();
+        }
+
+        function updateUI() {
+            let activeBet = getActiveBet();
+            document.getElementById('balCoins').innerText = `${balance.toFixed(0)} CC`;
+            document.getElementById('totalBet').innerText = `${activeBet.toFixed(0)} CC`;
+            localStorage.setItem('cosm_cc', balance);
+            localStorage.setItem('cosm_stats', JSON.stringify(userStats));
+            localStorage.setItem('cosm_inventory', JSON.stringify(inventory));
+            localStorage.setItem('cosm_chats', JSON.stringify(chats));
+            localStorage.setItem('cosm_prefixes', JSON.stringify(userPrefixes));
+
+            const profileArea = document.getElementById('userProfileArea');
+            if(currentUser) {
+                profileArea.innerHTML = `
+                    <img src="${currentUser.avatar}" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #66c0f4; object-fit: cover;">
+                    <div style="text-align: left; line-height: 1.1;">
+                        <span style="font-size: 11px; font-weight: 700; color: #fff; display: block; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
+                        <span style="font-size: 9px; color: #66c0f4;"><i class="fa-brands fa-steam"></i> ID: #${currentUser.id}</span>
+                    </div>
+                `;
+            } else {
+                profileArea.innerHTML = `
+                    <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px; background: linear-gradient(135deg, #171a21, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
+                `;
+            }
+        }
+
+        function getActiveBet() {
+            if(selectedInventorySkin) {
+                return selectedInventorySkin.price;
+            }
+            return parseFloat(document.getElementById('directBetInput').value) || 0;
+        }
+
+        function updateProfileUI() {
+            let avatarImg = document.getElementById('profAvatar');
+            avatarImg.src = currentUser ? currentUser.avatar : defaultAvatar;
+            avatarImg.onerror = function() { this.src = 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'; };
+            document.getElementById('profName').innerText = currentUser ? currentUser.name : 'Гість';
+            
+            let prefixEl = document.getElementById('profPrefix');
+            if(currentUser && userPrefixes[currentUser.id]) {
+                prefixEl.innerText = userPrefixes[currentUser.id];
+                prefixEl.style.display = 'inline-block';
+            } else {
+                prefixEl.style.display = 'none';
+            }
+
+            document.getElementById('statDeposits').innerText = userStats.depositsCount;
+            document.getElementById('statUpgrades').innerText = userStats.upgradesCount;
+            document.getElementById('statBestDrop').innerText = userStats.bestDrop;
+            document.getElementById('statWithdrawn').innerText = `${userStats.totalWithdrawn.toFixed(0)} CC`;
+            renderInventory();
+            renderPlayerChat();
+        }
+
+        function logoutSteam() {
+            localStorage.removeItem('cosm_user');
+            currentUser = null;
+            updateUI();
+            switchTab('upgrader');
+            showCustomAlert("Вихід", "Ви вийшли з акаунта Steam.");
+        }
+
+        function openInventorySelector() {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            if(inventory.length === 0) {
+                showCustomAlert("Інвентар порожній", "У вас немає предметів у інвентарі, щоб поставити їх на апгрейд!");
+                return;
+            }
+            const list = document.getElementById('modalInventoryList');
+            list.innerHTML = '';
+            inventory.forEach((item, idx) => {
+                let div = document.createElement('div');
+                div.style.cssText = "background: rgba(5,5,15,0.8); padding: 10px; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); display: flex; align-items: center; justify-content: space-between; gap: 8px;";
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <img src="${item.img}" style="width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <div>
+                            <div style="font-size: 11px; font-weight: 700; color: #fff;">${item.name}</div>
+                            <div style="font-size: 10px; color: #06b6d4;">${item.price} CC</div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="selectInventorySkin(${idx})" class="cosmo-btn" style="padding: 4px 8px; font-size: 9px;">Обрати</button>
+                `;
+                list.appendChild(div);
+            });
+            document.getElementById('inventorySelectorModal').classList.remove('hidden');
+        }
+
+        function closeInventorySelector() {
+            document.getElementById('inventorySelectorModal').classList.add('hidden');
+        }
+
+        function selectInventorySkin(idx) {
+            selectedInventorySkin = inventory[idx];
+            document.getElementById('directBetInput').disabled = true;
+            document.getElementById('selectedInventorySkinBox').style.display = 'block';
+            document.getElementById('selInvSkinName').innerText = selectedInventorySkin.name;
+            document.getElementById('selInvSkinPrice').innerText = `${selectedInventorySkin.price} CC`;
+            closeInventorySelector();
+            updateMatchedSkin();
+        }
+
+        function clearInventorySkinBet() {
+            selectedInventorySkin = null;
+            document.getElementById('directBetInput').disabled = false;
+            document.getElementById('selectedInventorySkinBox').style.display = 'none';
+            updateMatchedSkin();
+        }
+
+        function setDepositAmount(amount) {
+            document.getElementById('customDepositInput').value = amount;
+        }
+
+        function requestDeposit() {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            let amount = parseFloat(document.getElementById('customDepositInput').value);
+            if(!amount || amount <= 0) {
+                showCustomAlert("Помилка", "Будь ласка, оберіть або введіть коректну суму для поповнення!");
+                return;
+            }
+            deposits.push({ id: currentUser.id, name: currentUser.name, amount: amount, status: 'Очікує' });
+            localStorage.setItem('cosm_deposits', JSON.stringify(deposits));
+            userStats.depositsCount++;
+            updateUI();
+            document.getElementById('customDepositInput').value = "";
+            showCustomAlert("Успіх!", `Заявку на поповнення ${amount} CC успішно надіслано! Віддайте відповідні ресурси адміністратору в майнкрафті.`);
+        }
+
+        function openWithdrawModal() {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            showCustomPrompt("Вивід коштів", "Введіть суму CC для виводу:", function(val) {
+                let amount = parseFloat(val);
+                if(!amount || amount <= 0 || amount > balance) {
+                    showCustomAlert("Помилка", "Некоректна сума для виводу!");
+                    return;
+                }
+                balance -= amount;
+                userStats.totalWithdrawn += amount;
+                withdrawals.push({ id: currentUser.id, name: currentUser.name, amount: amount, status: 'Очікує' });
+                localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
+                updateUI();
+                showCustomAlert("Успіх!", "Запит на вивід успішно створено!");
+            });
+        }
+
+        function renderShopCatalog() {
+            const grid = document.getElementById('shopCatalogGrid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            dummyItems.forEach(item => {
+                let div = document.createElement('div');
+                div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;";
+                div.innerHTML = `
+                    <div>
+                        <img src="${item.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; margin-bottom: 8px;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <div style="font-size: 13px; font-weight: 700; color: #fff;">${item.name}</div>
+                        <div style="font-size: 13px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 4px;">${item.price} CC</div>
+                    </div>
+                    <button type="button" onclick="buyShopItem('${item.id}')" class="cosmo-btn" style="padding: 8px; font-size: 11px;">Купити</button>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function buyShopItem(itemId) {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            let item = dummyItems.find(x => x.id === itemId);
+            if(!item) return;
+            if(balance < item.price) {
+                showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі! Поповніть баланс через профіль.");
+                return;
+            }
+            balance -= item.price;
+            let newItem = { ...item, uniqueId: Date.now() + Math.random() };
+            inventory.push(newItem);
+
+            if(userStats.bestDrop === 'Ще немає' || newItem.price > dummyItems.find(i => i.name === userStats.bestDrop)?.price || 0) {
+                userStats.bestDrop = newItem.name;
+            }
+
+            updateUI();
+            showCustomAlert("Успіх!", `Ви успішно придбали ${item.name} за ${item.price} CC! Предмет додано до інвентарю.`);
+        }
+
+        function onPercentSliderInput() {
+            let val = parseInt(document.getElementById('percentRangeInput').value);
+            currentPercent = Math.max(1, Math.min(75, val));
+            document.getElementById('percentNumInput').value = currentPercent;
+            document.getElementById('percentDisplay').innerText = `${currentPercent}%`;
+            updateMatchedSkin();
+        }
+
+        function onPercentNumInput() {
+            let val = parseInt(document.getElementById('percentNumInput').value) || 1;
+            currentPercent = Math.max(1, Math.min(75, val));
+            document.getElementById('percentRangeInput').value = currentPercent;
+            document.getElementById('percentDisplay').innerText = `${currentPercent}%`;
+            updateMatchedSkin();
+        }
+
+        function onBetOrPercentChange() {
+            updateMatchedSkin();
+        }
+
+        function updateMatchedSkin() {
+            if(isSpinning) return;
+            let bet = getActiveBet();
+            document.getElementById('totalBet').innerText = `${bet.toFixed(0)} CC`;
+
+            let idealPrice = currentPercent > 0 ? bet / (currentPercent / 100) : 0;
+            let validItems = dummyItems.filter(item => item.price > bet);
+
+            let btn = document.getElementById('upgradeBtn');
+            let warningBox = document.getElementById('warningText');
+
+            if (validItems.length === 0) {
+                warningBox.innerText = 'Немає предметів дорожчих за вашу ставку!';
+                document.getElementById('targetName').innerText = 'Оберіть вищу ставку';
+                document.getElementById('targetBadge').innerText = '---';
+                document.getElementById('matchedSkinName').innerText = 'Немає цілі';
+                document.getElementById('matchedSkinPrice').innerText = '0 CC';
+                if(btn) btn.disabled = true;
+                drawWheel(0, null, currentPercent);
+                return;
+            }
+
+            targetItem = validItems.reduce((prev, curr) => {
+                return (Math.abs(curr.price - idealPrice) < Math.abs(prev.price - idealPrice) ? curr : prev);
+            });
+
+            if (!targetItem || targetItem.price <= bet) {
+                warningBox.innerText = 'Неможливо апгрейдити на рівний чи дешевший предмет!';
+                if(btn) btn.disabled = true;
+                drawWheel(0, null, currentPercent);
+                return;
+            }
+
+            warningBox.innerText = '';
+            document.getElementById('targetName').innerText = `${targetItem.name} (${currentPercent}%)`;
+            document.getElementById('targetBadge').innerText = `${currentPercent}%`;
+            
+            document.getElementById('matchedSkinName').innerText = targetItem.name;
+            document.getElementById('matchedSkinPrice').innerText = `${targetItem.price} CC`;
+            document.getElementById('matchedSkinImg').src = targetItem.img;
+
+            if(bet <= 0 || !targetItem || targetItem.price <= bet) {
+                if(btn) btn.disabled = true;
+            } else {
+                if(btn) btn.disabled = false;
+            }
+            drawWheel(0, null, currentPercent);
+        }
+
+        function drawWheel(angle = 0, statusText = null, percent = 50) {
+            const el = document.getElementById('wheelCanvas');
+            if(!el) return;
+            const ctx = el.getContext('2d');
+            ctx.clearRect(0, 0, 260, 260);
+
+            ctx.save();
+            ctx.translate(130, 130);
+            ctx.rotate(angle);
+            ctx.translate(-130, -130);
+
+            ctx.beginPath(); ctx.arc(130, 130, 120, 0, Math.PI * 2); ctx.fillStyle = '#030308'; ctx.fill();
+            ctx.beginPath(); ctx.arc(130, 130, 115, 0, Math.PI * 2); ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 4; ctx.stroke();
+
+            let successAngle = (percent / 100) * (Math.PI * 2);
+
+            ctx.beginPath();
+            ctx.moveTo(130, 130);
+            ctx.arc(130, 130, 115, successAngle - Math.PI/2, Math.PI * 2 - Math.PI/2);
+            ctx.fillStyle = '#0a0b18';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(130, 130);
+            ctx.arc(130, 130, 115, -Math.PI/2, successAngle - Math.PI/2);
+            ctx.fillStyle = '#8b5cf6';
+            ctx.fill();
+
+            ctx.beginPath(); ctx.arc(130, 130, 85, 0, Math.PI * 2); ctx.fillStyle = '#080716'; ctx.fill();
+            ctx.restore();
+
+            if(statusText) {
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '700 13px Orbitron, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('ПРОГРАШ', 130, 120);
+                ctx.fillStyle = '#06b6d4';
+                ctx.font = '600 11px Rajdhani, sans-serif';
+                ctx.fillText(statusText, 130, 140);
+            } else {
+                ctx.fillStyle = '#06b6d4';
+                ctx.font = '700 16px Orbitron, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(`${percent}%`, 130, 135);
+            }
+        }
+
+        function startUpgrade() {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            if(isSpinning || !targetItem) return;
+            let direct = getActiveBet();
+
+            if(!selectedInventorySkin && direct > balance) { showCustomAlert("Помилка", "Недостатньо Cosmic Coins на балансі!"); return; }
+            if(direct <= 0) { showCustomAlert("Помилка", "Введіть суму ставки!"); return; }
+            if(targetItem.price <= direct) { 
+                showCustomAlert("Помилка", "Не можна апгрейдити на дешевший або рівний за вартістю предмет!"); 
+                return; 
+            }
+
+            if(selectedInventorySkin) {
+                let skinIndex = inventory.findIndex(i => i.uniqueId === selectedInventorySkin.uniqueId);
+                if(skinIndex !== -1) inventory.splice(skinIndex, 1);
+                clearInventorySkinBet();
+            } else {
+                balance -= direct;
+            }
+
+            userStats.upgradesCount++;
+            updateUI();
+
+            isSpinning = true;
+            document.getElementById('upgradeBtn').disabled = true;
+
+            let win = Math.random() * 100 < currentPercent;
+
+            let start = null;
+            let duration = upgradeSpeed === 'fast' ? 1200 : 3000;
+
+            let successMaxAngle = (currentPercent / 100) * 360;
+            let targetFinalAngle = win ? (Math.random() * (successMaxAngle - 10) + 5) : (Math.random() * (360 - successMaxAngle - 10) + successMaxAngle + 5);
+            let totalRotations = (upgradeSpeed === 'fast' ? 4 : 8) * 360;
+            let finalAngleRad = ((totalRotations + (360 - targetFinalAngle)) * Math.PI) / 180;
+
+            function spinAnim(timestamp) {
+                if(!start) start = timestamp;
+                let progress = Math.min((timestamp - start) / duration, 1);
+                let ease = 1 - Math.pow(1 - progress, 3);
+                
+                let currentAngle = finalAngleRad * ease;
+                drawWheel(currentAngle, null, currentPercent);
+
+                if(progress < 1) {
+                    requestAnimationFrame(spinAnim);
+                } else {
+                    isSpinning = false;
+                    drawWheel(finalAngleRad, null, currentPercent);
+                    
+                    if(win) {
+                        let rewardItem = { ...targetItem, uniqueId: Date.now() + Math.random() };
+                        inventory.push(rewardItem);
+
+                        if(userStats.bestDrop === 'Ще немає' || rewardItem.price > dummyItems.find(i => i.name === userStats.bestDrop)?.price || 0) {
+                            userStats.bestDrop = rewardItem.name;
+                        }
+
+                        updateUI();
+                        showCustomAlert("Успіх!", `✨ Ви виграли ${rewardItem.name}! Предмет додано до інвентарю.`);
+                        updateMatchedSkin();
+                    } else {
+                        let compensation = targetItem.price * 0.07;
+                        balance += compensation;
+                        drawWheel(finalAngleRad, `Компенсація: +${compensation.toFixed(1)} CC`, currentPercent);
+                        updateUI();
+                        showCustomAlert("Програш", `❌ Нараховано компенсацію 7%: +${compensation.toFixed(1)} CC`);
+                    }
+                }
+            }
+            requestAnimationFrame(spinAnim);
+        }
+
+        function renderInventory() {
+            const grid = document.getElementById('inventoryGrid');
+            if(!grid) return;
+            if(inventory.length === 0) {
+                grid.innerHTML = `<p style="color: #94a3b8; font-size: 13px; grid-column: span 3; text-align: center; margin: 20px 0;">Ваш інвентар порожній.</p>`;
+                return;
+            }
+            grid.innerHTML = '';
+            inventory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;";
+                div.innerHTML = `
+                    <div>
+                        <img src="${item.img}" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; margin-bottom: 4px;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
+                        <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 2px;">${item.price} CC</div>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                        <button type="button" onclick="selectInventorySkinDirect(${index})" class="cosmo-btn" style="padding: 6px; font-size: 9px; background: linear-gradient(135deg, #8b5cf6, #06b6d4);">Апгрейд</button>
+                        <button type="button" onclick="sellItem(${index})" class="cosmo-btn" style="padding: 6px; font-size: 9px; background: linear-gradient(135deg, #059669, #047857);">Продати</button>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function selectInventorySkinDirect(index) {
+            selectedInventorySkin = inventory[index];
+            document.getElementById('directBetInput').disabled = true;
+            document.getElementById('selectedInventorySkinBox').style.display = 'block';
+            document.getElementById('selInvSkinName').innerText = selectedInventorySkin.name;
+            document.getElementById('selInvSkinPrice').innerText = `${selectedInventorySkin.price} CC`;
+            switchTab('upgrader');
+            updateMatchedSkin();
+        }
+
+        function sellItem(index) {
+            let item = inventory[index];
+            balance += item.price;
+            inventory.splice(index, 1);
+            updateUI();
+            showCustomAlert("Успіх", `Успішно продано за ${item.price} CC!`);
+        }
+
+        /* --- CHAT --- */
+        function playerSendMsg() {
+            if(!currentUser) { openSteamLoginModal(); return; }
+            let input = document.getElementById('playerChatInput');
+            let text = input.value.trim();
+            if(!text) return;
+            
+            if(!chats[currentUser.id]) chats[currentUser.id] = [];
+            chats[currentUser.id].push({ sender: 'user', name: currentUser.name, text: text });
+            localStorage.setItem('cosm_chats', JSON.stringify(chats));
+            
+            input.value = '';
+            renderPlayerChat();
+        }
+
+        function renderPlayerChat() {
+            let box = document.getElementById('playerChatBox');
+            if(!box) return;
+            if(!currentUser) {
+                box.innerHTML = `<div style="color: #94a3b8;">Увійдіть через Steam, щоб користуватися чатом.</div>`;
+                return;
+            }
+            let myChat = chats[currentUser.id] || [];
+            if(myChat.length === 0) {
+                box.innerHTML = `<div style="color: #94a3b8;">Немає повідомлень. Напишіть адміністратору.</div>`;
+                return;
+            }
+            box.innerHTML = '';
+            myChat.forEach(m => {
+                let div = document.createElement('div');
+                div.innerHTML = `<b style="color: ${m.sender === 'admin' ? '#06b6d4' : '#8b5cf6'};">${m.sender === 'admin' ? 'Адмін' : 'Ви'}:</b> ${m.text}`;
+                box.appendChild(div);
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+        /* --- ADMIN PANEL --- */
+        function openAdmin() {
+            if (!isAdmin) {
+                showCustomPrompt("Адмін-панель", "Введіть ID адміністратора:", function(val) {
+                    if (val === "777") {
+                        isAdmin = true;
+                        localStorage.setItem('cosm_is_admin', 'true');
+                        renderAdminData();
+                        document.getElementById('adminModal').classList.remove('hidden');
+                    } else {
+                        showCustomAlert("Доступ заборонено", "Невірний ID адміністратора!");
+                    }
+                });
+                return;
+            }
+            renderAdminData();
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
+        
+        function adminGrantCoins() {
+            let targetId = document.getElementById('adminTargetId').value.trim();
+            let amount = parseFloat(document.getElementById('adminAmount').value) || 0;
+            if(!targetId) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
+            
+            if(currentUser && currentUser.id.toString() === targetId) {
+                balance += amount;
+                updateUI();
+            }
+            showCustomAlert("Успіх", `Успішно зараховано ${amount} CC гравцю з ID #${targetId}!`);
+            closeAdmin();
+        }
+
+        function adminGrantPrefix() {
+            let targetId = document.getElementById('adminPrefixId').value.trim();
+            let prefixText = document.getElementById('adminPrefixText').value.trim();
+            if(!targetId) { showCustomAlert("Помилка", "Введіть ID гравця!"); return; }
+            
+            userPrefixes[targetId] = prefixText;
+            localStorage.setItem('cosm_prefixes', JSON.stringify(userPrefixes));
+
+            if(currentUser && currentUser.id.toString() === targetId) {
+                updateProfileUI();
+            }
+            showCustomAlert("Успіх!", `Префікс "${prefixText}" успішно встановлено для гравця з ID #${targetId}!`);
+            closeAdmin();
+        }
+
+        function renderAdminData() {
+            let wList = document.getElementById('adminWithdrawalsList');
+            if(withdrawals.length === 0) {
+                wList.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на вивід</p>`;
+            } else {
+                wList.innerHTML = '';
+                withdrawals.forEach((w, idx) => {
+                    let div = document.createElement('div');
+                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #030308; padding: 8px; border-radius: 6px; font-size: 12px;";
+                    div.innerHTML = `
+                        <span>Гравець #${w.id} (${w.name}) — <b>${w.amount} CC</b></span>
+                        <button type="button" onclick="approveWithdrawal(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Вивести</button>
+                    `;
+                    wList.appendChild(div);
+                });
+            }
+
+            let dList = document.getElementById('adminDepositsList');
+            if(deposits.length === 0) {
+                dList.innerHTML = `<p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на поповнення</p>`;
+            } else {
+                dList.innerHTML = '';
+                deposits.forEach((d, idx) => {
+                    let div = document.createElement('div');
+                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #030308; padding: 8px; border-radius: 6px; font-size: 12px;";
+                    div.innerHTML = `
+                        <span>Гравець #${d.id} (${d.name}) — Деп: <b>${d.amount} CC</b></span>
+                        <button type="button" onclick="approveDeposit(${idx})" style="background: #059669; color:#fff; border:none; padding:4px 8px; border-radius:4px; font-weight:700; cursor:pointer;">Підтвердити</button>
+                    `;
+                    dList.appendChild(div);
+                });
+            }
+        }
+
+        function approveWithdrawal(idx) {
+            withdrawals[idx].status = 'Виведено';
+            localStorage.setItem('cosm_withdrawals', JSON.stringify(withdrawals));
+            renderAdminData();
+            showCustomAlert("Успіх", "Вивід підтверджено!");
+        }
+
+        function approveDeposit(idx) {
+            let dep = deposits[idx];
+            dep.status = 'Зараховано';
+            if(currentUser && currentUser.id.toString() === dep.id.toString()) {
+                balance += dep.amount;
+                updateUI();
+            }
+            localStorage.setItem('cosm_deposits', JSON.stringify(deposits));
+            renderAdminData();
+            showCustomAlert("Успіх!", `Депозит на ${dep.amount} CC успішно підтверджено та зараховано гравцю #${dep.id}!`);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+            updateMatchedSkin();
+        });
+    </script>
+</body>
+</html>
