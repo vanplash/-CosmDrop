@@ -248,7 +248,7 @@
                 <div style="margin-top: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; background: rgba(20, 20, 40, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
                     <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 5px;">АВТО-ПІДТЯГНУТИЙ МІЙНБІЛД:</span>
                     <div id="matchedSkinBox" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-                        <img id="matchedSkinImg" src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/diamond_pickaxe.png" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <img id="matchedSkinImg" src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div style="text-align: left;">
                             <div id="matchedSkinName" style="font-size: 13px; font-weight: 700; color: #fff;">Назва</div>
                             <div id="matchedSkinPrice" style="font-size: 11px; color: #06b6d4; font-weight: 700; font-family: 'Orbitron', sans-serif;">0 CC</div>
@@ -272,10 +272,32 @@
 
         <!-- TAB 3: CASES -->
         <div id="section-cases" class="hidden" style="max-width: 900px; margin: 0 auto;">
-            <div class="glass-card" style="text-align: center; padding: 50px 20px;">
-                <i class="fa-solid fa-box-open" style="font-size: 48px; color: #8b5cf6; margin-bottom: 15px;"></i>
-                <h3 class="cosmo-head" style="font-size: 22px; color: #fff; margin-bottom: 10px;">Кейси готуються!</h3>
-                <p style="font-size: 13px; color: #94a3b8;">Незабаром тут з'являться ексклюзивні кейси з майнкрафт-предметами.</p>
+            <div class="glass-card" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <h3 class="cosmo-head" style="font-size: 22px; color: #06b6d4; margin-bottom: 25px;">Ексклюзивні кейси</h3>
+                
+                <!-- Кейс "Бомженя" дизайн -->
+                <div style="background: linear-gradient(135deg, rgba(20, 20, 35, 0.95), rgba(10, 10, 20, 0.95)); border: 2px solid rgba(139, 92, 246, 0.6); border-radius: 20px; padding: 25px; width: 280px; box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); display: flex; flex-direction: column; align-items: center; gap: 15px; position: relative;">
+                    <div style="position: absolute; top: 12px; right: 15px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.5); padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700;">LEGENDARY</div>
+                    
+                    <!-- Ілюстрація: Смітник з написом CosmDrop та бомж -->
+                    <div style="position: relative; width: 140px; height: 130px; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
+                        <!-- Бомж в мусорці -->
+                        <div style="font-size: 55px; position: absolute; bottom: 10px; z-index: 2; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));">🦹‍♂️</div>
+                        <!-- Мусорний бак з написом CosmDrop -->
+                        <div style="width: 110px; height: 80px; background: linear-gradient(to bottom, #475569, #1e293b); border: 3px solid #64748b; border-radius: 8px 8px 12px 12px; position: absolute; bottom: 0; z-index: 3; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);">
+                            <span style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 900; color: #06b6d4; text-shadow: 0 0 6px rgba(6,182,212,0.8); transform: rotate(-5deg);">CosmDrop</span>
+                        </div>
+                        <!-- Кришка бака -->
+                        <div style="width: 124px; height: 14px; background: #64748b; border-radius: 4px; position: absolute; bottom: 78px; z-index: 4; transform: rotate(-12deg); left: -5px;"></div>
+                    </div>
+
+                    <div>
+                        <h4 class="cosmo-head" style="font-size: 18px; color: #fff; margin: 0 0 5px;">Кейс "Бомженя"</h4>
+                        <span style="font-size: 12px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700;">100 CC</span>
+                    </div>
+
+                    <button type="button" onclick="showCustomAlert('Кейси', 'Розробка кейсів триває! Скоро тут можна буде випробовувати удачу.')" class="cosmo-btn" style="padding: 10px; font-size: 11px;">Відкрити кейс</button>
+                </div>
             </div>
         </div>
 
@@ -284,10 +306,10 @@
             <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 20px; flex-wrap: wrap; gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
                         <div>
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <span id="profPrefix" style="background: rgba(139, 92, 246, 0.3); color: #06b6d4; border: 1px solid rgba(139, 92, 246, 0.5); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: none;">[VIP]</span>
+                                <span id="profPrefix" style="background: rgba(139, 92, 246, 0.3); color: #06b6d4; border: 1px solid rgba(139, 92, 246, 0.5); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: none;">[322]</span>
                                 <h2 id="profName" class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0;">Гравець</h2>
                             </div>
                             <p style="font-size: 12px; color: #06b6d4; margin: 5px 0 0; font-weight: 700;">Статус: <span id="profStatus" style="color: #22c55e;">Авторизовано через Steam</span></p>
@@ -497,12 +519,12 @@
         let upgradeSpeed = 'slow';
 
         const dummyItems = [
-            { id: '1', name: 'Залізний меч', price: 25, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png', color: '#94a3b8' },
-            { id: '2', name: 'Алмазна кірка', price: 70, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/diamond_pickaxe.png', color: '#06b6d4' },
-            { id: '3', name: 'Незеритовий нагрудник', price: 180, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/netherite_chestplate.png', color: '#8b5cf6' },
-            { id: '4', name: 'Золоте яблуко', price: 450, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/golden_apple.png', color: '#f59e0b' },
-            { id: '5', name: 'Елітри', price: 1200, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/elytra.png', color: '#ec4899' },
-            { id: '6', name: 'Зірка Нетеру', price: 3000, img: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/nether_star.png', color: '#e11d48' }
+            { id: '1', name: 'Залізний меч', price: 25, img: 'https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png', color: '#94a3b8' },
+            { id: '2', name: 'Алмазна кірка', price: 70, img: 'https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png', color: '#06b6d4' },
+            { id: '3', name: 'Незеритовий нагрудник', price: 180, img: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE2.png', color: '#8b5cf6' },
+            { id: '4', name: 'Золоте яблуко', price: 450, img: 'https://minecraft.wiki/images/Golden_Apple_JE2_BE2.png', color: '#f59e0b' },
+            { id: '5', name: 'Елітри', price: 1200, img: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png', color: '#ec4899' },
+            { id: '6', name: 'Зірка Нетеру', price: 3000, img: 'https://minecraft.wiki/images/Nether_Star_JE1_BE1.png', color: '#e11d48' }
         ];
 
         function showCustomAlert(title, message) {
@@ -559,18 +581,20 @@
 
         function performSteamLogin() {
             let name = document.getElementById('inputSteamName').value.trim() || "Steam_User";
-            let avatar = document.getElementById('inputSteamAvatar').value.trim() || defaultAvatar;
+            let avatar = document.getElementById('inputSteamAvatar').value.trim();
+            if(!avatar) avatar = defaultAvatar;
+
+            // Зберігаємо старий ID якщо він був, або створюємо новий
+            let generatedId = currentUser ? currentUser.id : Math.floor(10000 + Math.random() * 90000);
             currentUser = {
-                id: currentUser ? currentUser.id : Math.floor(10000 + Math.random() * 90000),
+                id: generatedId,
                 name: name,
                 avatar: avatar
             };
             localStorage.setItem('cosm_user', JSON.stringify(currentUser));
             closeSteamLoginModal();
             updateUI();
-            if(document.getElementById('section-profile').style.display !== 'none') {
-                updateProfileUI();
-            }
+            updateProfileUI();
             showCustomAlert("Успіх!", "Дані профілю Steam успішно оновлено!");
         }
 
@@ -608,8 +632,9 @@
 
             const profileArea = document.getElementById('userProfileArea');
             if(currentUser) {
+                let safeAvatar = currentUser.avatar ? currentUser.avatar : defaultAvatar;
                 profileArea.innerHTML = `
-                    <img src="${currentUser.avatar}" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #66c0f4; object-fit: cover;">
+                    <img src="${safeAvatar}" onerror="this.src='${defaultAvatar}'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #66c0f4; object-fit: cover;">
                     <div style="text-align: left; line-height: 1.1;">
                         <span style="font-size: 11px; font-weight: 700; color: #fff; display: block; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
                         <span style="font-size: 9px; color: #66c0f4;"><i class="fa-brands fa-steam"></i> ID: #${currentUser.id}</span>
@@ -631,8 +656,13 @@
 
         function updateProfileUI() {
             let avatarImg = document.getElementById('profAvatar');
-            avatarImg.src = currentUser ? currentUser.avatar : defaultAvatar;
-            avatarImg.onerror = function() { this.src = 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'; };
+            if(currentUser && currentUser.avatar) {
+                avatarImg.src = currentUser.avatar;
+            } else {
+                avatarImg.src = defaultAvatar;
+            }
+            avatarImg.onerror = function() { this.src = defaultAvatar; };
+
             document.getElementById('profName').innerText = currentUser ? currentUser.name : 'Гість';
             
             let prefixEl = document.getElementById('profPrefix');
@@ -672,7 +702,7 @@
                 div.style.cssText = "background: rgba(5,5,15,0.8); padding: 10px; border-radius: 8px; border: 1px solid rgba(139,92,246,0.3); display: flex; align-items: center; justify-content: space-between; gap: 8px;";
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <img src="${item.img}" style="width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <img src="${item.img}" style="width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='${defaultAvatar}'">
                         <div>
                             <div style="font-size: 11px; font-weight: 700; color: #fff;">${item.name}</div>
                             <div style="font-size: 10px; color: #06b6d4;">${item.price} CC</div>
@@ -751,7 +781,7 @@
                 div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;";
                 div.innerHTML = `
                     <div>
-                        <img src="${item.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; margin-bottom: 8px;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <img src="${item.img}" style="width: 48px; height: 48px; object-fit: contain; image-rendering: pixelated; margin-bottom: 8px;" onerror="this.src='${defaultAvatar}'">
                         <div style="font-size: 13px; font-weight: 700; color: #fff;">${item.name}</div>
                         <div style="font-size: 13px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 4px;">${item.price} CC</div>
                     </div>
@@ -807,6 +837,7 @@
             document.getElementById('totalBet').innerText = `${bet.toFixed(0)} CC`;
 
             let idealPrice = currentPercent > 0 ? bet / (currentPercent / 100) : 0;
+            // СУВОРИЙ ФІЛЬТР: предмет має бути ДОРОЖЧИМ за ставку (price > bet)
             let validItems = dummyItems.filter(item => item.price > bet);
 
             let btn = document.getElementById('upgradeBtn');
@@ -818,6 +849,7 @@
                 document.getElementById('targetBadge').innerText = '---';
                 document.getElementById('matchedSkinName').innerText = 'Немає цілі';
                 document.getElementById('matchedSkinPrice').innerText = '0 CC';
+                targetItem = null;
                 if(btn) btn.disabled = true;
                 drawWheel(0, null, currentPercent);
                 return;
@@ -829,6 +861,7 @@
 
             if (!targetItem || targetItem.price <= bet) {
                 warningBox.innerText = 'Неможливо апгрейдити на рівний чи дешевший предмет!';
+                targetItem = null;
                 if(btn) btn.disabled = true;
                 drawWheel(0, null, currentPercent);
                 return;
@@ -983,7 +1016,7 @@
                 div.style.cssText = "background: rgba(20, 20, 40, 0.9); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;";
                 div.innerHTML = `
                     <div>
-                        <img src="${item.img}" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; margin-bottom: 4px;" onerror="this.src='https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/item/iron_sword.png'">
+                        <img src="${item.img}" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated; margin-bottom: 4px;" onerror="this.src='${defaultAvatar}'">
                         <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
                         <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700; margin-top: 2px;">${item.price} CC</div>
                     </div>
@@ -1053,14 +1086,30 @@
         /* --- ADMIN PANEL --- */
         function openAdmin() {
             if (!isAdmin) {
-                showCustomPrompt("Адмін-панель", "Введіть ID адміністратора:", function(val) {
-                    if (val === "777") {
+                showCustomPrompt("Адмін-панель", "Введіть код адміністратора:", function(val) {
+                    if (val === "11111") {
                         isAdmin = true;
                         localStorage.setItem('cosm_is_admin', 'true');
+
+                        // Якщо користувач увійшов, залишаємо його ID, але даємо статус адміна і префікс [322]
+                        if(currentUser) {
+                            userPrefixes[currentUser.id] = "[322]";
+                        } else {
+                            currentUser = {
+                                id: 777,
+                                name: "Admin_Boss",
+                                avatar: defaultAvatar
+                            };
+                            userPrefixes[777] = "[322]";
+                        }
+                        localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+                        localStorage.setItem('cosm_prefixes', JSON.stringify(userPrefixes));
+
+                        updateUI();
                         renderAdminData();
                         document.getElementById('adminModal').classList.remove('hidden');
                     } else {
-                        showCustomAlert("Доступ заборонено", "Невірний ID адміністратора!");
+                        showCustomAlert("Доступ заборонено", "Невірний код адміністратора!");
                     }
                 });
                 return;
@@ -1147,6 +1196,7 @@
                 balance += dep.amount;
                 updateUI();
             }
+            deposits.splice(idx, 1); // Видаляємо оброблений запит зі списку
             localStorage.setItem('cosm_deposits', JSON.stringify(deposits));
             renderAdminData();
             showCustomAlert("Успіх!", `Депозит на ${dep.amount} CC успішно підтверджено та зараховано гравцю #${dep.id}!`);
