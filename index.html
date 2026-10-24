@@ -12,7 +12,6 @@
             background: #05050d; 
             color: #e2e8f0; 
             font-family: 'Rajdhani', sans-serif; 
-            user-select: none; 
             margin: 0; 
             padding-bottom: 50px;
             min-height: 100vh;
@@ -22,15 +21,20 @@
         .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
 
         .glass-card { 
-            background: rgba(13, 14, 28, 0.85); 
-            border: 1px solid rgba(139, 92, 246, 0.3); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6), 0 0 20px rgba(139, 92, 246, 0.15); 
+            background: rgba(13, 14, 28, 0.9); 
+            border: 1px solid rgba(139, 92, 246, 0.4); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7), 0 0 20px rgba(139, 92, 246, 0.2); 
             border-radius: 20px; 
             padding: 20px; 
             backdrop-filter: blur(12px);
         }
 
-        button, input, .clickable { cursor: pointer !important; pointer-events: auto !important; }
+        button, input, .clickable { 
+            cursor: pointer !important; 
+            pointer-events: auto !important; 
+            position: relative;
+            z-index: 10;
+        }
 
         .cosmo-btn { 
             background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%); 
@@ -48,133 +52,4 @@
             width: 100%;
         }
         .cosmo-btn:hover:not(:disabled) { 
-            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); 
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.7); 
-            transform: scale(1.02);
-        }
-        .cosmo-btn:disabled { opacity: 0.4; cursor: not-allowed !important; }
-
-        .tab-btn { 
-            background: rgba(15, 15, 35, 0.8); 
-            border: 1px solid rgba(139, 92, 246, 0.3); 
-            color: #94a3b8; 
-            padding: 10px 20px; 
-            border-radius: 12px; 
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            transition: 0.2s; 
-        }
-        .tab-btn.active { 
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4); 
-            color: #fff; 
-            border-color: #06b6d4; 
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4); 
-        }
-
-        .speed-selector {
-            display: flex;
-            gap: 6px;
-            background: rgba(5, 5, 15, 0.8);
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            margin-bottom: 12px;
-        }
-        .speed-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 6px;
-            border-radius: 8px;
-            transition: 0.2s;
-            text-transform: uppercase;
-        }
-        .speed-btn.active {
-            background: rgba(6, 182, 212, 0.25);
-            color: #06b6d4;
-            border: 1px solid rgba(6, 182, 212, 0.5);
-        }
-
-        .item-card { 
-            background: rgba(20, 20, 40, 0.8); 
-            border: 1px solid rgba(139, 92, 246, 0.2); 
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-        .item-card:hover { border-color: #06b6d4; transform: translateY(-2px); }
-        .item-card.selected { border-color: #06b6d4 !important; background: rgba(6, 182, 212, 0.15); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-
-        .modal { position: fixed; inset: 0; background: rgba(3, 3, 10, 0.88); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .hidden { display: none !important; }
-        
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 3px; }
-    </style>
-</head>
-<body>
-
-    <!-- NAVBAR -->
-    <header style="background: rgba(10, 10, 25, 0.9); border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding: 16px 32px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px);">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <div style="display: flex; align-items: center; gap: 14px;">
-                <div style="width: 44px; height: 44px; background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; box-shadow: 0 0 20px rgba(6, 182, 212, 0.6);">
-                    <i class="fa-solid fa-meteor"></i>
-                </div>
-                <div>
-                    <h1 class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
-                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 2px;">MINECRAFT EDITION</p>
-                </div>
-            </div>
-
-            <!-- TABS -->
-            <div style="display: flex; gap: 8px; background: rgba(5, 5, 15, 0.7); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 6px;"></i>Апгрейд</button>
-                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 6px;"></i>Кейси</button>
-            </div>
-
-            <!-- USER PROFILE & BALANCE & ADMIN -->
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="background: rgba(15, 15, 35, 0.85); padding: 8px 18px; border-radius: 30px; border: 1px solid rgba(139, 92, 246, 0.4); display: flex; align-items: center; gap: 15px; box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);">
-                    
-                    <!-- Steam Profile Block -->
-                    <div id="userProfileArea" style="display: flex; align-items: center; gap: 10px;">
-                        <button type="button" onclick="loginSteam()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px;"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
-                    </div>
-
-                    <div style="height: 25px; width: 1px; background: rgba(139, 92, 246, 0.3);" id="profileDivider"></div>
-
-                    <div>
-                        <span style="font-size: 9px; color: #94a3b8; display: block; font-weight: 700; letter-spacing: 1px;">БАЛАНС</span>
-                        <span id="balCoins" class="cosmo-head" style="font-size: 18px; color: #06b6d4;">0 CC</span>
-                    </div>
-
-                    <!-- Admin Button (Shows only for ID 777) -->
-                    <button type="button" id="adminBtn" onclick="openAdmin()" class="hidden" style="width: 36px; height: 36px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 50%; color: #fca5a5; display: flex; align-items: center; justify-content: center; transition: 0.2s;" title="Адмін-панель">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTAINER -->
-    <main style="max-width: 1200px; width: 100%; margin: 30px auto; padding: 0 20px;">
-
-        <!-- TAB 1: UPGRADER -->
-        <div id="section-upgrader" style="display: grid; grid-template-columns: 280px 1fr 280px; gap: 20px; align-items: start;">
-            
-            <!-- Left: Bet -->
-            <div class="glass-
+            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100
