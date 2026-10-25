@@ -138,7 +138,7 @@
         input, select { background: #040508; color: #fff; border: 1px solid #1f243b; padding: 9px 12px; border-radius: 8px; outline: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 13px; }
         input:focus, select:focus { border-color: #f59e0b; }
 
-        /* ДИЗАЙН КАРТКИ КЕЙСУ «БОМЖЕНЯ» */
+        /* ДИЗАЙН КАРТКИ КЕЙСУ «БОМЖЕНЯ» З ТВОЇМ ЗОБРАЖЕННЯМ */
         .case-card {
             background: #0d101d;
             border: 2px solid #22273d;
@@ -178,23 +178,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: contrast(1.1);
         }
-        .case-logo-badge {
-            position: absolute;
-            bottom: 10px;
-            background: rgba(4, 5, 8, 0.9);
-            border: 1px solid #3b82f6;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 15px;
-            color: #fff;
-            letter-spacing: 0.08em;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
-        }
-        .case-logo-badge span { color: #3b82f6; }
 
         /* ROULETTE */
         .roulette-wrapper {
@@ -262,7 +246,7 @@
                 <i class="fa-brands fa-telegram"></i>
             </a>
             <div id="userHeaderBlock">
-                <a href="https://steamcommunity.com/login/home/?goto=" class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></a>
+                <button class="steam-btn" onclick="openMockSteamLogin()">Steam Вхід <i class="fa-brands fa-steam"></i></button>
             </div>
             <button onclick="promptAdminCode()" style="width: 38px; height: 38px; background: #0d101d; border: 1px solid #1f243b; border-radius: 50%; color: #3b82f6; cursor: pointer;" title="Адмін">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -272,13 +256,13 @@
 
     <main style="max-width: 1200px; margin: 30px auto; padding: 0 15px;">
 
-        <!-- TAB 1: CASES (КАТАЛОГ З КАРТКОЮ КЕЙСУ БОМЖЕНЯ) -->
+        <!-- TAB 1: CASES CATALOG -->
         <div id="section-cases-catalog">
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <div class="case-card" onclick="openCaseView('bomzhenya')">
                     <div class="case-art-box">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop" alt="Бомженя">
-                        <div class="case-logo-badge">Cosm<span>Drop</span></div>
+                        <!-- Твоє оригінальне зображення кейсу Бомженя -->
+                        <img src="https://i.ibb.co/3m0q2Q6/image.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'" alt="Бомженя">
                     </div>
                     <h3 class="sh-font" style="font-size: 16px; color: #fff; margin: 0 0 5px;">Бомженя</h3>
                     <span style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">6 items</span>
@@ -295,8 +279,7 @@
                 <h2 class="sh-font" style="font-size: 22px; color: #fff; margin-bottom: 15px;">Бомженя</h2>
                 <div class="glass-box" style="width: 300px; text-align: center;">
                     <div class="case-art-box" style="width: 150px; height: 150px; margin: 0 auto 15px;">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop">
-                        <div class="case-logo-badge" style="font-size: 11px; padding: 3px 8px;">CosmDrop</div>
+                        <img src="https://i.ibb.co/3m0q2Q6/image.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'">
                     </div>
                     <button id="openCaseBtn" onclick="startRouletteOpening()" class="sh-btn" style="width: 100%;">Відкрити за 45 CC</button>
                 </div>
@@ -381,17 +364,17 @@
             </div>
         </div>
 
-        <!-- TAB 4: MEMES -->
+        <!-- TAB 4: MEMES (ВІДДІЛ СМІХУЯТІНИ) -->
         <div id="section-memes" class="hidden">
             <div class="glass-box">
-                <h2 class="sh-font" style="font-size: 18px; color: #3b82f6; margin-bottom: 12px;"><i class="fa-solid fa-face-laugh-squint"></i> Відділ Сміхуятіни</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px;">
-                    <div style="background: #040508; padding: 10px; border-radius: 10px; border: 1px solid #1f243b;">
-                        <h4 style="font-size: 13px; margin: 0 0 6px;">Прикол #1</h4>
+                <h2 class="sh-font" style="font-size: 18px; color: #3b82f6; margin-bottom: 15px;"><i class="fa-solid fa-face-laugh-squint"></i> Відділ Сміхуятіни</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+                    <div style="background: #040508; padding: 12px; border-radius: 10px; border: 1px solid #1f243b;">
+                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">TF2 Spy Memes & Drops</h4>
                         <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;"></video>
                     </div>
-                    <div style="background: #040508; padding: 10px; border-radius: 10px; border: 1px solid #1f243b;">
-                        <h4 style="font-size: 13px; margin: 0 0 6px;">Прикол #2</h4>
+                    <div style="background: #040508; padding: 12px; border-radius: 10px; border: 1px solid #1f243b;">
+                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">Космічний Смітник Hardtek</h4>
                         <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" controls style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;"></video>
                     </div>
                 </div>
@@ -459,6 +442,16 @@
 
     </main>
 
+    <!-- STEAM LOGIN MODAL -->
+    <div id="steamLoginModal" class="modal hidden">
+        <div class="glass-box" style="width: 340px; text-align: center; position: relative;">
+            <button onclick="document.getElementById('steamLoginModal').classList.add('hidden')" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="sh-font" style="font-size: 16px; color: #66c0f4; margin-bottom: 12px;"><i class="fa-brands fa-steam"></i> Авторизація Steam</h3>
+            <input id="mockSteamNick" type="text" placeholder="Ваш нік у Steam..." style="width: 100%; margin-bottom: 12px; text-align: center;">
+            <button onclick="confirmMockSteamLogin()" class="sh-btn" style="width: 100%; background: #2a475e; color: #fff;">Увійти через Steam</button>
+        </div>
+    </div>
+
     <!-- DEPOSIT MODAL -->
     <div id="depositModal" class="modal hidden">
         <div class="glass-box" style="width: 380px; text-align: center; position: relative;">
@@ -515,7 +508,6 @@
 
         let selectedTarget = { name: 'Зачароване яблуко', price: 120, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png' };
 
-        // Кейс бомженя з кайлом (35) та мотигою (20)
         let bomzhCaseItems = [
             { id: '1', name: 'Залізна мотика', price: 20, chance: 40, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_hoe.png' },
             { id: '2', name: 'Залізне кайло', price: 35, chance: 25, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_pickaxe.png' },
@@ -531,34 +523,27 @@
             document.getElementById('alertModal').classList.remove('hidden');
         }
 
-        function handleRealSteamLogin(e) {
-            e.preventDefault();
-            let realm = window.location.protocol + '//' + window.location.host;
-            let returnTo = encodeURIComponent(window.location.href);
-            window.location.href = `https://steamcommunity.com/login/openid/?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=${returnTo}&openid.realm=${realm}&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select`;
+        function openMockSteamLogin() {
+            document.getElementById('steamLoginModal').classList.remove('hidden');
         }
 
-        function checkSteamOpenIDReturn() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const claimedId = urlParams.get('openid.claimed_id');
-            if (claimedId) {
-                const matches = claimedId.match(/\/id\/(\d+)/);
-                if (matches && matches[1]) {
-                    let steamId64 = matches[1];
-                    currentUser = {
-                        id: steamId64.slice(-5),
-                        steamId: steamId64,
-                        name: "SteamUser_" + steamId64.slice(-4),
-                        avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
-                    };
-                    localStorage.setItem('sh_user', JSON.stringify(currentUser));
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
-            }
+        function confirmMockSteamLogin() {
+            let nick = document.getElementById('mockSteamNick').value.trim();
+            if(!nick) nick = "CosmoPlayer_" + Math.floor(Math.random() * 9000 + 1000);
+            currentUser = {
+                id: Math.floor(Math.random() * 90000 + 10000),
+                name: nick,
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
+            };
+            localStorage.setItem('sh_user', JSON.stringify(currentUser));
+            document.getElementById('steamLoginModal').classList.add('hidden');
+            updateUI();
+            updateProfileUI();
+            showAlert("Успіх", `Ви успішно увійшли як ${nick}!`);
         }
 
         function saveProfileChanges() {
-            if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
+            if(!currentUser) { showAlert("Увага", "Спочатку увійдіть через Steam!"); return; }
             let newNick = document.getElementById('editNickInput').value.trim();
             let newAvatar = document.getElementById('editAvatarInput').value.trim();
             if(newNick) currentUser.name = newNick;
@@ -614,7 +599,7 @@
                     </div>
                 `;
             } else {
-                headerBlock.innerHTML = `<a href="https://steamcommunity.com/login/home/?goto=" class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></a>`;
+                headerBlock.innerHTML = `<button class="steam-btn" onclick="openMockSteamLogin()">Steam Вхід <i class="fa-brands fa-steam"></i></button>`;
             }
         }
 
@@ -677,7 +662,7 @@
             });
         }
 
-        /* --- МЕХАНІКА СТРІКУ (ЗАХОДИТЬ ЧАСТО — ЗМІНИТИ ШАНСИ) --- */
+        /* МЕХАНІКА ШАНСІВ ТА СТРІКУ */
         function startRouletteOpening() {
             if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
             if(balance < 45) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
@@ -834,7 +819,7 @@
 
         function promptAdminCode() {
             if(isAdmin) { showAlert("Адмін", "Ви вже адміністратор!"); }
-            else { document.getElementById('adminCodeModal').classList.remove('hidden'); }
+            else { document.getElementById('adminModal').classList.remove('hidden'); }
         }
 
         function verifyAdminCode() {
@@ -842,7 +827,7 @@
             if(code === "11111") {
                 isAdmin = true;
                 localStorage.setItem('sh_is_admin', 'true');
-                document.getElementById('adminCodeModal').classList.add('hidden');
+                document.getElementById('adminModal').classList.add('hidden');
                 showAlert("Успіх", "Адмін-доступ активовано!");
             } else {
                 showAlert("Помилка", "Невірний код!");
@@ -882,7 +867,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            checkSteamOpenIDReturn();
             updateUI();
             renderCases();
             updateUpgraderCalc();
