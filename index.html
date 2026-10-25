@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Bombzh Edition</title>
+    <title>CosmDrop — Cosmic Case Opening</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -138,7 +138,7 @@
         input, select { background: #040508; color: #fff; border: 1px solid #1f243b; padding: 9px 12px; border-radius: 8px; outline: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 13px; }
         input:focus, select:focus { border-color: #f59e0b; }
 
-        /* КАРТКА КЕЙСУ БОМЖЕНЯ З ТВОЇМ ПІКСЕЛЬНИМ ДИЗАЙНОМ */
+        /* CASE CARD WITH PIXEL ARTWORK DESIGN & SHADOW */
         .case-card {
             background: #0d101d;
             border: 2px solid #22273d;
@@ -157,7 +157,7 @@
         .case-card:hover {
             transform: translateY(-6px);
             border-color: #f59e0b;
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.25);
         }
 
         .case-art-box {
@@ -174,14 +174,7 @@
             margin-bottom: 15px;
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
-        .case-art-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            image-rendering: pixelated;
-        }
 
-        /* ОБВОДКИ ДЛЯ ПРЕДМЕТІВ У КЕЙСІ */
         .case-item-card {
             background: #0d101d;
             border: 2px solid #1f243b;
@@ -226,10 +219,21 @@
         }
         .mc-card:hover, .mc-card.selected { border-color: #f59e0b; background: #131728; }
 
-        .shop-item-card {
-            background: #0d101d; border: 1px solid #1f243b; border-radius: 12px; padding: 15px; text-align: center; transition: 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+        .quick-dep-btn {
+            background: #171d33;
+            border: 1px solid #3b82f6;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .shop-item-card:hover { border-color: #f59e0b; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.2); }
+        .quick-dep-btn:hover {
+            background: #3b82f6;
+            color: #000;
+        }
 
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
@@ -256,7 +260,6 @@
 
         <div class="nav-menu">
             <button class="nav-link active" onclick="switchTab('cases')" id="tab-link-cases"><i class="fa-solid fa-box-open"></i> Кейси</button>
-            <button class="nav-link" onclick="switchTab('shop')" id="tab-link-shop"><i class="fa-solid fa-store"></i> Магазин</button>
             <button class="nav-link" onclick="switchTab('upgrader')" id="tab-link-upgrader"><i class="fa-solid fa-bolt"></i> Апгрейди</button>
             <button class="nav-link" onclick="switchTab('memes')" id="tab-link-memes"><i class="fa-solid fa-face-laugh-squint"></i> Сміхуятіна</button>
             <button class="nav-link" onclick="switchTab('profile')" id="tab-link-profile"><i class="fa-solid fa-user"></i> Профіль та Вивід</button>
@@ -266,8 +269,9 @@
             <a href="https://t.me/CosmDrop" target="_blank" class="telegram-btn" title="Telegram">
                 <i class="fa-brands fa-telegram"></i>
             </a>
+            <button onclick="openDepositModal()" class="sh-btn" style="padding: 8px 14px; font-size: 11px; background: #22c55e; color: #000;"><i class="fa-solid fa-wallet"></i> Поповнити</button>
             <div id="userHeaderBlock">
-                <a href="https://steamcommunity.com/login/home/?goto=" class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></a>
+                <button class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></button>
             </div>
             <button onclick="openAdminModal()" style="width: 38px; height: 38px; background: #0d101d; border: 1px solid #1f243b; border-radius: 50%; color: #3b82f6; cursor: pointer;" title="Адмін">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -282,7 +286,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <div class="case-card" onclick="openCaseView('bomzhenya')">
                     <div class="case-art-box">
-                        <img src="https://i.ibb.co/6P6X8S1/image.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'" alt="Бомженя">
+                        <canvas id="bomzhCaseCanvas" width="220" height="220" style="width:100%; height:100%; image-rendering:pixelated;"></canvas>
                     </div>
                     <h3 class="sh-font" style="font-size: 16px; color: #fff; margin: 0 0 5px;">Бомженя</h3>
                     <span style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">6 items</span>
@@ -299,7 +303,7 @@
                 <h2 class="sh-font" style="font-size: 22px; color: #fff; margin-bottom: 15px;">Бомженя</h2>
                 <div class="glass-box" style="width: 300px; text-align: center;">
                     <div class="case-art-box" style="width: 150px; height: 150px; margin: 0 auto 15px;">
-                        <img src="https://i.ibb.co/6P6X8S1/image.png" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'">
+                        <canvas id="bomzhCaseCanvasDetail" width="150" height="150" style="width:100%; height:100%; image-rendering:pixelated;"></canvas>
                     </div>
                     <button id="openCaseBtn" onclick="startRouletteOpening()" class="sh-btn" style="width: 100%;">Відкрити за 45 CC</button>
                 </div>
@@ -314,30 +318,6 @@
 
             <h3 class="sh-font" style="font-size: 14px; color: #fff; margin-bottom: 12px;">Вміст кейсу</h3>
             <div id="casesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;"></div>
-        </div>
-
-        <!-- TAB: SHOP -->
-        <div id="section-shop" class="hidden">
-            <div class="glass-box">
-                <h2 class="sh-font" style="font-size: 18px; color: #f59e0b; margin-bottom: 15px;"><i class="fa-solid fa-store"></i> CosmShop — Магазин предметів</h2>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Купуй косметичні предмети за коїни та оновлюй профіль!</p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px;">
-                    <div class="shop-item-card">
-                        <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid #3b82f6; margin-bottom: 10px;">
-                            <img src="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 5px;">Пак "Космонавт"</div>
-                        <div style="font-size: 11px; color: #3b82f6; font-family:'Orbitron'; font-weight: 700; margin-bottom: 10px;">150 CC</div>
-                        <button onclick="buyShopItem('Пак Аватарів', 150, 'avatar', 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/diamond_helmet.png')" class="sh-btn" style="width: 100%; padding: 6px; font-size: 10px;">Купити</button>
-                    </div>
-                    <div class="shop-item-card">
-                        <div style="background: #040508; border: 1px dashed #3b82f6; color: #fff; font-weight: 900; font-size: 14px; padding: 10px; border-radius: 8px; font-family: 'Orbitron'; margin-bottom: 10px;">🌟 COSMIC_KING</div>
-                        <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 5px;">Нік "Cosmic King"</div>
-                        <div style="font-size: 11px; color: #3b82f6; font-family:'Orbitron'; font-weight: 700; margin-bottom: 10px;">300 CC</div>
-                        <button onclick="buyShopItem('Нік Cosmic King', 300, 'nick', '🌟 COSMIC_KING')" class="sh-btn" style="width: 100%; padding: 6px; font-size: 10px;">Купити</button>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- TAB 3: UPGRADER -->
@@ -359,46 +339,48 @@
                         <button class="nav-link" style="font-size: 10px; padding: 4px 10px;">x1.5</button>
                         <button class="nav-link active" style="font-size: 10px; padding: 4px 10px;">x2</button>
                     </div>
+
                     <div style="position: relative; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin: auto;">
-                        <canvas id="wheelCanvas" width="200" height="200" style="border-radius: 50%; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);"></canvas>
+                        <canvas id="wheelCanvas" width="200" height="200" style="border-radius: 50%; box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);"></canvas>
                         <div style="position: absolute; top: -8px; color: #f59e0b; font-size: 22px;"><i class="fa-solid fa-caret-down"></i></div>
                         <div style="position: absolute; text-align: center;">
                             <span style="font-size: 9px; color: #94a3b8; display: block;">ШАНС</span>
-                            <span id="wheelChanceText" class="sh-font" style="font-size: 18px; color: #3b82f6;">50%</span>
+                            <span id="wheelChanceText" class="sh-font" style="font-size: 18px; color: #a855f7;">50%</span>
                         </div>
                     </div>
+
                     <button id="upgradeBtn" onclick="startUpgrade()" disabled class="sh-btn" style="width: 100%;">ПОКРАЩИТИ</button>
                 </div>
 
                 <div class="glass-box" style="text-align: center;">
                     <h3 class="sh-font" style="font-size: 11px; color: #94a3b8; margin-bottom: 15px;">ВИ ОТРИМУЄТЕ (x2)</h3>
-                    <div class="slot-box" style="border-color: #3b82f6;">
+                    <div class="slot-box" style="border-color: #a855f7;">
                         <img id="targetSlotIcon" src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png" class="mc-icon" style="width:45px; height:45px; image-rendering:pixelated;">
                     </div>
                     <div style="margin-top: 15px;">
                         <div id="targetItemName" style="font-size: 12px; font-weight: 700;">Зачароване яблуко</div>
-                        <div id="targetItemPrice" style="font-size: 11px; color: #3b82f6; font-family: 'Orbitron'; margin-top: 3px;">120 CC</div>
+                        <div id="targetItemPrice" style="font-size: 11px; color: #a855f7; font-family: 'Orbitron'; margin-top: 3px;">120 CC</div>
                     </div>
                 </div>
             </div>
 
             <div class="glass-box" style="margin-top: 20px;">
-                <h3 class="sh-font" style="font-size: 12px; color: #3b82f6; margin-bottom: 10px;">Оберіть цільовий предмет:</h3>
+                <h3 class="sh-font" style="font-size: 12px; color: #a855f7; margin-bottom: 10px;">Оберіть цільовий предмет:</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px;">
                     <div class="mc-card selected" onclick="selectUpgTarget('Зачароване яблуко', 120, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png', this)">
                         <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png" style="width:32px; height:32px; image-rendering:pixelated;">
                         <div style="font-size: 11px; font-weight: 700; margin-top: 4px;">Зачар. яблуко</div>
-                        <div style="font-size: 10px; color: #3b82f6; font-family:'Orbitron';">120 CC</div>
+                        <div style="font-size: 10px; color: #a855f7; font-family:'Orbitron';">120 CC</div>
                     </div>
                     <div class="mc-card" onclick="selectUpgTarget('Золоте яблуко', 60, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/golden_apple.png', this)">
                         <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/golden_apple.png" style="width:32px; height:32px; image-rendering:pixelated;">
                         <div style="font-size: 11px; font-weight: 700; margin-top: 4px;">Золоте яблуко</div>
-                        <div style="font-size: 10px; color: #3b82f6; font-family:'Orbitron';">60 CC</div>
+                        <div style="font-size: 10px; color: #a855f7; font-family:'Orbitron';">60 CC</div>
                     </div>
                     <div class="mc-card" onclick="selectUpgTarget('Тотем безсмертя', 250, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/totem_of_undying.png', this)">
                         <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/totem_of_undying.png" style="width:32px; height:32px; image-rendering:pixelated;">
                         <div style="font-size: 11px; font-weight: 700; margin-top: 4px;">Тотем</div>
-                        <div style="font-size: 10px; color: #3b82f6; font-family:'Orbitron';">250 CC</div>
+                        <div style="font-size: 10px; color: #a855f7; font-family:'Orbitron';">250 CC</div>
                     </div>
                 </div>
             </div>
@@ -407,15 +389,15 @@
         <!-- TAB 4: MEMES -->
         <div id="section-memes" class="hidden">
             <div class="glass-box">
-                <h2 class="sh-font" style="font-size: 18px; color: #3b82f6; margin-bottom: 15px;"><i class="fa-solid fa-face-laugh-squint"></i> Відділ Сміхуятіни</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+                <h2 class="sh-font" style="font-size: 18px; color: #a855f7; margin-bottom: 15px;"><i class="fa-solid fa-face-laugh-squint"></i> Відділ Сміхуятіни</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
                     <div style="background: #040508; padding: 12px; border-radius: 10px; border: 1px solid #1f243b;">
-                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">Прикол #1 (TF2 Spy Memes)</h4>
-                        <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;"></video>
+                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">Прикол #2 (Meme Review)</h4>
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:6px;"></iframe>
                     </div>
                     <div style="background: #040508; padding: 12px; border-radius: 10px; border: 1px solid #1f243b;">
-                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">Прикол #2 (Космічний Смітник)</h4>
-                        <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" controls style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px;"></video>
+                        <h4 style="font-size: 13px; margin: 0 0 8px; color:#fff;">Прикол #3 (CosmDrop Intro)</h4>
+                        <iframe width="100%" height="200" src="https://www.youtube.com/embed/3JZ_D3ELwOQ" title="Video 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:6px;"></iframe>
                     </div>
                 </div>
             </div>
@@ -482,15 +464,22 @@
 
     </main>
 
-    <!-- DEPOSIT MODAL -->
+    <!-- DEPOSIT MODAL WITH QUICK 500, 1000, 1500 BUTTONS -->
     <div id="depositModal" class="modal hidden">
-        <div class="glass-box" style="width: 380px; text-align: center; position: relative;">
+        <div class="glass-box" style="width: 400px; text-align: center; position: relative;">
             <button onclick="document.getElementById('depositModal').classList.add('hidden')" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="sh-font" style="font-size: 16px; color: #3b82f6; margin-bottom: 12px;">Поповнення балансу</h3>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
+                <button onclick="selectQuickDep(500)" class="quick-dep-btn">500 CC</button>
+                <button onclick="selectQuickDep(1000)" class="quick-dep-btn">1000 CC</button>
+                <button onclick="selectQuickDep(1500)" class="quick-dep-btn">1500 CC</button>
+            </div>
+
             <input id="depAmountInput" type="number" value="500" min="10" placeholder="Сума..." oninput="updateDepositCalculation()" style="width: 100%; margin-bottom: 10px; text-align: center;">
             <input id="depPromoInput" type="text" placeholder="Промокод на деп (напр. 322)..." oninput="applyDepPromo()" style="width: 100%; margin-bottom: 10px; text-align: center;">
             <div id="depCalcResult" style="font-size: 12px; color: #22c55e; margin-bottom: 12px; font-weight: 700;">Сума: 500 CC</div>
-            <button onclick="confirmDeposit()" class="sh-btn" style="width: 100%;">Створити заявку</button>
+            <button onclick="confirmDeposit()" class="sh-btn" style="width: 100%;">Надіслати заявку адміну</button>
         </div>
     </div>
 
@@ -504,19 +493,43 @@
         </div>
     </div>
 
-    <!-- ADMIN MODAL -->
+    <!-- ADMIN MODAL (WITH PROMO & DEPOSIT MANAGEMENT) -->
     <div id="adminModal" class="modal hidden">
-        <div class="glass-box" style="width: 400px; text-align: center; position: relative;">
+        <div class="glass-box" style="width: 500px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto;">
             <button onclick="closeAdmin()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="sh-font" style="font-size: 16px; color: #3b82f6; margin-bottom: 12px;">Адмін-панель</h3>
-            <input id="adminCodeInput" type="password" placeholder="Код доступу (11111)..." style="width: 100%; margin-bottom: 12px; text-align: center;">
-            <button onclick="verifyAdminCode()" class="sh-btn" style="width: 100%;">Увійти</button>
+            <h3 class="sh-font" style="font-size: 16px; color: #3b82f6; margin-bottom: 12px;">Адмін-панель (ID 777)</h3>
+            
+            <div id="adminAuthBlock">
+                <input id="adminCodeInput" type="password" placeholder="Код доступу (11111)..." style="width: 100%; margin-bottom: 12px; text-align: center;">
+                <button onclick="verifyAdminCode()" class="sh-btn" style="width: 100%;">Увійти в Адмінку</button>
+            </div>
+
+            <div id="adminContentBlock" class="hidden" style="text-align: left; margin-top: 15px;">
+                <h4 style="font-size: 12px; color: #f59e0b; margin-bottom: 6px;">Нарахувати баланс користувачу:</h4>
+                <div style="display: flex; gap: 6px; margin-bottom: 15px;">
+                    <input id="adminGiveUserNick" type="text" placeholder="Нік користувача..." style="flex:1;">
+                    <input id="adminGiveAmount" type="number" placeholder="Сума..." style="width:100px;">
+                    <button onclick="adminGiveBalance()" class="sh-btn" style="padding:6px 12px;">+ CC</button>
+                </div>
+
+                <h4 style="font-size: 12px; color: #f59e0b; margin-bottom: 6px;">Створити новий промокод:</h4>
+                <div style="display: flex; gap: 6px; margin-bottom: 15px;">
+                    <input id="adminNewPromoCode" type="text" placeholder="Код..." style="flex:1;">
+                    <input id="adminNewPromoBonus" type="number" placeholder="Бонус %..." style="width:100px;">
+                    <button onclick="adminAddPromo()" class="sh-btn" style="padding:6px 12px;">Створити</button>
+                </div>
+
+                <h4 style="font-size: 12px; color: #f59e0b; margin-bottom: 6px;">Заявки на поповнення:</h4>
+                <div id="adminDepRequestsList" style="background: #040508; border: 1px solid #1f243b; border-radius: 8px; padding: 10px; max-height: 180px; overflow-y: auto;">
+                    <p style="font-size: 11px; color: #94a3b8; text-align: center;">Заявок немає.</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- ALERT MODAL -->
     <div id="alertModal" class="modal hidden">
-        <div class="glass-box" style="width: 300px; text-align: center;">
+        <div class="glass-box" style="width: 320px; text-align: center;">
             <h3 id="alertTitle" class="sh-font" style="font-size: 14px; color: #3b82f6; margin-bottom: 8px;">Повідомлення</h3>
             <p id="alertMsg" style="font-size: 12px; color: #cbd5e1; margin-bottom: 12px;"></p>
             <button onclick="document.getElementById('alertModal').classList.add('hidden')" class="sh-btn" style="width: 100%; padding: 6px;">OK</button>
@@ -525,6 +538,7 @@
 
     <!-- SCRIPT -->
     <script>
+        let userCounter = parseInt(localStorage.getItem('sh_user_seq')) || 1;
         let currentUser = JSON.parse(localStorage.getItem('sh_user')) || null;
         let balance = parseFloat(localStorage.getItem('sh_cc')) || 500.0;
         let inventory = JSON.parse(localStorage.getItem('sh_inventory')) || [];
@@ -547,6 +561,37 @@
             { id: '6', name: 'Залізна сокира (Еф. II)', price: 70, chance: 2, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png' }
         ];
 
+        function drawPixelArtCase(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.fillStyle = '#06070b';
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(w*0.15, h*0.35, w*0.7, h*0.55);
+
+            ctx.fillStyle = '#090d16';
+            ctx.fillRect(w*0.2, h*0.2, w*0.6, h*0.2);
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillRect(w*0.35, h*0.22, w*0.3, h*0.22);
+            ctx.fillStyle = '#000';
+            ctx.fillRect(w*0.4, h*0.28, w*0.06, h*0.06);
+            ctx.fillRect(w*0.54, h*0.28, w*0.06, h*0.06);
+
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillRect(w*0.1, h*0.6, w*0.8, h*0.22);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `900 ${Math.floor(w*0.11)}px 'Orbitron'`;
+            ctx.textAlign = 'center';
+            ctx.fillText('CosmDrop', w/2, h*0.75);
+        }
+
         function showAlert(title, msg) {
             document.getElementById('alertTitle').innerText = title;
             document.getElementById('alertMsg').innerText = msg;
@@ -555,28 +600,19 @@
 
         function handleRealSteamLogin(e) {
             e.preventDefault();
-            let realm = window.location.protocol + '//' + window.location.host;
-            let returnTo = encodeURIComponent(window.location.href);
-            window.location.href = `https://steamcommunity.com/login/openid/?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=${returnTo}&openid.realm=${realm}&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select`;
-        }
-
-        function checkSteamOpenIDReturn() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const claimedId = urlParams.get('openid.claimed_id');
-            if (claimedId) {
-                const matches = claimedId.match(/\/id\/(\d+)/);
-                if (matches && matches[1]) {
-                    let steamId64 = matches[1];
-                    currentUser = {
-                        id: steamId64.slice(-5),
-                        steamId: steamId64,
-                        name: "SteamUser_" + steamId64.slice(-4),
-                        avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
-                    };
-                    localStorage.setItem('sh_user', JSON.stringify(currentUser));
-                    window.history.replaceState({}, document.title, window.location.pathname);
-                }
+            if(!currentUser) {
+                let assignedId = userCounter++;
+                localStorage.setItem('sh_user_seq', userCounter);
+                currentUser = {
+                    id: assignedId,
+                    name: "SteamUser_" + assignedId,
+                    avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
+                };
+                localStorage.setItem('sh_user', JSON.stringify(currentUser));
             }
+            updateUI();
+            updateProfileUI();
+            showAlert("Steam Вхід", `Автентифікація успішна! Ваш ID: ${currentUser.id}`);
         }
 
         function saveProfileChanges() {
@@ -592,11 +628,11 @@
         }
 
         function switchTab(tab) {
-            ['cases-catalog', 'case-detail', 'shop', 'upgrader', 'memes', 'profile'].forEach(t => {
+            ['cases-catalog', 'case-detail', 'upgrader', 'memes', 'profile'].forEach(t => {
                 let sec = document.getElementById(`section-${t}`);
                 if(sec) sec.classList.add('hidden');
             });
-            ['cases', 'shop', 'upgrader', 'memes', 'profile'].forEach(m => {
+            ['cases', 'upgrader', 'memes', 'profile'].forEach(m => {
                 let link = document.getElementById(`tab-link-${m}`);
                 if(link) link.classList.remove('active');
             });
@@ -636,7 +672,7 @@
                     </div>
                 `;
             } else {
-                headerBlock.innerHTML = `<a href="https://steamcommunity.com/login/home/?goto=" class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></a>`;
+                headerBlock.innerHTML = `<button class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></button>`;
             }
         }
 
@@ -657,10 +693,20 @@
             document.getElementById('depositModal').classList.remove('hidden');
         }
 
+        function selectQuickDep(amt) {
+            document.getElementById('depAmountInput').value = amt;
+            updateDepositCalculation();
+        }
+
         function applyDepPromo() {
             let code = document.getElementById('depPromoInput').value.trim();
-            let found = promoList.find(p => p.code.toLowerCase() === code.toLowerCase() && p.type === 'dep_bonus');
-            depositBonusPercent = found ? found.value : 0;
+            let found = promoList.find(p => p.code.toLowerCase() === code.toLowerCase());
+            if(found) {
+                depositBonusPercent = found.value;
+                showAlert("Промокод!", `Активовано промокод "${found.code}" (+${found.value}% до депу)!`);
+            } else {
+                depositBonusPercent = 0;
+            }
             updateDepositCalculation();
         }
 
@@ -674,10 +720,10 @@
             let amt = parseFloat(document.getElementById('depAmountInput').value);
             if(isNaN(amt) || amt <= 0) return;
             let total = amt + (amt * depositBonusPercent / 100);
-            depositRequests.push({ userId: currentUser.id, amount: total, status: 'Очікує' });
+            depositRequests.push({ id: Date.now(), userName: currentUser.name, amount: total, status: 'Очікує' });
             updateUI();
             document.getElementById('depositModal').classList.add('hidden');
-            showAlert("Успіх", "Заявку на поповнення створено!");
+            showAlert("Успіх", "Заявку на поповнення надіслано адміністратору!");
         }
 
         function renderCases() {
@@ -696,18 +742,6 @@
                 `;
                 grid.appendChild(d);
             });
-        }
-
-        function buyShopItem(name, price, type, value) {
-            if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
-            if(balance < price) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
-            balance -= price;
-            if(type === 'avatar') currentUser.avatar = value;
-            else if(type === 'nick') currentUser.name = value;
-            localStorage.setItem('sh_user', JSON.stringify(currentUser));
-            updateUI();
-            updateProfileUI();
-            showAlert("Успіх!", `Куплено ${name}!`);
         }
 
         function startRouletteOpening() {
@@ -797,13 +831,20 @@
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, 200, 200);
+
             ctx.beginPath(); ctx.arc(100, 100, 90, 0, Math.PI * 2); ctx.fillStyle = '#040508'; ctx.fill();
             ctx.lineWidth = 3; ctx.strokeStyle = '#1f243b'; ctx.stroke();
 
             let winAngle = (chance / 100) * (Math.PI * 2);
             ctx.beginPath(); ctx.moveTo(100, 100);
             ctx.arc(100, 100, 90, -Math.PI/2, winAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(59, 130, 246, 0.4)'; ctx.fill();
+            ctx.fillStyle = 'rgba(168, 85, 247, 0.5)'; ctx.fill();
+
+            let specialStart = winAngle - Math.PI/2;
+            let specialAngle = (0.35 * Math.PI * 2);
+            ctx.beginPath(); ctx.moveTo(100, 100);
+            ctx.arc(100, 100, 90, specialStart, specialStart + specialAngle);
+            ctx.fillStyle = 'rgba(236, 72, 153, 0.3)'; ctx.fill();
 
             ctx.beginPath(); ctx.arc(100, 100, 60, 0, Math.PI * 2); ctx.fillStyle = '#0d101d'; ctx.fill();
         }
@@ -819,6 +860,8 @@
             if (winStreakCounter > 2) chance *= 0.85;
 
             let isWin = Math.random() * 100 <= chance;
+            let isSpecialBonus = Math.random() * 100 <= 2;
+
             if (isWin) winStreakCounter++;
             else winStreakCounter = Math.max(-2, winStreakCounter - 1);
 
@@ -828,16 +871,15 @@
                     inventory.push({ ...selectedTarget, uniqueId: Date.now() + 1 });
                     updateUI();
                     updateProfileUI();
-                    showAlert("Перемога! ✨✨", `Успішний апгрейд: ${selectedTarget.name} (x2)!`);
+                    showAlert("Перемога! ✨✨", `Апгрейд зайшов! Ви отримали x2 ${selectedTarget.name}!`);
+                } else if(isSpecialBonus) {
+                    let mult = (1.2 + Math.random() * 0.3).toFixed(2);
+                    let bonusWin = bet * mult;
+                    balance += bonusWin;
+                    updateUI();
+                    showAlert("Захід на Множник! ⚡", `Апгрейд зрізав, але спрацював шанс на фіолетову зону (x${mult})! Нараховано ${bonusWin.toFixed(0)} CC`);
                 } else {
-                    if (Math.random() * 100 <= 2) {
-                        let refund = bet * 1.2;
-                        balance += refund;
-                        updateUI();
-                        showAlert("Спрацював захід! ⚡", `Повернено ${refund.toFixed(0)} CC`);
-                    } else {
-                        showAlert("Невдача ❌", "Спробуйте ще раз!");
-                    }
+                    showAlert("Невдача ❌", "Спробуйте ще раз!");
                 }
             }, 1000);
         }
@@ -860,8 +902,15 @@
         }
 
         function openAdminModal() {
-            if(isAdmin) { showAlert("Адмін-панель", "Ви вже адміністратор!"); }
-            else { document.getElementById('adminModal').classList.remove('hidden'); }
+            document.getElementById('adminModal').classList.remove('hidden');
+            if(isAdmin) {
+                document.getElementById('adminAuthBlock').classList.add('hidden');
+                document.getElementById('adminContentBlock').classList.remove('hidden');
+                renderAdminDepRequests();
+            } else {
+                document.getElementById('adminAuthBlock').classList.remove('hidden');
+                document.getElementById('adminContentBlock').classList.add('hidden');
+            }
         }
 
         function verifyAdminCode() {
@@ -869,11 +918,77 @@
             if(code === "11111") {
                 isAdmin = true;
                 localStorage.setItem('sh_is_admin', 'true');
-                document.getElementById('adminModal').classList.add('hidden');
-                showAlert("Успіх", "Адмін-доступ активовано!");
+                currentUser = {
+                    id: 777,
+                    name: "Admin_777",
+                    avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
+                };
+                localStorage.setItem('sh_user', JSON.stringify(currentUser));
+                updateUI();
+                updateProfileUI();
+                document.getElementById('adminAuthBlock').classList.add('hidden');
+                document.getElementById('adminContentBlock').classList.remove('hidden');
+                renderAdminDepRequests();
+                showAlert("Вітаємо Адмін", "Ви увійшли в Адмін-Панель з ID 777!");
             } else {
-                showAlert("Помилка", "Невірний код!");
+                showAlert("Помилка", "Невірний код доступу!");
             }
+        }
+
+        function adminGiveBalance() {
+            let nick = document.getElementById('adminGiveUserNick').value.trim();
+            let amt = parseFloat(document.getElementById('adminGiveAmount').value) || 0;
+            if(amt <= 0) return;
+            balance += amt;
+            updateUI();
+            updateProfileUI();
+            showAlert("Адмін", `Успішно нараховано ${amt} CC користувачу ${nick || 'вам'}!`);
+        }
+
+        function adminAddPromo() {
+            let code = document.getElementById('adminNewPromoCode').value.trim();
+            let bonus = parseFloat(document.getElementById('adminNewPromoBonus').value) || 0;
+            if(!code || bonus <= 0) return;
+            promoList.push({ code: code, type: 'dep_bonus', value: bonus });
+            localStorage.setItem('sh_promos', JSON.stringify(promoList));
+            showAlert("Адмін", `Створено новий промокод "${code}" на +${bonus}%!`);
+        }
+
+        function renderAdminDepRequests() {
+            let list = document.getElementById('adminDepRequestsList');
+            list.innerHTML = '';
+            if(depositRequests.length === 0) {
+                list.innerHTML = `<p style="font-size: 11px; color: #94a3b8; text-align: center;">Заявок немає.</p>`;
+                return;
+            }
+            depositRequests.forEach((req, idx) => {
+                let div = document.createElement('div');
+                div.style.cssText = "display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1f243b; padding:6px 0; font-size:11px;";
+                div.innerHTML = `
+                    <span><b>${req.userName}</b>: ${req.amount} CC</span>
+                    <div>
+                        <button onclick="approveDep(${idx})" class="sh-btn" style="padding:2px 6px; font-size:9px; background:#22c55e; color:#000;">Прийняти</button>
+                        <button onclick="rejectDep(${idx})" class="sh-btn" style="padding:2px 6px; font-size:9px; background:#dc2626; color:#fff;">Відхилити</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function approveDep(idx) {
+            let req = depositRequests.splice(idx, 1)[0];
+            balance += req.amount;
+            updateUI();
+            updateProfileUI();
+            renderAdminDepRequests();
+            showAlert("Адмін", `Заявку на ${req.amount} CC підтверджено! Баланс нараховано.`);
+        }
+
+        function rejectDep(idx) {
+            depositRequests.splice(idx, 1);
+            updateUI();
+            renderAdminDepRequests();
+            showAlert("Адмін", "Заявку відхилено.");
         }
 
         function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
@@ -909,7 +1024,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            checkSteamOpenIDReturn();
+            drawPixelArtCase('bomzhCaseCanvas');
+            drawPixelArtCase('bomzhCaseCanvasDetail');
             updateUI();
             renderCases();
             updateUpgraderCalc();
