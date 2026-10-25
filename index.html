@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — SkinHouse Minecraft Edition</title>
+    <title>CosmDrop — SkinHouse Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -126,12 +126,32 @@
             box-shadow: 0 0 18px rgba(102, 192, 244, 0.6);
         }
 
+        .telegram-icon-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 50%;
+            color: #0ea5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 16px;
+        }
+        .telegram-icon-btn:hover {
+            background: rgba(14, 165, 233, 0.3);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.5);
+        }
+
         .modal { position: fixed; inset: 0; background: rgba(3, 4, 10, 0.88); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
         .hidden { display: none !important; }
         
         input, select { background: #090b16; color: #fff; border: 1px solid rgba(139,92,246,0.4); padding: 8px 12px; border-radius: 8px; outline: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 13px; }
         
-        /* PIXEL ART ITEM STYLES */
         .item-icon-wrap {
             position: relative;
             width: 50px;
@@ -148,7 +168,6 @@
             object-fit: contain;
         }
         
-        /* ENCHANT GLINT ANIMATION EFFECT */
         .enchanted-glint {
             position: relative;
         }
@@ -168,7 +187,7 @@
             100% { background-position: 200% 200%; }
         }
 
-        /* SKINHOUSE CASE CATALOG CARD */
+        /* SKINHOUSE CASE CARD */
         .case-card {
             background: #13162d;
             border: 1px solid rgba(139, 92, 246, 0.25);
@@ -331,6 +350,9 @@
         </div>
 
         <div style="display: flex; align-items: center; gap: 12px;">
+            <a href="https://t.me/CosmDrop" target="_blank" class="telegram-icon-btn" title="Telegram канал">
+                <i class="fa-brands fa-telegram"></i>
+            </a>
             <div id="userHeaderBlock">
                 <button class="steam-auth-btn" onclick="loginWithSteam()">Увійти через Steam <i class="fa-brands fa-steam"></i></button>
             </div>
@@ -342,7 +364,7 @@
 
     <main style="max-width: 1250px; margin: 25px auto; padding: 0 15px;">
 
-        <!-- TAB 1: CATALOG OF CASES -->
+        <!-- TAB 1: CATALOG OF CASES (ТІЛЬКИ КЕЙС БОМЖЕНЯ) -->
         <div id="section-cases-catalog">
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;">
                 <div class="case-card" onclick="openCaseView('bomzhenya')">
@@ -651,7 +673,7 @@
         let depositBonusPercent = 0;
         let selectedItemForMcWithdraw = null;
 
-        let selectedTarget = { name: 'Зачароване яблуко', price: 120 };
+        let selectedTarget = { name: 'Зачароване яблуко', price: 120, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png', enchanted: true };
 
         let bomzhCaseItems = [
             { id: '1', name: 'Залізний меч', price: 35, chance: 22, enchanted: false, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_sword.png' },
