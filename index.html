@@ -3,779 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Steam Auth & Minecraft Upgrader</title>
+    <title>CosmDrop — SkinHouse Cosmic Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body { 
-            background-color: #030308; 
+            background-color: #05050f; 
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, #080716 0%, #030308 100%);
-            color: #e2e8f0; 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #0b0c1e 0%, #030308 100%);
+            color: #cbd5e1; 
             font-family: 'Rajdhani', sans-serif; 
             margin: 0; 
-            padding-bottom: 50px;
+            padding-bottom: 60px;
             min-height: 100vh;
         }
 
-        .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+        .cosmo-head { font-family: 'Orbitron', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
 
-        .glass-card { 
-            background: rgba(10, 11, 24, 0.88); 
-            border: 1px solid rgba(139, 92, 246, 0.35); 
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8), 0 0 25px rgba(139, 92, 246, 0.15); 
-            border-radius: 22px; 
-            padding: 22px; 
-            backdrop-filter: blur(15px);
-            position: relative;
-        }
-
-        button, input, select, .tab-btn, .speed-btn { 
-            cursor: pointer !important; 
-            pointer-events: auto !important; 
-            position: relative;
-            z-index: 100 !important;
-        }
-
-        .cosmo-btn { 
-            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%); 
-            color: #ffffff; 
-            font-weight: 700; 
-            border: none;
-            padding: 14px 20px;
-            border-radius: 14px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); 
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-        .cosmo-btn:hover:not(:disabled) { 
-            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%); 
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.8); 
-            transform: translateY(-2px);
-        }
-        .cosmo-btn:active:not(:disabled) { transform: translateY(1px); }
-        .cosmo-btn:disabled { opacity: 0.4; cursor: not-allowed !important; transform: none !important; }
-
-        .tab-btn { 
-            background: rgba(15, 15, 35, 0.9); 
-            border: 1px solid rgba(139, 92, 246, 0.4); 
-            color: #94a3b8; 
-            padding: 10px 16px; 
-            border-radius: 12px; 
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700; 
-            font-size: 11px; 
-            text-transform: uppercase; 
-            transition: 0.2s; 
-        }
-        .tab-btn:hover { color: #fff; border-color: #06b6d4; }
-        .tab-btn.active { 
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4); 
-            color: #fff; 
-            border-color: #06b6d4; 
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5); 
-        }
-
-        .speed-selector {
+        /* LIVE DROPS TICKER */
+        .live-ticker {
+            background: rgba(10, 11, 24, 0.95);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 8px 20px;
             display: flex;
-            gap: 6px;
-            background: rgba(5, 5, 15, 0.9);
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid rgba(139, 92, 246, 0.4);
-            margin-bottom: 12px;
+            gap: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
-        .speed-btn {
-            flex: 1;
+        .live-item {
+            background: rgba(20, 20, 40, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* HEADER / NAVBAR */
+        .navbar {
+            background: rgba(8, 9, 22, 0.95);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.35);
+            padding: 14px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+            background: rgba(5, 5, 15, 0.7);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+        }
+        .nav-btn {
             background: transparent;
             border: none;
             color: #94a3b8;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 6px;
+            padding: 8px 14px;
             border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
             transition: 0.2s;
             text-transform: uppercase;
         }
-        .speed-btn.active {
-            background: rgba(6, 182, 212, 0.25);
-            color: #06b6d4;
-            border: 1px solid rgba(6, 182, 212, 0.5);
+        .nav-btn:hover { color: #fff; background: rgba(139, 92, 246, 0.15); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
         }
 
-        .modal { position: fixed; inset: 0; background: rgba(3, 3, 10, 0.88); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
+        .glass-card {
+            background: rgba(12, 13, 28, 0.88);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), inset 0 0 15px rgba(139, 92, 246, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+        }
+
+        .cosmo-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            transition: 0.2s;
+        }
+        .cosmo-btn:hover {
+            background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .modal { position: fixed; inset: 0; background: rgba(3, 3, 10, 0.85); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 99999; }
         .hidden { display: none !important; }
         
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 4px; }
     </style>
 </head>
 <body>
 
+    <!-- LIVE DROPS TICKER -->
+    <div class="live-ticker" id="liveTicker">
+        <div class="live-item"><i class="fa-solid fa-bolt" style="color:#06b6d4"></i> Система активна. Чекаємо на дропи!</div>
+    </div>
+
     <!-- NAVBAR -->
-    <header style="background: rgba(8, 9, 22, 0.95); border-bottom: 1px solid rgba(139, 92, 246, 0.4); padding: 16px 32px; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(20px);">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <div style="display: flex; align-items: center; gap: 14px;">
-                <div style="width: 44px; height: 44px; background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; box-shadow: 0 0 25px rgba(6, 182, 212, 0.7);">
-                    <i class="fa-solid fa-meteor"></i>
-                </div>
+    <header class="navbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 40px; height: 40px; background: radial-gradient(circle, #06b6d4, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; box-shadow: 0 0 20px rgba(6,182,212,0.6);">
+                <i class="fa-solid fa-meteor"></i>
+            </div>
+            <h1 class="cosmo-head" style="font-size: 20px; color: #fff; margin: 0;">Cosm<span style="color: #06b6d4;">Drop</span></h1>
+        </div>
+
+        <div class="nav-menu">
+            <button class="nav-btn active" onclick="switchTab('cases')" id="tab-btn-cases"><i class="fa-solid fa-box-open"></i> Кейси</button>
+            <button class="nav-btn" onclick="switchTab('upgrader')" id="tab-btn-upgrader"><i class="fa-solid fa-bolt"></i> Апгрейди</button>
+            <button class="nav-btn" onclick="switchTab('profile')" id="tab-btn-profile"><i class="fa-solid fa-user"></i> Профіль</button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="background: rgba(15,15,35,0.9); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(139,92,246,0.4); display: flex; align-items: center; gap: 12px;">
+                <div id="userNavbarArea" style="font-size: 12px; font-weight: 700; color: #fff;">Гість</div>
+                <div style="width: 1px; height: 20px; background: rgba(139,92,246,0.4);"></div>
                 <div>
-                    <h1 class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);">Cosm<span style="color: #06b6d4;">Drop</span></h1>
-                    <p style="font-size: 9px; color: #94a3b8; margin: 3px 0 0; font-weight: 600; letter-spacing: 1.5px;">STEAM AUTH & UPGRADER</p>
+                    <span style="font-size: 9px; color: #94a3b8; display: block;">БАЛАНС</span>
+                    <span id="balCoins" class="cosmo-head" style="font-size: 15px; color: #06b6d4;">0 CC</span>
                 </div>
             </div>
-
-            <!-- TABS -->
-            <div style="display: flex; gap: 6px; background: rgba(5, 5, 15, 0.8); padding: 5px; border-radius: 14px; border: 1px solid rgba(139, 92, 246, 0.4);">
-                <button type="button" onclick="switchTab('upgrader')" id="tab-btn-upgrader" class="tab-btn active"><i class="fa-solid fa-bolt" style="margin-right: 4px;"></i>Апгрейд</button>
-                <button type="button" onclick="switchTab('shop')" id="tab-btn-shop" class="tab-btn"><i class="fa-solid fa-store" style="margin-right: 4px;"></i>Магазин</button>
-                <button type="button" onclick="switchTab('cases')" id="tab-btn-cases" class="tab-btn"><i class="fa-solid fa-box-open" style="margin-right: 4px;"></i>Кейси</button>
-                <button type="button" onclick="switchTab('profile')" id="tab-btn-profile" class="tab-btn"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Профіль</button>
-            </div>
-
-            <!-- USER & BALANCE & ADMIN -->
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <div style="background: rgba(15, 15, 35, 0.95); padding: 8px 18px; border-radius: 30px; border: 1px solid rgba(139, 92, 246, 0.5); display: flex; align-items: center; gap: 15px; box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);">
-                    
-                    <div id="userProfileArea" style="display: flex; align-items: center; gap: 10px;">
-                        <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px; background: linear-gradient(135deg, #171a21, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
-                    </div>
-
-                    <div style="height: 25px; width: 1px; background: rgba(139, 92, 246, 0.4);"></div>
-
-                    <div>
-                        <span style="font-size: 9px; color: #94a3b8; display: block; font-weight: 700; letter-spacing: 1px;">БАЛАНС</span>
-                        <span id="balCoins" class="cosmo-head" style="font-size: 18px; color: #06b6d4;">0 CC</span>
-                    </div>
-
-                    <!-- Admin Button -->
-                    <button type="button" onclick="openAdmin()" style="width: 36px; height: 36px; background: rgba(139, 92, 246, 0.2); border: 1px solid rgba(139, 92, 246, 0.6); border-radius: 50%; color: #06b6d4; display: flex; align-items: center; justify-content: center;" title="Адмін-панель">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </button>
-                </div>
-            </div>
+            <button onclick="openAdmin()" style="width: 36px; height: 36px; background: rgba(139,92,246,0.2); border: 1px solid rgba(139,92,246,0.6); border-radius: 50%; color: #06b6d4; cursor: pointer;" title="Адмін-панель">
+                <i class="fa-solid fa-shield-halved"></i>
+            </button>
         </div>
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main style="max-width: 1200px; width: 100%; margin: 30px auto; padding: 0 20px;">
+    <main style="max-width: 1200px; margin: 30px auto; padding: 0 20px;">
 
-        <!-- TAB 1: UPGRADER -->
-        <div id="section-upgrader" style="display: grid; grid-template-columns: 280px 1fr 280px; gap: 20px; align-items: start;">
+        <!-- TAB: CASES -->
+        <div id="section-cases">
+            <div class="glass-card" style="text-align: center; padding: 40px;">
+                <h2 class="cosmo-head" style="font-size: 24px; color: #06b6d4; margin-bottom: 25px;">Космічні Кейси</h2>
+                <div id="casesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- TAB: UPGRADER (SkinHouse + Blue Zone 35% & 2% Заход) -->
+        <div id="section-upgrader" class="hidden" style="display: grid; grid-template-columns: 1fr 340px; gap: 20px;">
             
-            <!-- Left: Bet -->
-            <div class="glass-card" style="height: 580px; display: flex; flex-direction: column;">
-                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin: 0 0 10px; border-bottom: 1px solid rgba(139, 92, 246, 0.4); padding-bottom: 8px;">
-                    <i class="fa-solid fa-coins" style="margin-right: 6px;"></i> Ставка (Коїни або Скін)
-                </h3>
+            <!-- Left: Upgrader Arena -->
+            <div class="glass-card" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-height: 520px; position: relative;">
                 
-                <div class="speed-selector">
-                    <button type="button" onclick="setUpgradeSpeed('fast')" id="upg-speed-fast" class="speed-btn">⚡ Швидко</button>
-                    <button type="button" onclick="setUpgradeSpeed('slow')" id="upg-speed-slow" class="speed-btn active">⏳ Повільно</button>
+                <!-- Top Multipliers & Mode -->
+                <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                    <div style="display: flex; gap: 6px;">
+                        <button class="nav-btn active" style="font-size: 10px; padding: 6px 12px;">x1.5</button>
+                        <button class="nav-btn" style="font-size: 10px; padding: 6px 12px;">x2</button>
+                        <button class="nav-btn" style="font-size: 10px; padding: 6px 12px;">x3</button>
+                    </div>
+                    <div style="font-size: 11px; color: #06b6d4; font-weight: 700;">
+                        <i class="fa-solid fa-shield" style="color: #3b82f6;"></i> Синя зона: <span style="color:#fff;">35%</span> | Заход: <span style="color:#fff;">2% (1.2x-1.5x)</span>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 12px; background: rgba(5, 5, 15, 0.9); padding: 10px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.4);">
-                    <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 4px;">Сума ставки CC:</span>
-                    <input id="directBetInput" type="number" min="0" value="10" oninput="onBetOrPercentChange()" style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.5); padding: 8px; border-radius: 8px; color: #06b6d4; font-family: 'Orbitron', sans-serif; font-weight: 700; outline: none;">
+                <!-- Center Wheel Arena -->
+                <div style="position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; margin: 20px 0;">
+                    <canvas id="wheelCanvas" width="240" height="240" style="border-radius: 50%; box-shadow: 0 0 35px rgba(6, 182, 212, 0.5);"></canvas>
+                    <div style="position: absolute; top: -8px; color: #facc15; font-size: 28px; filter: drop-shadow(0 0 8px #facc15);"><i class="fa-solid fa-caret-down"></i></div>
+                    <div style="position: absolute; text-align: center;">
+                        <span style="font-size: 10px; color: #94a3b8; display: block;">ШАНС</span>
+                        <span id="wheelChanceText" class="cosmo-head" style="font-size: 22px; color: #06b6d4;">50%</span>
+                    </div>
                 </div>
 
-                <button type="button" onclick="openInventorySelector()" class="cosmo-btn" style="margin-bottom: 12px; padding: 10px; font-size: 11px; background: linear-gradient(135deg, #059669, #047857);">
-                    <i class="fa-solid fa-backpack" style="margin-right: 6px;"></i> Взяти скін з інвентарю
-                </button>
-
-                <div id="selectedInventorySkinBox" style="background: rgba(5, 5, 15, 0.8); border: 1px dashed rgba(139, 92, 246, 0.4); border-radius: 12px; padding: 10px; text-align: center; margin-bottom: auto; display: none;">
-                    <span style="font-size: 9px; color: #94a3b8; display: block; font-weight: 700;">СТАВКА СКІНОМ:</span>
-                    <div id="selInvSkinName" style="font-size: 12px; font-weight: 700; color: #fff;">Назва</div>
-                    <div id="selInvSkinPrice" style="font-size: 11px; color: #06b6d4; font-family:'Orbitron', sans-serif;">0 CC</div>
-                    <button type="button" onclick="clearInventorySkinBet()" style="background: none; border: none; color: #ef4444; font-size: 10px; cursor: pointer; margin-top: 4px;">Скасувати скін</button>
-                </div>
-                
-                <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #94a3b8; font-size: 12px; border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px;">
-                    <i class="fa-solid fa-shield-halved" style="font-size: 24px; color: #8b5cf6; margin-bottom: 8px;"></i>
-                    <span>Оберіть ставку та відсоток для апгрейду майнкрафт-предмета!</span>
-                </div>
-
-                <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid rgba(139, 92, 246, 0.4); text-align: center; background: rgba(5, 5, 15, 0.9); padding: 12px; border-radius: 12px;">
-                    <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; letter-spacing: 1px;">ЗАГАЛЬНА СТАВКА</span>
-                    <div id="totalBet" class="cosmo-head" style="font-size: 26px; color: #06b6d4;">10 CC</div>
-                </div>
+                <!-- Action Button -->
+                <button id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="width: 100%; font-size: 16px; padding: 14px;">ПОКРАЩИТИ</button>
             </div>
 
-            <!-- Center: Wheel -->
-            <div class="glass-card" style="height: 580px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; position: relative;">
-                <div style="text-align: center; width: 100%;">
-                    <span id="targetBadge" style="font-size: 10px; background: rgba(139, 92, 246, 0.3); color: #06b6d4; padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(139, 92, 246, 0.5); text-transform: uppercase; font-weight: 700;">Шанс виграшу</span>
-                    <h2 id="targetName" class="cosmo-head" style="font-size: 22px; color: #fff; margin: 8px 0 0;">Оберіть предмет</h2>
-                </div>
-
-                <div style="display: flex; flex-direction: column; align-items: center; margin: auto;">
-                    <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 260px; height: 260px;">
-                        <canvas id="wheelCanvas" width="260" height="260" style="border-radius: 50%; box-shadow: 0 0 40px rgba(139, 92, 246, 0.7);"></canvas>
-                        <div style="position: absolute; top: -10px; color: #facc15; font-size: 32px; filter: drop-shadow(0 0 12px #facc15); z-index: 20;"><i class="fa-solid fa-caret-down"></i></div>
+            <!-- Right: Selectors (SkinHouse Style) -->
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- Ви віддаєте -->
+                <div class="glass-card">
+                    <h4 class="cosmo-head" style="font-size: 12px; color: #94a3b8; margin: 0 0 10px;">Ви віддаєте</h4>
+                    <div id="upgBetBox" style="background: rgba(5,5,15,0.7); border: 1px dashed rgba(139,92,246,0.4); border-radius: 12px; padding: 15px; text-align: center;">
+                        <span style="font-size: 12px; color: #fff;">Баланс CC: <b id="upgBalanceLabel" style="color: #06b6d4;">0 CC</b></span>
+                        <input id="upgCustomBet" type="number" value="10" min="1" oninput="updateUpgraderCalc()" style="width: 100%; margin-top: 10px; background: #030308; border: 1px solid rgba(139,92,246,0.5); padding: 8px; border-radius: 6px; color: #fff; text-align: center; font-family: 'Orbitron'; font-weight: 700; outline: none;">
                     </div>
                 </div>
 
-                <button type="button" id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="font-size: 18px; padding: 14px;">ПОКРАЩИТИ</button>
-            </div>
-
-            <!-- Right: Percent Slider -->
-            <div class="glass-card" style="height: 580px; display: flex; flex-direction: column;">
-                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.4); padding-bottom: 8px;">
-                    <i class="fa-solid fa-sliders" style="margin-right: 6px;"></i> Вибір відсотка (1% - 75%)
-                </h3>
-                
-                <div style="background: rgba(5, 5, 15, 0.8); padding: 20px; border-radius: 16px; border: 1px solid rgba(139, 92, 246, 0.4); text-align: center; display: flex; flex-direction: column; gap: 15px;">
-                    <div>
-                        <span style="font-size: 11px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 5px;">ОБРАНИЙ ШАНС:</span>
-                        <span id="percentDisplay" class="cosmo-head" style="font-size: 36px; color: #06b6d4;">50%</span>
+                <!-- Ви отримуєте -->
+                <div class="glass-card" style="flex: 1; display: flex; flex-direction: column;">
+                    <h4 class="cosmo-head" style="font-size: 12px; color: #94a3b8; margin: 0 0 10px;">Ви отримуєте</h4>
+                    <div id="upgTargetBox" style="background: rgba(5,5,15,0.7); border: 1px solid rgba(139,92,246,0.3); border-radius: 12px; padding: 15px; text-align: center; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <div id="targetItemName" style="font-size: 14px; font-weight: 700; color: #fff;">Оберіть ставку</div>
+                        <div id="targetItemPrice" style="font-size: 12px; color: #06b6d4; font-family: 'Orbitron';">0 CC</div>
                     </div>
-
-                    <input id="percentRangeInput" type="range" min="1" max="75" value="50" oninput="onPercentSliderInput()" style="width: 100%; accent-color: #06b6d4; cursor: pointer;">
-
-                    <div style="display: flex; gap: 8px;">
-                        <input id="percentNumInput" type="number" min="1" max="75" value="50" oninput="onPercentNumInput()" style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.5); padding: 10px; border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 700; text-align: center; outline: none;">
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; background: rgba(20, 20, 40, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
-                    <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block; margin-bottom: 5px;">ЦІЛЬОВИЙ ПРЕДМЕТ:</span>
-                    <div id="matchedSkinBox" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px;">
-                        <img id="matchedSkinImg" src="https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png" style="width: 36px; height: 36px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
-                        <div style="text-align: left;">
-                            <div id="matchedSkinName" style="font-size: 13px; font-weight: 700; color: #fff;">Назва</div>
-                            <div id="matchedSkinPrice" style="font-size: 11px; color: #06b6d4; font-weight: 700; font-family: 'Orbitron', sans-serif;">0 CC</div>
-                        </div>
-                    </div>
-                    <div id="warningText" style="font-size: 11px; color: #ef4444; font-weight: 600; min-height: 15px;"></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: SHOP -->
-        <div id="section-shop" class="hidden" style="max-width: 900px; margin: 0 auto;">
-            <div class="glass-card">
-                <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 10px;">
-                    <i class="fa-solid fa-store" style="margin-right: 8px;"></i> Магазин Minecraft предметів
-                </h3>
-                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Купуйте броню, мечі та зброю за Cosmic Coins.</p>
-                <div id="shopCatalogGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;"></div>
-            </div>
-        </div>
-
-        <!-- TAB 3: CASES -->
-        <div id="section-cases" class="hidden" style="max-width: 900px; margin: 0 auto;">
-            <div class="glass-card" style="text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <h3 class="cosmo-head" style="font-size: 22px; color: #06b6d4; margin-bottom: 25px;">Ексклюзивні кейси</h3>
-                
-                <!-- Кейс "Бомженя" дизайн -->
-                <div style="background: linear-gradient(135deg, rgba(20, 20, 35, 0.95), rgba(10, 10, 20, 0.95)); border: 2px solid rgba(139, 92, 246, 0.6); border-radius: 20px; padding: 25px; width: 280px; box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); display: flex; flex-direction: column; align-items: center; gap: 15px; position: relative;">
-                    <div style="position: absolute; top: 12px; right: 15px; background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.5); padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700;">LEGENDARY</div>
-                    
-                    <div style="position: relative; width: 140px; height: 130px; display: flex; align-items: center; justify-content: center; margin-top: 10px;">
-                        <div style="font-size: 55px; position: absolute; bottom: 10px; z-index: 2; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.8));">🦹‍♂️</div>
-                        <div style="width: 110px; height: 80px; background: linear-gradient(to bottom, #475569, #1e293b); border: 3px solid #64748b; border-radius: 8px 8px 12px 12px; position: absolute; bottom: 0; z-index: 3; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);">
-                            <span style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 900; color: #06b6d4; text-shadow: 0 0 6px rgba(6,182,212,0.8); transform: rotate(-5deg);">CosmDrop</span>
-                        </div>
-                        <div style="width: 124px; height: 14px; background: #64748b; border-radius: 4px; position: absolute; bottom: 78px; z-index: 4; transform: rotate(-12deg); left: -5px;"></div>
-                    </div>
-
-                    <div>
-                        <h4 class="cosmo-head" style="font-size: 18px; color: #fff; margin: 0 0 5px;" id="caseTitleDisplay">Кейс "Бомженя"</h4>
-                        <span style="font-size: 12px; color: #06b6d4; font-family:'Orbitron', sans-serif; font-weight: 700;" id="casePriceDisplay">100 CC</span>
-                    </div>
-
-                    <button type="button" onclick="openCaseModal()" class="cosmo-btn" style="padding: 10px; font-size: 11px;">Відкрити кейс</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: PROFILE -->
-        <div id="section-profile" class="hidden" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px;">
+        <!-- TAB: PROFILE -->
+        <div id="section-profile" class="hidden">
             <div class="glass-card" style="display: flex; flex-direction: column; gap: 20px;">
-                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 20px; flex-wrap: wrap; gap: 15px;">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <img id="profAvatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid #06b6d4; object-fit: cover;" onerror="this.src='https://i.imgur.com/8Km9tLL.png'">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(139,92,246,0.3); padding-bottom: 15px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img id="profAvatar" src="https://i.imgur.com/8Km9tLL.png" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #06b6d4;">
                         <div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span id="profPrefix" style="background: rgba(139, 92, 246, 0.3); color: #06b6d4; border: 1px solid rgba(139, 92, 246, 0.5); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; display: none;">[322]</span>
-                                <h2 id="profName" class="cosmo-head" style="font-size: 24px; color: #fff; margin: 0;">Гравець</h2>
-                            </div>
-                            <p style="font-size: 12px; color: #06b6d4; margin: 5px 0 0; font-weight: 700;">Статус: <span id="profStatus" style="color: #22c55e;">Авторизовано через Steam</span></p>
+                            <h2 id="profName" class="cosmo-head" style="font-size: 20px; color: #fff; margin: 0;">Гість</h2>
+                            <span style="font-size: 12px; color: #06b6d4;">ID: <b id="profId">---</b></span>
                         </div>
                     </div>
-                    <div style="display: flex; gap: 10px;">
-                        <button type="button" onclick="openEditProfileModal()" class="cosmo-btn" style="width: auto; padding: 10px 18px; font-size: 11px; background: linear-gradient(135deg, #0284c7, #0369a1);"><i class="fa-solid fa-pen" style="margin-right: 6px;"></i> Авторизація Steam</button>
-                        <button type="button" onclick="logoutSteam()" class="cosmo-btn" style="width: auto; padding: 10px 18px; font-size: 11px; background: linear-gradient(135deg, #ef4444, #991b1b);"><i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Вийти</button>
-                    </div>
+                    <button onclick="openSteamAuth()" class="cosmo-btn" style="padding: 8px 16px; font-size: 11px;"><i class="fa-brands fa-steam"></i> Авторизація Steam</button>
                 </div>
 
-                <!-- Блок поповнення -->
-                <div style="background: rgba(5, 5, 15, 0.8); padding: 18px; border-radius: 16px; border: 1px solid rgba(6, 182, 212, 0.4);">
-                    <h3 class="cosmo-head" style="font-size: 14px; color: #06b6d4; margin: 0 0 10px;">
-                        <i class="fa-solid fa-wallet" style="margin-right: 6px;"></i> Поповнення балансу (Депозит через Minecraft)
-                    </h3>
-                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 12px;">Оберіть або введіть суму, відправте ресурси адміністратору в грі та створіть заявку на зарахування:</p>
-                    
-                    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-                        <button type="button" onclick="setDepositAmount(500)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">500 CC</button>
-                        <button type="button" onclick="setDepositAmount(1000)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">1000 CC</button>
-                        <button type="button" onclick="setDepositAmount(1500)" class="cosmo-btn" style="flex: 1; padding: 8px; background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">1500 CC</button>
+                <div>
+                    <h3 class="cosmo-head" style="font-size: 14px; color: #06b6d4; margin-bottom: 10px;">Інвентар предметів</h3>
+                    <div id="inventoryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; max-height: 250px; overflow-y: auto;">
+                        <p style="color: #94a3b8; font-size: 12px; grid-column: span 3; text-align: center;">Інвентар порожній.</p>
                     </div>
-
-                    <div style="display: flex; gap: 8px;">
-                        <input id="customDepositInput" type="number" placeholder="Інша сума CC..." style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.5); padding: 10px; border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 700; outline: none;">
-                        <button type="button" onclick="requestDeposit()" class="cosmo-btn" style="width: auto; padding: 10px 20px;">Подати заявку</button>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
-                    <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">ДЕПОЗИТІВ</span>
-                        <span id="statDeposits" class="cosmo-head" style="font-size: 20px; color: #fff;">0</span>
-                    </div>
-                    <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">АПГРЕЙДІВ</span>
-                        <span id="statUpgrades" class="cosmo-head" style="font-size: 20px; color: #fff;">0</span>
-                    </div>
-                    <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">НАЙКРАЩИЙ ДРОП</span>
-                        <span id="statBestDrop" class="cosmo-head" style="font-size: 14px; color: #ec4899; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">Ще немає</span>
-                    </div>
-                    <div style="background: rgba(5, 5, 15, 0.7); padding: 15px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
-                        <span style="font-size: 10px; color: #94a3b8; font-weight: 700; display: block;">ВИВЕДЕНО</span>
-                        <span id="statWithdrawn" class="cosmo-head" style="font-size: 20px; color: #06b6d4;">0 CC</span>
-                    </div>
-                </div>
-
-                <button type="button" onclick="openWithdrawModal()" class="cosmo-btn">Створити запит на вивід</button>
-            </div>
-
-            <!-- CHAT -->
-            <div class="glass-card">
-                <h3 class="cosmo-head" style="font-size: 16px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 10px;">
-                    <i class="fa-solid fa-comments" style="margin-right: 8px;"></i> Чат підтримки з Адміністратором
-                </h3>
-                <div id="playerChatBox" style="height: 150px; background: #030308; border-radius: 8px; padding: 10px; overflow-y: auto; font-size: 12px; margin-bottom: 10px; border: 1px solid rgba(139, 92, 246, 0.3); display: flex; flex-direction: column; gap: 6px;">
-                    <div style="color: #94a3b8;">Система: Тут відображатимуться повідомлення від адміністратора.</div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <input id="playerChatInput" type="text" placeholder="Написати адміну..." style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 10px; border-radius: 8px; color: #fff; outline: none;">
-                    <button type="button" onclick="playerSendMsg()" class="cosmo-btn" style="width: auto; padding: 10px 18px;">Надіслати</button>
-                </div>
-            </div>
-
-            <!-- INVENTORY -->
-            <div class="glass-card">
-                <h3 class="cosmo-head" style="font-size: 16px; color: #06b6d4; margin: 0 0 15px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); padding-bottom: 10px;">
-                    <i class="fa-solid fa-box-archive" style="margin-right: 8px;"></i> Ваш інвентар
-                </h3>
-                <div id="inventoryGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-height: 350px; overflow-y: auto;">
-                    <p style="color: #94a3b8; font-size: 13px; grid-column: span 3; text-align: center; margin: 20px 0;">Ваш інвентар порожній.</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- CASE OPENING MODAL -->
-    <div id="caseModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 450px; width: 100%; text-align: center; position: relative;">
-            <button type="button" onclick="closeCaseModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #94a3b8; font-size: 18px;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin-bottom: 15px;" id="modalCaseName">Кейс "Бомженя"</h3>
-            <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Можливі предмети у кейсі:</p>
-            
-            <div id="caseItemsPreview" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; max-height: 200px; overflow-y: auto;"></div>
-
-            <button type="button" onclick="spinCase()" class="cosmo-btn" id="spinCaseBtn">Відкрити за <span id="modalCasePrice">100</span> CC</button>
-        </div>
-    </div>
-
-    <!-- STEAM AUTH MODAL (Справжній дизайн Steam OpenID) -->
-    <div id="steamLoginModal" class="modal hidden">
-        <div style="background: #171a21; border: 1px solid #2a475e; border-radius: 4px; max-width: 480px; width: 100%; padding: 24px; box-shadow: 0 15px 50px rgba(0,0,0,0.9); font-family: 'Motiva Sans', Arial, sans-serif; position: relative; color: #c6d4df;">
-            <button type="button" onclick="closeSteamLoginModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #888; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid #2a475e; padding-bottom: 12px;">
-                <i class="fa-brands fa-steam" style="font-size: 32px; color: #66c0f4;"></i>
-                <div>
-                    <h3 style="margin: 0; color: #ffffff; font-size: 15px; font-weight: bold; letter-spacing: 0.5px;">STEAM OPENID AUTHENTICATION</h3>
-                    <span style="font-size: 11px; color: #888;">Офіційний інтерфейс авторизації Valve</span>
-                </div>
-            </div>
-
-            <p style="font-size: 13px; color: #c6d4df; margin-bottom: 20px; line-height: 1.5;">
-                Ви намагаєтеся увійти на зовнішній сайт <b>CosmDrop</b> через свій аккаунт Steam. Сайт запитує безпечний підтверджений цифровий ідентифікатор SteamID.
-            </p>
-
-            <div style="background: #111318; border: 1px solid #2a475e; padding: 12px; border-radius: 3px; margin-bottom: 20px; font-size: 12px; color: #66c0f4;">
-                <i class="fa-solid fa-shield-halved" style="margin-right: 6px;"></i> Ваші дані (пароль, пошта) ніколи не передаються стороннім сайтам.
-            </div>
-
-            <div style="display: flex; gap: 10px;">
-                <button type="button" onclick="redirectToRealSteamLogin()" style="flex: 1; background: linear-gradient(to right, #47bfff 0%, #1a9fff 100%); color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 2px; cursor: pointer; font-size: 13px; text-transform: uppercase; box-shadow: 0 0 10px rgba(26,159,255,0.4);">Перейти до входу через Steam</button>
-                <button type="button" onclick="closeSteamLoginModal()" style="background: #2a475e; color: #c6d4df; border: none; padding: 12px 20px; border-radius: 2px; cursor: pointer; font-size: 13px;">Скасувати</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- INVENTORY SELECTOR MODAL -->
-    <div id="inventorySelectorModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 500px; width: 100%; position: relative;">
-            <button type="button" onclick="closeInventorySelector()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin: 0 0 15px;">Оберіть скін із інвентарю</h3>
-            <div id="modalInventoryList" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 300px; overflow-y: auto; margin-bottom: 15px;"></div>
-        </div>
-    </div>
-
-    <!-- CUSTOM SITE MODAL -->
-    <div id="customModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 400px; width: 100%; text-align: center; position: relative;">
-            <h3 id="modalTitle" class="cosmo-head" style="font-size: 18px; color: #06b6d4; margin: 0 0 10px;">Повідомлення</h3>
-            <p id="modalMessage" style="font-size: 13px; color: #e2e8f0; margin-bottom: 20px;"></p>
-            <div id="modalInputContainer" style="margin-bottom: 15px;" class="hidden">
-                <input id="modalInputField" type="text" style="width: 100%; background: #030308; border: 1px solid rgba(139, 92, 246, 0.5); padding: 10px; border-radius: 8px; color: #fff; font-family: 'Orbitron', sans-serif; font-weight: 700; text-align: center; outline: none;">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button type="button" id="modalCancelBtn" onclick="closeCustomModal()" class="cosmo-btn" style="background: rgba(139, 92, 246, 0.3); border: 1px solid #8b5cf6;">Скасувати</button>
-                <button type="button" id="modalOkBtn" class="cosmo-btn">OK</button>
-            </div>
-        </div>
-    </div>
-
     <!-- ADMIN MODAL -->
     <div id="adminModal" class="modal hidden">
-        <div class="glass-card" style="max-width: 750px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;">
-            <button type="button" onclick="closeAdmin()" style="position: absolute; top: 18px; right: 18px; background: none; border: none; color: #94a3b8; font-size: 20px;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 22px; color: #06b6d4; margin: 0 0 15px;">Адмін-Панель (ID: 777)</h3>
+        <div class="glass-card" style="max-width: 650px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto;">
+            <button onclick="closeAdmin()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin-bottom: 15px;">Адмін-Панель (Керування кейсами та шансами)</h3>
             
-            <!-- Керування кейсами -->
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Керування кейсом "Бомженя"</h4>
+            <div style="margin-bottom: 15px; background: rgba(5,5,15,0.7); padding: 12px; border-radius: 10px;">
+                <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Редагувати кейс "Бомженя"</h4>
                 <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                    <input id="adminCaseNameInput" type="text" placeholder="Назва кейсу" style="flex: 2; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
-                    <input id="adminCasePriceInput" type="number" placeholder="Ціна CC" style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
-                    <button type="button" onclick="adminSaveCaseConfig()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Зберегти</button>
+                    <input id="adminCaseName" type="text" placeholder="Назва кейсу" style="flex: 2; background: #030308; border: 1px solid rgba(139,92,246,0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
+                    <input id="adminCasePrice" type="number" placeholder="Ціна CC" style="flex: 1; background: #030308; border: 1px solid rgba(139,92,246,0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
+                    <button onclick="saveAdminCase()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px;">Зберегти</button>
                 </div>
-                <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">Предмети та шанси в кейсі (% випадіння):</div>
-                <div id="adminCaseItemsList" style="max-height: 140px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;"></div>
+                <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">Предмети та шанси (% випадіння):</div>
+                <div id="adminItemsList" style="display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto;"></div>
             </div>
 
-            <!-- Зарахування коїнів -->
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Зарахувати коїни по ID</h4>
-                <div style="display: flex; gap: 8px;">
-                    <input id="adminTargetId" type="text" placeholder="ID гравця" style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
-                    <input id="adminAmount" type="number" value="100" style="width: 100px; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
-                    <button type="button" onclick="adminGrantCoins()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Видати</button>
-                </div>
-            </div>
-
-            <!-- Видача префіксів -->
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Видати префікс гравцю по ID</h4>
-                <div style="display: flex; gap: 8px;">
-                    <input id="adminPrefixId" type="text" placeholder="ID гравця" style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
-                    <input id="adminPrefixText" type="text" placeholder="Префікс (напр. [VIP])" style="flex: 1; background: #030308; border: 1px solid rgba(139, 92, 246, 0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
-                    <button type="button" onclick="adminGrantPrefix()" class="cosmo-btn" style="width: auto; padding: 8px 14px;">Встановити</button>
-                </div>
-            </div>
-
-            <!-- Депозити -->
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Запити на поповнення (Депозити)</h4>
-                <div id="adminDepositsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
-                    <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на поповнення</p>
-                </div>
-            </div>
-
-            <!-- Вивід -->
-            <div style="background: rgba(5, 5, 15, 0.6); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(139, 92, 246, 0.3);">
-                <h4 style="margin: 0 0 8px; font-size: 14px; color: #fff;">Запити на вивід</h4>
-                <div id="adminWithdrawalsList" style="max-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
-                    <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 10px 0;">Немає запитів на вивід</p>
+            <div style="background: rgba(5,5,15,0.7); padding: 12px; border-radius: 10px;">
+                <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Додати новий предмет у кейс</h4>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <input id="newItName" type="text" placeholder="Назва предмета" style="flex: 2; background: #030308; border: 1px solid rgba(139,92,246,0.4); padding: 8px; border-radius: 6px; color: #fff; outline: none;">
+                    <input id="newItPrice" type="number" placeholder="Ціна CC" style="flex: 1; background: #030308; border: 1px solid rgba(139,92,246,0.4); padding: 8px; border-radius: 6px; color: #06b6d4; font-weight: 700; outline: none;">
+                    <input id="newItChance" type="number" placeholder="Шанс %" style="flex: 1; background: #030308; border: 1px solid rgba(139,92,246,0.4); padding: 8px; border-radius: 6px; color: #f59e0b; font-weight: 700; outline: none;">
+                    <button onclick="addNewCaseItem()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px;">Додати</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC -->
+    <!-- STEAM LOGIN MODAL -->
+    <div id="steamModal" class="modal hidden">
+        <div style="background: #171a21; border: 1px solid #2a475e; border-radius: 6px; width: 400px; padding: 25px; color: #c6d4df; position: relative;">
+            <button onclick="closeSteamAuth()" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: #888; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="margin: 0 0 15px; color: #fff; font-size: 16px;"><i class="fa-brands fa-steam" style="color:#66c0f4"></i> Авторизація Steam</h3>
+            <input id="steamNickInput" type="text" placeholder="Ваш нікнейм..." style="width: 100%; background: #262c3a; border: 1px solid #316282; padding: 10px; border-radius: 4px; color: #fff; margin-bottom: 15px; outline: none;">
+            <button onclick="confirmSteamLogin()" class="cosmo-btn" style="width: true; width: 100%; background: linear-gradient(to right, #47bfff, #1a9fff);">Увійти</button>
+        </div>
+    </div>
+
+    <!-- ALERT MODAL -->
+    <div id="alertModal" class="modal hidden">
+        <div class="glass-card" style="width: 350px; text-align: center;">
+            <h3 id="alertTitle" class="cosmo-head" style="font-size: 16px; color: #06b6d4; margin-bottom: 10px;">Повідомлення</h3>
+            <p id="alertMsg" style="font-size: 13px; color: #e2e8f0; margin-bottom: 20px;"></p>
+            <button onclick="document.getElementById('alertModal').classList.add('hidden')" class="cosmo-btn" style="width: 100%;">OK</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
     <script>
         let currentUser = JSON.parse(localStorage.getItem('cosm_user')) || null;
+        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 1000.0;
+        let inventory = JSON.parse(localStorage.getItem('cosm_inventory')) || [];
         let isAdmin = localStorage.getItem('cosm_is_admin') === 'true';
 
-        const defaultAvatar = 'https://i.imgur.com/8Km9tLL.png';
-
-        let balance = parseFloat(localStorage.getItem('cosm_cc')) || 0.0;
-        let userStats = JSON.parse(localStorage.getItem('cosm_stats')) || {
-            depositsCount: 0,
-            upgradesCount: 0,
-            bestDrop: 'Ще немає',
-            totalWithdrawn: 0
-        };
-
-        let inventory = JSON.parse(localStorage.getItem('cosm_inventory')) || [];
-        let withdrawals = JSON.parse(localStorage.getItem('cosm_withdrawals')) || [];
-        let deposits = JSON.parse(localStorage.getItem('cosm_deposits')) || [];
-        let chats = JSON.parse(localStorage.getItem('cosm_chats')) || {};
-        let userPrefixes = JSON.parse(localStorage.getItem('cosm_prefixes')) || {};
-
+        // Повністю очищено старі предмети, залишено стартовий динамічний кейс
         let caseConfig = JSON.parse(localStorage.getItem('cosm_case_config')) || {
             name: 'Кейс "Бомженя"',
             price: 100,
             items: [
-                { id: '1', name: 'Залізний меч', price: 25, chance: 50, img: 'https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png' },
-                { id: '2', name: 'Алмазна кірка', price: 70, chance: 30, img: 'https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png' },
-                { id: '3', name: 'Незеритовий нагрудник', price: 180, chance: 15, img: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE2.png' },
-                { id: '5', name: 'Елітри', price: 1200, chance: 5, img: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png' }
+                { id: '1', name: 'Малий кристалл', price: 40, chance: 60, img: 'https://minecraft.wiki/images/Diamond_JE3_BE2.png' },
+                { id: '2', name: 'Космічний меч', price: 220, chance: 35, img: 'https://minecraft.wiki/images/Diamond_Sword_JE2_BE2.png' },
+                { id: '3', name: 'Зірка Галактики', price: 900, chance: 5, img: 'https://minecraft.wiki/images/Nether_Star_JE1_BE1.png' }
             ]
         };
 
         let currentPercent = 50;
         let targetItem = null;
-        let selectedInventorySkin = null;
         let isSpinning = false;
-        let upgradeSpeed = 'slow';
 
-        const dummyItems = [
-            { id: '1', name: 'Залізний меч', price: 25, img: 'https://minecraft.wiki/images/Iron_Sword_JE2_BE2.png', color: '#94a3b8' },
-            { id: '2', name: 'Алмазна кірка', price: 70, img: 'https://minecraft.wiki/images/Diamond_Pickaxe_JE3_BE3.png', color: '#06b6d4' },
-            { id: '3', name: 'Незеритовий нагрудник', price: 180, img: 'https://minecraft.wiki/images/Netherite_Chestplate_JE2_BE2.png', color: '#8b5cf6' },
-            { id: '4', name: 'Золоте яблуко', price: 450, img: 'https://minecraft.wiki/images/Golden_Apple_JE2_BE2.png', color: '#f59e0b' },
-            { id: '5', name: 'Елітри', price: 1200, img: 'https://minecraft.wiki/images/Elytra_JE2_BE2.png', color: '#ec4899' },
-            { id: '6', name: 'Зірка Нетеру', price: 3000, img: 'https://minecraft.wiki/images/Nether_Star_JE1_BE1.png', color: '#e11d48' }
-        ];
-
-        function showCustomAlert(title, message) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalMessage').innerText = message;
-            document.getElementById('modalInputContainer').classList.add('hidden');
-            document.getElementById('modalCancelBtn').classList.add('hidden');
-            let okBtn = document.getElementById('modalOkBtn');
-            okBtn.innerText = "OK";
-            okBtn.onclick = closeCustomModal;
-            document.getElementById('customModal').classList.remove('hidden');
-        }
-
-        function showCustomPrompt(title, message, callback) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalMessage').innerText = message;
-            document.getElementById('modalInputContainer').classList.remove('hidden');
-            document.getElementById('modalCancelBtn').classList.remove('hidden');
-            let inputField = document.getElementById('modalInputField');
-            inputField.value = "";
-            let okBtn = document.getElementById('modalOkBtn');
-            okBtn.innerText = "Підтвердити";
-            okBtn.onclick = function() {
-                let val = inputField.value;
-                closeCustomModal();
-                if(callback) callback(val);
-            };
-            document.getElementById('customModal').classList.remove('hidden');
-            setTimeout(() => inputField.focus(), 100);
-        }
-
-        function closeCustomModal() {
-            document.getElementById('customModal').classList.add('hidden');
-        }
-
-        function openSteamLoginModal() {
-            document.getElementById('steamLoginModal').classList.remove('hidden');
-        }
-
-        function closeSteamLoginModal() {
-            document.getElementById('steamLoginModal').classList.add('hidden');
-        }
-
-        function openEditProfileModal() {
-            openSteamLoginModal();
-        }
-
-        // РЕАЛЬНИЙ РЕДИРЕКТ НА ОФІЦІЙНИЙ САЙТ STEAM ДЛЯ АВТОРИЗАЦІЇ
-        function redirectToRealSteamLogin() {
-            closeSteamLoginModal();
-            // Симулюємо успішний перехід на реальний Steam OpenID (або робимо справжній редирект)
-            // Оскільки це локальний файл index.html без бекенду, ми генеруємо реальний статус авторизованого гравця Steam:
-            let steamRandomId = Math.floor(76561198000000000 + Math.random() * 90000000);
-            currentUser = {
-                id: steamRandomId.toString().slice(-5),
-                name: "Steam_User_" + Math.floor(100 + Math.random() * 900),
-                avatar: "https://avatars.steamstatic.com/c85672d5b62b14421b93f1f3a61f5f3e098a58f4_full.jpg"
-            };
-            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-            updateUI();
-            updateProfileUI();
-            showCustomAlert("Успіх Steam!", "Ви успішно авторизувались через офіційну службу Steam OpenID!");
-        }
-
-        function setUpgradeSpeed(speed) {
-            upgradeSpeed = speed;
-            document.getElementById('upg-speed-fast').classList.toggle('active', speed === 'fast');
-            document.getElementById('upg-speed-slow').classList.toggle('active', speed === 'slow');
+        function showAlert(title, msg) {
+            document.getElementById('alertTitle').innerText = title;
+            document.getElementById('alertMsg').innerText = msg;
+            document.getElementById('alertModal').classList.remove('hidden');
         }
 
         function switchTab(tab) {
-            ['upgrader', 'shop', 'cases', 'profile'].forEach(t => {
-                let section = document.getElementById(`section-${t}`);
-                if(section) section.classList.add('hidden');
+            ['cases', 'upgrader', 'profile'].forEach(t => {
+                let sec = document.getElementById(`section-${t}`);
+                if(sec) sec.classList.add('hidden');
                 let btn = document.getElementById(`tab-btn-${t}`);
                 if(btn) btn.classList.remove('active');
             });
-            let targetSec = document.getElementById(`section-${tab}`);
-            if(targetSec) targetSec.classList.remove('hidden');
-            let activeBtn = document.getElementById(`tab-btn-${tab}`);
-            if(activeBtn) activeBtn.classList.add('active');
-
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-btn-${tab}`).classList.add('active');
+            if(tab === 'cases') renderCases();
+            if(tab === 'upgrader') updateUpgraderCalc();
             if(tab === 'profile') updateProfileUI();
-            if(tab === 'shop') renderShopCatalog();
-            if(tab === 'cases') updateCaseDisplay();
-        }
-
-        function updateCaseDisplay() {
-            document.getElementById('caseTitleDisplay').innerText = caseConfig.name;
-            document.getElementById('casePriceDisplay').innerText = `${caseConfig.price} CC`;
-        }
-
-        function openCaseModal() {
-            document.getElementById('modalCaseName').innerText = caseConfig.name;
-            document.getElementById('modalCasePrice').innerText = caseConfig.price;
-            
-            const preview = document.getElementById('caseItemsPreview');
-            preview.innerHTML = '';
-            caseConfig.items.forEach(it => {
-                let div = document.createElement('div');
-                div.style.cssText = "background: rgba(5,5,15,0.8); border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 8px; text-align: center;";
-                div.innerHTML = `
-                    <img src="${it.img}" style="width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated;" onerror="this.src='${defaultAvatar}'">
-                    <div style="font-size: 10px; font-weight: 700; color: #fff; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${it.name}</div>
-                    <div style="font-size: 9px; color: #06b6d4;">${it.price} CC (${it.chance}%)</div>
-                `;
-                preview.appendChild(div);
-            });
-            document.getElementById('caseModal').classList.remove('hidden');
-        }
-
-        function closeCaseModal() {
-            document.getElementById('caseModal').classList.add('hidden');
-        }
-
-        function spinCase() {
-            if(!currentUser) { openSteamLoginModal(); closeCaseModal(); return; }
-            if(balance < caseConfig.price) {
-                showCustomAlert("Помилка", "Недостатньо Cosmic Coins для відкриття кейсу!");
-                return;
-            }
-            balance -= caseConfig.price;
-            updateUI();
-
-            let rand = Math.random() * 100;
-            let cumulative = 0;
-            let wonItem = caseConfig.items[0];
-
-            for(let it of caseConfig.items) {
-                cumulative += it.chance;
-                if(rand <= cumulative) {
-                    wonItem = it;
-                    break;
-                }
-            }
-
-            let reward = { ...wonItem, uniqueId: Date.now() + Math.random() };
-            inventory.push(reward);
-
-            if(userStats.bestDrop === 'Ще немає' || reward.price > dummyItems.find(i => i.name === userStats.bestDrop)?.price || 0) {
-                userStats.bestDrop = reward.name;
-            }
-
-            updateUI();
-            closeCaseModal();
-            showCustomAlert("Виграш у кейсі!", `🎉 Вітаємо! З кейсу "Бомженя" вам випало: ${wonItem.name} (${wonItem.price} CC)!`);
         }
 
         function updateUI() {
-            let activeBet = getActiveBet();
             document.getElementById('balCoins').innerText = `${balance.toFixed(0)} CC`;
-            document.getElementById('totalBet').innerText = `${activeBet.toFixed(0)} CC`;
             localStorage.setItem('cosm_cc', balance);
-            localStorage.setItem('cosm_stats', JSON.stringify(userStats));
             localStorage.setItem('cosm_inventory', JSON.stringify(inventory));
-            localStorage.setItem('cosm_chats', JSON.stringify(chats));
-            localStorage.setItem('cosm_prefixes', JSON.stringify(userPrefixes));
             localStorage.setItem('cosm_case_config', JSON.stringify(caseConfig));
 
-            const profileArea = document.getElementById('userProfileArea');
+            let area = document.getElementById('userNavbarArea');
             if(currentUser) {
-                let safeAvatar = currentUser.avatar ? currentUser.avatar : defaultAvatar;
-                profileArea.innerHTML = `
-                    <img src="${safeAvatar}" onerror="this.src='${defaultAvatar}'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #66c0f4; object-fit: cover;">
-                    <div style="text-align: left; line-height: 1.1;">
-                        <span style="font-size: 11px; font-weight: 700; color: #fff; display: block; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${currentUser.name}</span>
-                        <span style="font-size: 9px; color: #66c0f4;"><i class="fa-brands fa-steam"></i> ID: #${currentUser.id}</span>
-                    </div>
-                `;
+                area.innerText = currentUser.name;
             } else {
-                profileArea.innerHTML = `
-                    <button type="button" onclick="openSteamLoginModal()" class="cosmo-btn" style="padding: 8px 14px; font-size: 11px; background: linear-gradient(135deg, #171a21, #2a475e);"><i class="fa-brands fa-steam" style="margin-right: 6px;"></i> Увійти через Steam</button>
-                `;
+                area.innerText = 'Гість';
             }
         }
 
-        function getActiveBet() {
-            if(selectedInventorySkin) {
-                return selectedInventorySkin.price;
+        /* --- CASES --- */
+        function renderCases() {
+            let grid = document.getElementById('casesGrid');
+            grid.innerHTML = `
+                <div style="background: rgba(20,20,35,0.8); border: 2px solid rgba(139,92,246,0.5); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <div style="font-size: 45px;">🦹‍♂️</div>
+                    <h3 class="cosmo-head" style="font-size: 16px; color: #fff; margin: 0;">${caseConfig.name}</h3>
+                    <span style="font-size: 13px; color: #06b6d4; font-family: 'Orbitron'; font-weight: 700;">${caseConfig.price} CC</span>
+                    <button onclick="openCase()" class="cosmo-btn" style="width: 100%; padding: 10px; font-size: 11px;">Відкрити кейс</button>
+                </div>
+            `;
+        }
+
+        function openCase() {
+            if(!currentUser) { openSteamAuth(); return; }
+            if(balance < caseConfig.price) { showAlert("Помилка", "Недостатньо коштів на балансі!"); return; }
+            balance -= caseConfig.price;
+
+            let rand = Math.random() * 100;
+            let cumulative = 0;
+            let won = caseConfig.items[0];
+            for(let it of caseConfig.items) {
+                cumulative += it.chance;
+                if(rand <= cumulative) { won = it; break; }
             }
-            return parseFloat(document.getElementById('directBetInput').value) || 0;
+
+            inventory.push({ ...won, uniqueId: Date.now() });
+            updateUI();
+            showAlert("Виграш у кейсі! 🎉", `Вітаємо! Ви виграли ${won.name} (${won.price} CC)!`);
+            addLiveDrop(currentUser.name, won.name, won.price);
+        }
+
+        function addLiveDrop(user, item, price) {
+            let ticker = document.getElementById('liveTicker');
+            let div = document.createElement('div');
+            div.className = 'live-item';
+            div.innerHTML = `<b style="color:#06b6d4">${user}</b> вибив <span style="color:#fff">${item}</span> (${price} CC)`;
+            ticker.prepend(div);
+        }
+
+        /* --- UPGRADER (Blue Zone 35% & 2% Заход) --- */
+        function updateUpgraderCalc() {
+            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 10;
+            document.getElementById('upgBalanceLabel').innerText = `${balance.toFixed(0)} CC`;
+
+            // Підбираємо цільовий предмет на основі ставки
+            targetItem = { name: 'Кристал Галактики', price: bet * 2, img: '' };
+            document.getElementById('targetItemName').innerText = targetItem.name;
+            document.getElementById('targetItemPrice').innerText = `${targetItem.price} CC`;
+
+            document.getElementById('upgradeBtn').disabled = bet <= 0 || bet > balance;
+            drawWheel(0, 50);
+        }
+
+        function drawWheel(angle, percent) {
+            const canvas = document.getElementById('wheelCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, 240, 240);
+
+            ctx.save();
+            ctx.translate(120, 120);
+            ctx.rotate(angle);
+            ctx.translate(-120, -120);
+
+            // Базова заливка
+            ctx.beginPath(); ctx.arc(120, 120, 110, 0, Math.PI * 2); ctx.fillStyle = '#080816'; ctx.fill();
+            ctx.lineWidth = 4; ctx.strokeStyle = '#8b5cf6'; ctx.stroke();
+
+            // Синя зона (35%)
+            let blueAngle = (35 / 100) * (Math.PI * 2);
+            ctx.beginPath(); ctx.moveTo(120, 120);
+            ctx.arc(120, 120, 110, -Math.PI/2, blueAngle - Math.PI/2);
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.35)'; ctx.fill();
+
+            // Звичайна зона виграшу
+            let successAngle = (percent / 100) * (Math.PI * 2);
+            ctx.beginPath(); ctx.moveTo(120, 120);
+            ctx.arc(120, 120, 110, blueAngle - Math.PI/2, successAngle - Math.PI/2);
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.4)'; ctx.fill();
+
+            ctx.beginPath(); ctx.arc(120, 120, 75, 0, Math.PI * 2); ctx.fillStyle = '#05050f'; ctx.fill();
+            ctx.restore();
+        }
+
+        function startUpgrade() {
+            if(!currentUser) { openSteamAuth(); return; }
+            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 10;
+            if(bet > balance) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
+
+            balance -= bet;
+            updateUI();
+            document.getElementById('upgradeBtn').disabled = true;
+
+            let win = Math.random() * 100 < currentPercent;
+            let start = null;
+            let duration = 2500;
+            let targetRot = (Math.random() * 5 + 5) * 360;
+
+            function anim(timestamp) {
+                if(!start) start = timestamp;
+                let prog = Math.min((timestamp - start) / duration, 1);
+                let ease = 1 - Math.pow(1 - prog, 3);
+                drawWheel((targetRot * ease * Math.PI) / 180, currentPercent);
+
+                if(prog < 1) {
+                    requestAnimationFrame(anim);
+                } else {
+                    document.getElementById('upgradeBtn').disabled = false;
+                    if(win) {
+                        balance += targetItem.price;
+                        updateUI();
+                        showAlert("Перемога! ✨", `Апгрейд успішний! Ви виграли ${targetItem.price} CC!`);
+                    } else {
+                        // Механіка Заходу 2% (якщо заходить на 1.2x - 1.5x від ставки)
+                        let isZahod = Math.random() * 100 <= 2;
+                        if(isZahod) {
+                            let refund = bet * (1.2 + Math.random() * 0.3);
+                            balance += refund;
+                            updateUI();
+                            showAlert("Спрацював заход! ⚡", `Апгрейд не зайшов, але спрацював заход 2%! Повернено: ${refund.toFixed(1)} CC`);
+                        } else {
+                            showAlert("Програш", "Спробуйте ще раз!");
+                        }
+                    }
+                }
+            }
+            requestAnimationFrame(anim);
+        }
+
+        /* --- ADMIN PANEL --- */
+        function openAdmin() {
+            if(!isAdmin) {
+                let code = prompt("Введіть код адміністратора (11111):");
+                if(code === "11111") {
+                    isAdmin = true;
+                    localStorage.setItem('cosm_is_admin', 'true');
+                } else {
+                    showAlert("Доступ заборонено", "Невірний код!");
+                    return;
+                }
+            }
+            renderAdminData();
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
+
+        function renderAdminData() {
+            document.getElementById('adminCaseName').value = caseConfig.name;
+            document.getElementById('adminCasePrice').value = caseConfig.price;
+
+            let list = document.getElementById('adminItemsList');
+            list.innerHTML = '';
+            caseConfig.items.forEach((it, idx) => {
+                let div = document.createElement('div');
+                div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #030308; padding: 6px 10px; border-radius: 6px; font-size: 12px;";
+                div.innerHTML = `
+                    <span>${it.name} (${it.price} CC)</span>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <input id="adminChance_${idx}" type="number" value="${it.chance}" style="width: 60px; background: #151525; border: 1px solid rgba(139,92,246,0.4); padding: 4px; border-radius: 4px; color: #06b6d4; text-align: center; outline: none;">
+                        <span style="color:#94a3b8">%</span>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function saveAdminCase() {
+            caseConfig.name = document.getElementById('adminCaseName').value || caseConfig.name;
+            caseConfig.price = parseFloat(document.getElementById('adminCasePrice').value) || caseConfig.price;
+
+            caseConfig.items.forEach((it, idx) => {
+                let input = document.getElementById(`adminChance_${idx}`);
+                if(input) it.chance = parseFloat(input.value) || it.chance;
+            });
+
+            updateUI();
+            renderCases();
+            showAlert("Успіх", "Налаштування кейсу збережено!");
+        }
+
+        function addNewCaseItem() {
+            let name = document.getElementById('newItName').value.trim();
+            let price = parseFloat(document.getElementById('newItPrice').value);
+            let chance = parseFloat(document.getElementById('newItChance').value);
+
+            if(!name || !price || isNaN(chance)) { showAlert("Помилка", "Заповніть усі поля коректно!"); return; }
+            caseConfig.items.push({ id: Date.now().toString(), name, price, chance, img: 'https://minecraft.wiki/images/Diamond_JE3_BE2.png' });
+            
+            document.getElementById('newItName').value = '';
+            document.getElementById('newItPrice').value = '';
+            document.getElementById('newItChance').value = '';
+
+            renderAdminData();
+            renderCases();
+            showAlert("Успіх", "Новий предмет додано до кейсу!");
+        }
+
+        /* --- STEAM AUTH & PROFILE --- */
+        function openSteamAuth() { document.getElementById('steamModal').classList.remove('hidden'); }
+        function closeSteamAuth() { document.getElementById('steamModal').classList.add('hidden'); }
+
+        function confirmSteamLogin() {
+            let nick = document.getElementById('steamNickInput').value.trim() || "Steam_Player";
+            currentUser = { id: Math.floor(10000 + Math.random()*90000), name: nick };
+            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+            closeSteamAuth();
+            updateUI();
+            updateProfileUI();
+            showAlert("Успіх", "Ви успішно авторизувались через Steam!");
         }
 
         function updateProfileUI() {
-            let avatarImg = document.getElementById('profAvatar');
-            if(currentUser && currentUser.avatar) {
-                avatarImg.src = currentUser.avatar;
-            } else {
-                avatarImg.src = defaultAvatar;
+            if(currentUser) {
+                document.getElementById('profName').innerText = currentUser.name;
+                document.getElementById('profId').innerText = `#${currentUser.id}`;
             }
-            avatarImg.onerror = function() { this.src = defaultAvatar; };
-
-            document.getElementById('profName').innerText = currentUser ? currentUser.name : 'Гість';
-            
-            let prefixEl = document.getElementById('profPrefix');
-            if(currentUser && userPrefixes[currentUser.id]) {
-                prefixEl.innerText = userPrefixes[currentUser.id];
-                prefixEl.style.display = 'inline-block';
-            } else {
-                prefixEl.style.display = 'none';
-            }
-
-            document.getElementById('statDeposits').innerText = userStats.depositsCount;
-            document.getElementById('statUpgrades').innerText = userStats.upgradesCount;
-            document.getElementById('statBestDrop').innerText = userStats.bestDrop;
-            document.getElementById('statWithdrawn').innerText = `${userStats.totalWithdrawn.toFixed(0)} CC`;
-            renderInventory();
-            renderPlayerChat();
-        }
-
-        function logoutSteam() {
-            localStorage.removeItem('cosm_user');
-            currentUser = null;
-            updateUI();
-            switchTab('upgrader');
-            showCustomAlert("Вихід", "Ви вийшли з акаунта Steam.");
-        }
-
-        function openInventorySelector() {
-            if(!currentUser) { openSteamLoginModal(); return; }
+            let grid = document.getElementById('inventoryGrid');
             if(inventory.length === 0) {
-                showCustomAlert("Інвентар порожній", "У вас немає предметів у інвентарі, щоб поставити їх на апгрейд!");
+                grid.innerHTML = `<p style="color: #94a3b8; font-size: 12px; grid-column: span 3; text-align: center;">Інвентар порожній.</p>`;
                 return;
             }
-            const list = document.getElementById('modalInventoryList');
-            list.innerHTML = '';
+            grid.innerHTML = '';
             inventory.forEach((item, idx) => {
-                let div = document.createElement
+                let d = document.createElement('div');
+                d.style.cssText = "background: rgba(20,20,40,0.8); border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 10px; text-align: center;";
+                d.innerHTML = `
+                    <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
+                    <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron'">${item.price} CC</div>
+                    <button onclick="sellInventoryItem(${idx})" class="cosmo-btn" style="padding: 4px 8px; font-size: 9px; margin-top: 6px;">Продати</button>
+                `;
+                grid.appendChild(d);
+            });
+        }
+
+        function sellInventoryItem(idx) {
+            let it = inventory.splice(idx, 1)[0];
+            balance += it.price;
+            updateUI();
+            updateProfileUI();
+            showAlert("Продано", `Предмет продано за ${it.price} CC!`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            renderCases();
+            updateUpgraderCalc();
+        });
+    </script>
+</body>
+</html>
