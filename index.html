@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CosmDrop — Minecraft Edition</title>
+    <title>CosmDrop — SkinHouse Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -162,12 +162,24 @@
             100% { background-position: 200% 200%; }
         }
 
-        /* CASE ANIMATION */
-        .case-container {
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* CASE CATALOG CARD */
+        .case-card {
+            background: #13162d;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
         }
-        .case-container:hover {
-            transform: scale(1.03);
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: #06b6d4;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.2);
         }
 
         /* ROULETTE OPENING ANIMATION */
@@ -219,6 +231,50 @@
             text-align: center;
         }
 
+        /* UPGRADER SKINHOUSE STYLE */
+        .trash-bin-box {
+            width: 130px;
+            height: 130px;
+            background: #090b16;
+            border: 2px dashed rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .mc-select-card {
+            background: #090b16;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .mc-select-card:hover, .mc-select-card.selected {
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .quick-dep-btn {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            color: #06b6d4;
+            font-family: 'Orbitron';
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quick-dep-btn:hover {
+            background: rgba(6, 182, 212, 0.3);
+            color: #fff;
+        }
+
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 4px; }
     </style>
@@ -260,21 +316,33 @@
 
     <main style="max-width: 1250px; margin: 25px auto; padding: 0 15px;">
 
-        <!-- TAB: CASES -->
-        <div id="section-cases">
-            <div class="glass-box" style="padding: 20px; margin-bottom: 25px; background: linear-gradient(135deg, #13162d, #1e153a); display: flex; justify-content: space-between; align-items: center;">
-                <h2 class="cosmo-head" style="font-size: 22px; color: #06b6d4; margin: 0;">Кейс "Бомженя"</h2>
+        <!-- TAB 1: CATALOG OF CASES -->
+        <div id="section-cases-catalog">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+                <!-- Case Card: Бомженя -->
+                <div class="case-card" onclick="openCaseView('bomzhenya')">
+                    <div style="font-size: 65px; margin-bottom: 10px;">🗑️🧑‍🚀</div>
+                    <h3 class="cosmo-head" style="font-size: 16px; color: #fff; margin: 0 0 5px;">Бомженя</h3>
+                    <span style="font-size: 11px; color: #9ca3af; margin-bottom: 12px;">4 items</span>
+                    <div class="cosmo-btn" style="padding: 6px 16px; font-size: 11px;">45 CC</div>
+                </div>
             </div>
+        </div>
 
-            <!-- Кейс Бомженя -->
+        <!-- TAB 2: SINGLE CASE VIEW -->
+        <div id="section-case-detail" class="hidden">
+            <button onclick="showCatalog()" class="nav-link" style="margin-bottom: 20px; font-size: 12px;"><i class="fa-solid fa-arrow-left"></i> Назад</button>
+            
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-bottom: 30px;">
-                <div class="case-container" style="background: rgba(19, 22, 45, 0.9); border: 2px solid rgba(139,92,246,0.5); border-radius: 20px; padding: 30px; width: 320px; box-shadow: 0 0 35px rgba(139,92,246,0.25);">
-                    <div style="font-size: 60px; margin-bottom: 8px;">🗑️🧑‍🚀</div>
+                <h2 id="detailCaseTitle" class="cosmo-head" style="font-size: 24px; color: #fff; margin-bottom: 15px;">Бомженя</h2>
+
+                <div style="background: rgba(19, 22, 45, 0.9); border: 2px solid rgba(139,92,246,0.5); border-radius: 20px; padding: 30px; width: 320px; box-shadow: 0 0 35px rgba(139,92,246,0.25); position: relative;">
+                    <div style="font-size: 70px; margin-bottom: 8px;">🗑️🧑‍🚀</div>
                     <div style="background: #090b16; border: 1px solid rgba(139,92,246,0.4); padding: 5px 12px; border-radius: 8px; font-family: 'Orbitron'; font-size: 13px; font-weight: 900; color: #06b6d4; margin-bottom: 15px; box-shadow: inset 0 0 10px rgba(6,182,212,0.3);">CosmDrop</div>
-                    <button id="openCaseBtn" onclick="startRouletteOpening()" class="cosmo-btn" style="width: 100%; padding: 12px; font-size: 12px;">Відкрити за 45 CC</button>
+                    <button id="openCaseBtn" onclick="startRouletteOpening()" class="cosmo-btn" style="width: 100%; padding: 12px; font-size: 12px;">Відкрити за <span id="detailCasePrice">45</span> CC</button>
                 </div>
 
-                <!-- ROULETTE OPENING CONTAINER (Hidden by default) -->
+                <!-- ROULETTE OPENING CONTAINER -->
                 <div id="rouletteBlock" class="hidden" style="width: 100%;">
                     <div class="roulette-wrapper">
                         <div class="roulette-pointer"></div>
@@ -283,47 +351,86 @@
                 </div>
             </div>
 
-            <h3 class="cosmo-head" style="font-size: 15px; color: #fff; margin-bottom: 12px;">Вміст кейсу "Бомженя"</h3>
+            <h3 class="cosmo-head" style="font-size: 15px; color: #fff; margin-bottom: 12px;">Вміст кейсу</h3>
             <div id="casesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;"></div>
         </div>
 
         <!-- TAB: UPGRADER -->
-        <div id="section-upgrader" class="hidden" style="display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px;">
-            <div class="glass-box">
-                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin-bottom: 10px;">Ви віддаєте</h3>
-                <div style="background: #090b16; border: 1px dashed rgba(139,92,246,0.4); border-radius: 12px; padding: 15px; text-align: center;">
-                    <span style="font-size: 12px; color: #fff;">Баланс: <b id="upgBalanceLabel" style="color: #06b6d4;">0 CC</b></span>
-                    <input id="upgCustomBet" type="number" value="45" min="1" oninput="updateUpgraderCalc()" style="width: 100%; margin-top: 10px; text-align: center; font-family: 'Orbitron'; font-weight: 700;">
-                </div>
-            </div>
-
-            <div class="glass-box" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 480px;">
-                <div style="display: flex; gap: 6px; background: #090b16; padding: 4px; border-radius: 8px;">
-                    <button class="nav-link active" style="font-size: 10px; padding: 4px 10px;">x1.5</button>
-                    <button class="nav-link" style="font-size: 10px; padding: 4px 10px;">x2</button>
-                    <button class="nav-link" style="font-size: 10px; padding: 4px 10px;">x3</button>
-                </div>
-
-                <div style="position: relative; width: 240px; height: 240px; display: flex; align-items: center; justify-content: center; margin: auto;">
-                    <canvas id="wheelCanvas" width="240" height="240" style="border-radius: 50%; box-shadow: 0 0 35px rgba(6, 182, 212, 0.5);"></canvas>
-                    <div style="position: absolute; top: -8px; color: #facc15; font-size: 26px;"><i class="fa-solid fa-caret-down"></i></div>
-                    <div style="position: absolute; text-align: center;">
-                        <span style="font-size: 10px; color: #9ca3af; display: block;">ШАНС</span>
-                        <span id="wheelChanceText" class="cosmo-head" style="font-size: 22px; color: #06b6d4;">50%</span>
+        <div id="section-upgrader" class="hidden">
+            <div style="display: grid; grid-template-columns: 300px 1fr 300px; gap: 20px; align-items: center;">
+                
+                <!-- Left Trash Bin -->
+                <div class="glass-box" style="text-align: center;">
+                    <h3 class="cosmo-head" style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">ВИ ВІДДАЄТЕ</h3>
+                    <div class="trash-bin-box">
+                        <span style="font-size: 40px;">🗑️</span>
+                        <span style="font-size: 10px; color: #06b6d4; font-weight: 700; margin-top: 5px;">Космічний смітник</span>
+                    </div>
+                    <div style="margin-top: 15px; background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 10px;">
+                        <span style="font-size: 11px; color: #fff;">Баланс ставка:</span>
+                        <input id="upgCustomBet" type="number" value="45" min="1" oninput="updateUpgraderCalc()" style="width: 100%; margin-top: 5px; text-align: center; font-family: 'Orbitron'; font-weight: 700;">
                     </div>
                 </div>
 
-                <button id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="width: 100%; font-size: 15px; padding: 12px;">ПОКРАЩИТИ</button>
+                <!-- Center Circle & Selector -->
+                <div class="glass-box" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 480px;">
+                    <div style="display: flex; gap: 6px; background: #090b16; padding: 4px; border-radius: 8px;">
+                        <button class="nav-link active" style="font-size: 10px; padding: 4px 10px;">x1.5</button>
+                        <button class="nav-link" style="font-size: 10px; padding: 4px 10px;">x2</button>
+                        <button class="nav-link" style="font-size: 10px; padding: 4px 10px;">x3</button>
+                    </div>
+
+                    <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin: auto;">
+                        <canvas id="wheelCanvas" width="220" height="220" style="border-radius: 50%; box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);"></canvas>
+                        <div style="position: absolute; top: -8px; color: #facc15; font-size: 24px;"><i class="fa-solid fa-caret-down"></i></div>
+                        <div style="position: absolute; text-align: center;">
+                            <span style="font-size: 9px; color: #9ca3af; display: block;">ШАНС</span>
+                            <span id="wheelChanceText" class="cosmo-head" style="font-size: 20px; color: #06b6d4;">50%</span>
+                        </div>
+                    </div>
+
+                    <button id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="width: 100%; font-size: 14px; padding: 12px;">ПОКРАЩИТИ</button>
+                </div>
+
+                <!-- Right Trash Bin -->
+                <div class="glass-box" style="text-align: center;">
+                    <h3 class="cosmo-head" style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">ВИ ОТРИМУЄТЕ</h3>
+                    <div class="trash-bin-box" style="border-color: #06b6d4;">
+                        <span style="font-size: 40px;">🛸</span>
+                        <span style="font-size: 10px; color: #06b6d4; font-weight: 700; margin-top: 5px;">Цільний предмет</span>
+                    </div>
+                    <div style="margin-top: 15px; background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 8px; padding: 10px;">
+                        <div id="targetItemName" style="font-size: 12px; font-weight: 700; color: #fff;">Зачароване яблуко</div>
+                        <div id="targetItemPrice" style="font-size: 11px; color: #06b6d4; font-family: 'Orbitron'; margin-top: 3px; font-weight: 700;">120 CC</div>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="glass-box">
-                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin-bottom: 10px;">Ви отримуєте</h3>
-                <div style="background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 12px; padding: 15px; text-align: center;">
-                    <div class="item-icon-wrap enchanted-glint">
-                        <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png" class="mc-icon">
+            <!-- Minecraft Target Selection Grid -->
+            <div class="glass-box" style="margin-top: 25px;">
+                <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin-bottom: 12px;">Оберіть предмет з Майнкрафту для апгрейду:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
+                    <div class="mc-select-card selected" onclick="selectUpgTarget('Зачароване яблуко', 120, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png', true, this)">
+                        <div class="item-icon-wrap enchanted-glint"><img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/enchanted_golden_apple.png" class="mc-icon"></div>
+                        <div style="font-size: 11px; font-weight: 700; color: #fff;">Зачароване яблуко</div>
+                        <div style="font-size: 10px; color: #06b6d4; font-family:'Orbitron';">120 CC</div>
                     </div>
-                    <div id="targetItemName" style="font-size: 13px; font-weight: 700; color: #fff;">Залізна сокира (Ефективність II)</div>
-                    <div id="targetItemPrice" style="font-size: 12px; color: #06b6d4; font-family: 'Orbitron'; margin-top: 5px; font-weight: 700;">90 CC</div>
+                    <div class="mc-select-card" onclick="selectUpgTarget('Золоте яблуко', 60, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/golden_apple.png', false, this)">
+                        <div class="item-icon-wrap"><img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/golden_apple.png" class="mc-icon"></div>
+                        <div style="font-size: 11px; font-weight: 700; color: #fff;">Золоте яблуко</div>
+                        <div style="font-size: 10px; color: #06b6d4; font-family:'Orbitron';">60 CC</div>
+                    </div>
+                    <div class="mc-select-card" onclick="selectUpgTarget('Тотем безсмертя', 250, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/totem_of_undying.png', false, this)">
+                        <div class="item-icon-wrap"><img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/totem_of_undying.png" class="mc-icon"></div>
+                        <div style="font-size: 11px; font-weight: 700; color: #fff;">Тотем безсмертя</div>
+                        <div style="font-size: 10px; color: #06b6d4; font-family:'Orbitron';">250 CC</div>
+                    </div>
+                    <div class="mc-select-card" onclick="selectUpgTarget('Незерітовий нагрудник', 500, 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/netherite_chestplate.png', true, this)">
+                        <div class="item-icon-wrap enchanted-glint"><img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/netherite_chestplate.png" class="mc-icon"></div>
+                        <div style="font-size: 11px; font-weight: 700; color: #fff;">Незер. нагрудник</div>
+                        <div style="font-size: 10px; color: #06b6d4; font-family:'Orbitron';">500 CC</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -348,7 +455,7 @@
                             <span style="font-size: 10px; color: #9ca3af; font-weight: 700; display: block;">БАЛАНС</span>
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
                                 <span id="profBalance" class="cosmo-head" style="font-size: 18px; color: #06b6d4;">0 CC</span>
-                                <button onclick="openDepositModal()" class="cosmo-btn" style="padding: 4px 10px; font-size: 10px;">+</button>
+                                <button onclick="openDepositModal()" class="cosmo-btn" style="padding: 4px 10px; font-size: 10px;">Поповнити +</button>
                             </div>
                         </div>
                         <div class="glass-box" style="padding: 14px;">
@@ -361,11 +468,17 @@
                         </div>
                     </div>
 
+                    <!-- Історія заявок на депозит -->
+                    <div class="glass-box">
+                        <h3 class="cosmo-head" style="font-size: 14px; color: #06b6d4; margin-bottom: 10px;">Мої заявки на поповнення</h3>
+                        <div id="userDepositsLog" style="font-size: 12px; color: #9ca3af;">Заявки відсутні.</div>
+                    </div>
+
                     <!-- Система виводів -->
                     <div class="glass-box">
                         <h3 class="cosmo-head" style="font-size: 14px; color: #06b6d4; margin-bottom: 10px;">Система виводу предметів</h3>
                         <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                            <input id="withdrawTradeLink" type="text" placeholder="Введіть Trade URL..." style="flex: 2;">
+                            <input id="withdrawTradeLink" type="text" placeholder="Введіть Trade URL / Нік..." style="flex: 2;">
                             <button onclick="requestWithdraw()" class="cosmo-btn" style="padding: 8px 16px; font-size: 11px;">Вивести</button>
                         </div>
                         <div id="withdrawStatusLog" style="font-size: 12px; color: #9ca3af;">Заявки на вивід відсутні.</div>
@@ -394,24 +507,31 @@
         </div>
     </div>
 
-    <!-- DEPOSIT MODAL -->
+    <!-- DEPOSIT MODAL WITH QUICK BUTTONS AND PROMO 322 -->
     <div id="depositModal" class="modal hidden">
-        <div class="glass-box" style="width: 380px; text-align: center; position: relative;">
+        <div class="glass-box" style="width: 400px; text-align: center; position: relative;">
             <button onclick="document.getElementById('depositModal').classList.add('hidden')" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: #9ca3af; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="cosmo-head" style="font-size: 18px; color: #06b6d4; margin-bottom: 15px;">Поповнити баланс</h3>
+            <h3 class="cosmo-head" style="font-size: 18px; color: #06b6d4; margin-bottom: 15px;">Заявка на поповнення</h3>
             
-            <input id="depAmountInput" type="number" value="100" min="10" placeholder="Сума депозиту (CC)..." style="width: 100%; margin-bottom: 15px; text-align: center;">
+            <p style="font-size: 11px; color: #9ca3af; margin-bottom: 10px;">Оберіть або введіть суму депозиту в коїнах (CC):</p>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px;">
+                <button type="button" class="quick-dep-btn" onclick="setDepAmount(500)">500 CC</button>
+                <button type="button" class="quick-dep-btn" onclick="setDepAmount(1000)">1000 CC</button>
+                <button type="button" class="quick-dep-btn" onclick="setDepAmount(1500)">1500 CC</button>
+            </div>
 
-            <!-- Promo card box (matching deposit promo style) -->
-            <div style="background: linear-gradient(135deg, #42380d, #261f03); border: 1px dashed #facc15; border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left;">
-                <span style="font-size: 11px; color: #fef08a; font-weight: 700; display: block; margin-bottom: 8px;">Have a promo code?</span>
+            <input id="depAmountInput" type="number" value="500" min="10" placeholder="Сума депозиту (CC)..." style="width: 100%; margin-bottom: 15px; text-align: center;">
+
+            <div style="background: linear-gradient(135deg, #42380d, #261f03); border: 1px dashed #facc15; border-radius: 12px; padding: 12px; margin-bottom: 15px; text-align: left;">
+                <span style="font-size: 11px; color: #fef08a; font-weight: 700; display: block; margin-bottom: 6px;">Have a promo code?</span>
                 <div style="display: flex; gap: 8px;">
                     <input id="depPromoInput" type="text" placeholder="Введіть промокод..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid #facc15; color: #fff; font-size: 12px;">
                     <button onclick="applyDepPromo()" class="cosmo-btn" style="padding: 6px 12px; font-size: 10px; background: #facc15; color: #000;">Застосувати</button>
                 </div>
             </div>
 
-            <button onclick="confirmDeposit()" class="cosmo-btn" style="width: 100%; padding: 10px;">Поповнити</button>
+            <button onclick="confirmDeposit()" class="cosmo-btn" style="width: 100%; padding: 10px;">Створити заявку на поповнення</button>
         </div>
     </div>
 
@@ -427,15 +547,33 @@
 
     <!-- ADMIN PANEL -->
     <div id="adminModal" class="modal hidden">
-        <div class="glass-box" style="max-width: 800px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto;">
+        <div class="glass-box" style="max-width: 850px; width: 100%; position: relative; max-height: 85vh; overflow-y: auto;">
             <button onclick="closeAdmin()" style="position: absolute; top: 12px; right: 12px; background: none; border: none; color: #9ca3af; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             <h3 class="cosmo-head" style="font-size: 18px; color: #06b6d4; margin-bottom: 15px;">⚡ Адмін-Панель (ID: 777)</h3>
             
-            <div style="margin-bottom: 20px; background: #090b16; padding: 12px; border-radius: 10px;">
-                <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Керування заявками на вивід</h4>
+            <!-- Заявки на поповнення -->
+            <div style="margin-bottom: 15px; background: #090b16; padding: 12px; border-radius: 10px;">
+                <h4 style="font-size: 13px; color: #facc15; margin-bottom: 8px;">Керування заявками на ПОПОВНЕННЯ (Депозити)</h4>
+                <div id="adminDepositsList" style="font-size: 12px; color: #9ca3af; max-height: 120px; overflow-y: auto;">Немає нових заявок на поповнення.</div>
+            </div>
+
+            <!-- Заявки на вивід -->
+            <div style="margin-bottom: 15px; background: #090b16; padding: 12px; border-radius: 10px;">
+                <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Керування заявками на ВИВІД</h4>
                 <div id="adminWithdrawsList" style="font-size: 12px; color: #9ca3af; max-height: 120px; overflow-y: auto;">Немає нових заяв на вивід.</div>
             </div>
 
+            <!-- Зміна балансу за ID -->
+            <div style="margin-bottom: 15px; background: #090b16; padding: 12px; border-radius: 10px;">
+                <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Нарахувати / Забрати баланс за ID гравця</h4>
+                <div style="display: flex; gap: 8px;">
+                    <input id="adminChangeBalUserId" type="number" placeholder="ID гравця" style="width: 120px;">
+                    <input id="adminChangeBalAmount" type="number" placeholder="Сума (напр. 500 або -500)" style="flex: 1;">
+                    <button onclick="adminModifyUserBalance()" class="cosmo-btn" style="padding: 6px 12px; font-size: 10px;">Застосувати</button>
+                </div>
+            </div>
+
+            <!-- Чат з гравцями za ID -->
             <div style="background: #090b16; padding: 12px; border-radius: 10px;">
                 <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Чат підтримки з гравцями (за ID)</h4>
                 <div style="display: flex; gap: 8px; margin-bottom: 10px;">
@@ -443,7 +581,7 @@
                     <input id="adminMsgText" type="text" placeholder="Повідомлення гравцю..." style="flex: 1;">
                     <button onclick="sendAdminMsg()" class="cosmo-btn" style="padding: 6px 12px; font-size: 10px;">Надіслати</button>
                 </div>
-                <div id="adminChatLog" style="font-size: 11px; color: #d1d5db; background: #03040a; padding: 10px; border-radius: 8px; max-height: 140px; overflow-y: auto;">Історія чату порожня.</div>
+                <div id="adminChatLog" style="font-size: 11px; color: #d1d5db; background: #03040a; padding: 10px; border-radius: 8px; max-height: 120px; overflow-y: auto;">Історія чату порожня.</div>
             </div>
         </div>
     </div>
@@ -463,46 +601,20 @@
         let balance = parseFloat(localStorage.getItem('cosm_cc')) || 500.0;
         let inventory = JSON.parse(localStorage.getItem('cosm_inventory')) || [];
         let withdrawals = JSON.parse(localStorage.getItem('cosm_withdraws')) || [];
+        let depositRequests = JSON.parse(localStorage.getItem('cosm_dep_requests')) || [];
         let chatMessages = JSON.parse(localStorage.getItem('cosm_chat')) || [];
         let isAdmin = localStorage.getItem('cosm_is_admin') === 'true';
 
         let registeredCount = parseInt(localStorage.getItem('cosm_reg_count')) || 0;
         let depositBonusPercent = 0;
 
-        // Предмети кейса "Бомженя" з реальними текстурами Minecraft
+        let selectedTarget = { name: 'Зачароване яблуко', price: 120 };
+
         let bomzhCaseItems = [
-            { 
-                id: '1', 
-                name: 'Залізний меч', 
-                price: 35, 
-                chance: 22,
-                enchanted: false,
-                icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_sword.png'
-            },
-            { 
-                id: '2', 
-                name: 'Залізна сокира (звичайна)', 
-                price: 40, 
-                chance: 50,
-                enchanted: false,
-                icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png'
-            },
-            { 
-                id: '3', 
-                name: 'Залізна сокира (Ефективність I)', 
-                price: 55, 
-                chance: 20,
-                enchanted: true,
-                icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png'
-            },
-            { 
-                id: '4', 
-                name: 'Залізна сокира (Ефективність II)', 
-                price: 70, 
-                chance: 8,
-                enchanted: true,
-                icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png'
-            }
+            { id: '1', name: 'Залізний меч', price: 35, chance: 22, enchanted: false, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_sword.png' },
+            { id: '2', name: 'Залізна сокира (звичайна)', price: 40, chance: 50, enchanted: false, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png' },
+            { id: '3', name: 'Залізна сокира (Ефективність I)', price: 55, chance: 20, enchanted: true, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png' },
+            { id: '4', name: 'Залізна сокира (Ефективність II)', price: 70, chance: 8, enchanted: true, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png' }
         ];
 
         function showAlert(title, msg) {
@@ -512,23 +624,40 @@
         }
 
         function switchTab(tab) {
-            ['cases', 'upgrader', 'profile'].forEach(t => {
+            ['cases-catalog', 'case-detail', 'upgrader', 'profile'].forEach(t => {
                 let sec = document.getElementById(`section-${t}`);
                 if(sec) sec.classList.add('hidden');
-                let link = document.getElementById(`tab-link-${t}`);
+                let link = document.getElementById(`tab-link-${t.split('-')[0]}`);
                 if(link) link.classList.remove('active');
             });
-            document.getElementById(`section-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-link-${tab}`).classList.add('active');
-            if(tab === 'cases') renderCases();
+
+            if(tab === 'cases') {
+                document.getElementById('section-cases-catalog').classList.remove('hidden');
+                document.getElementById('tab-link-cases').classList.add('active');
+            } else {
+                document.getElementById(`section-${tab}`).classList.remove('hidden');
+                let link = document.getElementById(`tab-link-${tab}`);
+                if(link) link.classList.add('active');
+            }
+
             if(tab === 'upgrader') updateUpgraderCalc();
             if(tab === 'profile') updateProfileUI();
+        }
+
+        function showCatalog() { switchTab('cases'); }
+
+        function openCaseView(caseType) {
+            document.getElementById('section-cases-catalog').classList.add('hidden');
+            document.getElementById('section-case-detail').classList.remove('hidden');
+            document.getElementById('rouletteBlock').classList.add('hidden');
+            renderCases();
         }
 
         function updateUI() {
             localStorage.setItem('cosm_cc', balance);
             localStorage.setItem('cosm_inventory', JSON.stringify(inventory));
             localStorage.setItem('cosm_withdraws', JSON.stringify(withdrawals));
+            localStorage.setItem('cosm_dep_requests', JSON.stringify(depositRequests));
             localStorage.setItem('cosm_chat', JSON.stringify(chatMessages));
 
             let headerBlock = document.getElementById('userHeaderBlock');
@@ -548,17 +677,13 @@
             }
         }
 
-        function openAuthModal() {
-            document.getElementById('authModal').classList.remove('hidden');
-        }
+        function openAuthModal() { document.getElementById('authModal').classList.remove('hidden'); }
 
         function registerUser() {
             let nick = document.getElementById('regNicknameInput').value.trim();
             if(!nick) { showAlert("Помилка", "Введіть нікнейм!"); return; }
-            
             registeredCount++;
             localStorage.setItem('cosm_reg_count', registeredCount);
-
             currentUser = { id: registeredCount, name: nick };
             localStorage.setItem('cosm_user', JSON.stringify(currentUser));
             document.getElementById('authModal').classList.add('hidden');
@@ -582,6 +707,10 @@
             document.getElementById('depositModal').classList.remove('hidden');
         }
 
+        function setDepAmount(amt) {
+            document.getElementById('depAmountInput').value = amt;
+        }
+
         function applyDepPromo() {
             let code = document.getElementById('depPromoInput').value.trim();
             if(code === '322') {
@@ -596,14 +725,22 @@
             let amount = parseFloat(document.getElementById('depAmountInput').value);
             if(isNaN(amount) || amount <= 0) { showAlert("Помилка", "Введіть суму депозиту!"); return; }
             let total = amount + (amount * depositBonusPercent / 100);
-            balance += total;
+
+            depositRequests.push({
+                id: Date.now(),
+                userId: currentUser.id,
+                userName: currentUser.name,
+                amount: total,
+                status: 'Очікує'
+            });
+
             updateUI();
             updateProfileUI();
             document.getElementById('depositModal').classList.add('hidden');
-            showAlert("Успішне поповнення! 💳", `Баланс поповнено на ${total.toFixed(0)} CC!`);
+            showAlert("Заявку створено! 💳", `Заявку на поповнення на ${total.toFixed(0)} CC надіслано адміністратору. Віддайте ресурси в грі!`);
         }
 
-        /* --- CASES & ROULETTE ANIMATION --- */
+        /* --- CASES & ROULETTE --- */
         function renderCases() {
             let grid = document.getElementById('casesGrid');
             grid.innerHTML = '';
@@ -611,7 +748,6 @@
                 let d = document.createElement('div');
                 d.className = 'glass-box';
                 d.style.cssText = "padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between;";
-                
                 let glintClass = it.enchanted ? 'enchanted-glint' : '';
                 d.innerHTML = `
                     <div class="item-icon-wrap ${glintClass}">
@@ -635,7 +771,6 @@
 
             document.getElementById('openCaseBtn').disabled = true;
 
-            // Визначаємо виграш
             let rand = Math.random() * 100;
             let cumulative = 0;
             let won = bomzhCaseItems[0];
@@ -644,12 +779,10 @@
                 if(rand <= cumulative) { won = it; break; }
             }
 
-            // Показуємо рулетку
             let rouletteBlock = document.getElementById('rouletteBlock');
             let track = document.getElementById('rouletteTrack');
             rouletteBlock.classList.remove('hidden');
 
-            // Генерація рулетки (50 випадкових елементів, виграшний на 40 позиції)
             track.style.transition = 'none';
             track.style.transform = 'translateX(0px)';
             track.innerHTML = '';
@@ -676,10 +809,9 @@
                 track.appendChild(div);
             });
 
-            // Плавна анімація прокрутки
             setTimeout(() => {
                 track.style.transition = 'transform 4.5s cubic-bezier(0.1, 1, 0.1, 1)';
-                let offset = -(38 * 100 - 325 + 45); // Точне центрування
+                let offset = -(38 * 100 - 325 + 45);
                 track.style.transform = `translateX(${offset}px)`;
             }, 50);
 
@@ -713,11 +845,8 @@
             let now = Date.now();
             let activeCount = 0;
             for(let id in sessions) {
-                if(now - sessions[id] < 10000) {
-                    activeCount++;
-                } else {
-                    delete sessions[id];
-                }
+                if(now - sessions[id] < 10000) activeCount++;
+                else delete sessions[id];
             }
 
             localStorage.setItem('cosm_active_sessions', JSON.stringify(sessions));
@@ -726,248 +855,38 @@
 
         setInterval(updateRealOnline, 3000);
 
-        /* --- UPGRADER --- */
+        /* --- UPGRADER LOGIC --- */
+        function selectUpgTarget(name, price, icon, enchanted, el) {
+            document.querySelectorAll('.mc-select-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTarget = { name, price, icon, enchanted };
+            document.getElementById('targetItemName').innerText = name;
+            document.getElementById('targetItemPrice').innerText = `${price} CC`;
+            updateUpgraderCalc();
+        }
+
         function updateUpgraderCalc() {
             let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            document.getElementById('upgBalanceLabel').innerText = `${balance.toFixed(0)} CC`;
-            document.getElementById('targetItemPrice').innerText = `${bet * 2} CC`;
+            let winChance = Math.min(Math.max((bet / selectedTarget.price) * 100, 1), 80);
+            document.getElementById('wheelChanceText').innerText = `${winChance.toFixed(1)}%`;
             document.getElementById('upgradeBtn').disabled = bet <= 0 || bet > balance;
-            drawWheel(0, 50);
+            drawWheel(0, winChance);
         }
 
-        function drawWheel(angle, percent) {
+        function drawWheel(angle, winChance) {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 240, 240);
+            ctx.clearRect(0, 0, 220, 220);
 
             ctx.save();
-            ctx.translate(120, 120);
+            ctx.translate(110, 110);
             ctx.rotate(angle);
-            ctx.translate(-120, -120);
+            ctx.translate(-110, -110);
 
-            ctx.beginPath(); ctx.arc(120, 120, 110, 0, Math.PI * 2); ctx.fillStyle = '#060710'; ctx.fill();
+            ctx.beginPath(); ctx.arc(110, 110, 100, 0, Math.PI * 2); ctx.fillStyle = '#060710'; ctx.fill();
             ctx.lineWidth = 4; ctx.strokeStyle = '#8b5cf6'; ctx.stroke();
 
-            // Синя зона 35%
-            let blueAngle = (35 / 100) * (Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(120, 120);
-            ctx.arc(120, 120, 110, -Math.PI/2, blueAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(59, 130, 246, 0.4)'; ctx.fill();
-
-            let successAngle = (percent / 100) * (Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(120, 120);
-            ctx.arc(120, 120, 110, blueAngle - Math.PI/2, successAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(6, 182, 212, 0.45)'; ctx.fill();
-
-            ctx.beginPath(); ctx.arc(120, 120, 75, 0, Math.PI * 2); ctx.fillStyle = '#090b16'; ctx.fill();
-            ctx.restore();
-        }
-
-        function startUpgrade() {
-            if(!currentUser) { openAuthModal(); return; }
-            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            if(bet > balance) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
-
-            balance -= bet;
-            updateUI();
-            document.getElementById('upgradeBtn').disabled = true;
-
-            let win = Math.random() * 100 < 50;
-            let start = null;
-            let duration = 2500;
-            let targetRot = (Math.random() * 5 + 5) * 360;
-
-            function anim(timestamp) {
-                if(!start) start = timestamp;
-                let prog = Math.min((timestamp - start) / duration, 1);
-                let ease = 1 - Math.pow(1 - prog, 3);
-                drawWheel((targetRot * ease * Math.PI) / 180, 50);
-
-                if(prog < 1) {
-                    requestAnimationFrame(anim);
-                } else {
-                    document.getElementById('upgradeBtn').disabled = false;
-                    if(win) {
-                        let prize = bet * 2;
-                        balance += prize;
-                        updateUI();
-                        showAlert("Перемога! ✨", `Апгрейд успішний! Виграно ${prize} CC!`);
-                    } else {
-                        let isZahod = Math.random() * 100 <= 2;
-                        if(isZahod) {
-                            let refund = bet * (1.2 + Math.random() * 0.3);
-                            balance += refund;
-                            updateUI();
-                            showAlert("Спрацював заход! ⚡", `Апгрейд не зайшов, але спрацював заход 2%! Повернено: ${refund.toFixed(1)} CC`);
-                        } else {
-                            showAlert("Програш", "Спробуйте ще раз!");
-                        }
-                    }
-                }
-            }
-            requestAnimationFrame(anim);
-        }
-
-        /* --- WITHDRAWALS --- */
-        function requestWithdraw() {
-            if(!currentUser) { openAuthModal(); return; }
-            if(inventory.length === 0) { showAlert("Помилка", "Ваш інвентар порожній для виводу!"); return; }
-            let link = document.getElementById('withdrawTradeLink').value.trim();
-            if(!link) { showAlert("Помилка", "Введіть Trade URL!"); return; }
-
-            let itemsToWithdraw = [...inventory];
-            inventory = [];
-
-            withdrawals.push({
-                id: Date.now(),
-                userId: currentUser.id,
-                userName: currentUser.name,
-                items: itemsToWithdraw,
-                tradeLink: link,
-                status: 'Очікує'
-            });
-
-            updateUI();
-            updateProfileUI();
-            document.getElementById('withdrawTradeLink').value = '';
-            showAlert("Заявку створено! 📦", "Вашу заявку на вивід надіслано адміністратору.");
-        }
-
-        /* --- ADMIN CODE MODAL & ADMIN PANEL --- */
-        function promptAdminCode() {
-            if(isAdmin) {
-                openAdmin();
-            } else {
-                document.getElementById('adminCodeInput').value = '';
-                document.getElementById('adminCodeModal').classList.remove('hidden');
-            }
-        }
-
-        function verifyAdminCode() {
-            let code = document.getElementById('adminCodeInput').value.trim();
-            if(code === "11111") {
-                isAdmin = true;
-                localStorage.setItem('cosm_is_admin', 'true');
-                document.getElementById('adminCodeModal').classList.add('hidden');
-                openAdmin();
-            } else {
-                showAlert("Доступ заборонено", "Невірний код адміністратора!");
-            }
-        }
-
-        function openAdmin() {
-            if(currentUser) {
-                currentUser.id = "777";
-                localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-                updateProfileUI();
-            }
-            renderAdminData();
-            document.getElementById('adminModal').classList.remove('hidden');
-        }
-
-        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
-
-        function renderAdminData() {
-            let wList = document.getElementById('adminWithdrawsList');
-            if(withdrawals.length === 0) {
-                wList.innerHTML = "Немає нових заяв на вивід.";
-            } else {
-                wList.innerHTML = '';
-                withdrawals.forEach((w, idx) => {
-                    let d = document.createElement('div');
-                    d.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #03040a; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px;";
-                    d.innerHTML = `
-                        <span>Гравець ID:${w.userId} (${w.userName}) | Статус: <b>${w.status}</b></span>
-                        <div>
-                            ${w.status === 'Очікує' ? `<button onclick="rejectWithdraw(${idx})" style="background: #dc2626; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">Відхилити</button>` : ''}
-                        </div>
-                    `;
-                    wList.appendChild(d);
-                });
-            }
-
-            let cLog = document.getElementById('adminChatLog');
-            if(chatMessages.length === 0) {
-                cLog.innerHTML = "Історія чату порожня.";
-            } else {
-                cLog.innerHTML = chatMessages.map(m => `<div><b>[ID: ${m.targetId}]</b> ${m.text}</div>`).join('');
-            }
-        }
-
-        function rejectWithdraw(idx) {
-            let w = withdrawals[idx];
-            w.status = 'Відхилено';
-            inventory.push(...w.items);
-            updateUI();
-            renderAdminData();
-            showAlert("Успіх", "Заявку на вивід відхилено, предмети повернуто в інвентар.");
-        }
-
-        function sendAdminMsg() {
-            let tId = document.getElementById('adminTargetId').value.trim();
-            let text = document.getElementById('adminMsgText').value.trim();
-            if(!tId || !text) { showAlert("Помилка", "Введіть ID гравця та текст!"); return; }
-
-            chatMessages.push({ targetId: tId, text: text });
-            document.getElementById('adminMsgText').value = '';
-            updateUI();
-            renderAdminData();
-            showAlert("Надіслано", `Повідомлення успішно відправлено гравцю з ID: ${tId}`);
-        }
-
-        function updateProfileUI() {
-            if(currentUser) {
-                document.getElementById('profName').innerText = currentUser.name;
-                document.getElementById('profId').innerText = isAdmin ? "777" : currentUser.id;
-            }
-            document.getElementById('profBalance').innerText = `${balance.toFixed(0)} CC`;
-            document.getElementById('profItemsCount').innerText = inventory.length;
-
-            let grid = document.getElementById('inventoryGrid');
-            if(inventory.length === 0) {
-                grid.innerHTML = `<p style="color: #9ca3af; font-size: 12px; grid-column: span 3; text-align: center;">Інвентар порожній.</p>`;
-            } else {
-                grid.innerHTML = '';
-                inventory.forEach((item, idx) => {
-                    let d = document.createElement('div');
-                    d.style.cssText = "background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 10px; text-align: center;";
-                    
-                    let glintClass = item.enchanted ? 'enchanted-glint' : '';
-                    d.innerHTML = `
-                        <div class="item-icon-wrap ${glintClass}" style="width:35px; height:35px;">
-                            <img src="${item.icon}" class="mc-icon" style="width:30px; height:30px;">
-                        </div>
-                        <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
-                        <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron'; margin-top: 4px; font-weight: 700;">${item.price} CC</div>
-                        <button onclick="sellInventoryItem(${idx})" class="cosmo-btn" style="padding: 4px 8px; font-size: 9px; margin-top: 6px;">Продати</button>
-                    `;
-                    grid.appendChild(d);
-                });
-            }
-
-            let wLog = document.getElementById('withdrawStatusLog');
-            let userW = withdrawals.filter(w => currentUser && w.userId == currentUser.id);
-            if(userW.length > 0) {
-                wLog.innerHTML = userW.map(w => `Заявка на вивід: <b>${w.status}</b>`).join('<br>');
-            } else {
-                wLog.innerHTML = "Заявки на вивід відсутні.";
-            }
-        }
-
-        function sellInventoryItem(idx) {
-            let it = inventory.splice(idx, 1)[0];
-            balance += it.price;
-            updateUI();
-            updateProfileUI();
-            showAlert("Продано", `Предмет продано за ${it.price} CC!`);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUI();
-            renderCases();
-            updateUpgraderCalc();
-            updateRealOnline();
-        });
-    </script>
-</body>
-</html>
+            let winAngle = (winChance / 100) * (Math.PI * 2);
+            ctx.beginPath(); ctx.moveTo(110, 110);
+            ctx.arc(110, 110, 100, -Math.PI/2, winAngle - Math.PI/2);
+            ctx.fillStyle = 'rgba(6,
