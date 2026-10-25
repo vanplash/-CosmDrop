@@ -61,7 +61,7 @@
 
         .nav-menu {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
             font-size: 13px;
             font-weight: 700;
@@ -354,6 +354,7 @@
         <div class="nav-menu">
             <button class="nav-link active" onclick="switchTab('cases')" id="tab-link-cases"><i class="fa-solid fa-box-open"></i> Кейси</button>
             <button class="nav-link" onclick="switchTab('upgrader')" id="tab-link-upgrader"><i class="fa-solid fa-bolt"></i> Апгрейди</button>
+            <button class="nav-link" onclick="switchTab('memes')" id="tab-link-memes"><i class="fa-solid fa-face-laugh-squint"></i> Сміхуятіна</button>
             <button class="nav-link" onclick="switchTab('profile')" id="tab-link-profile"><i class="fa-solid fa-user"></i> Профіль та Вивід</button>
         </div>
 
@@ -413,11 +414,10 @@
             <div id="casesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;"></div>
         </div>
 
-        <!-- TAB: UPGRADER (ПОВНІСТЮ ОЧИЩЕНИЙ ВІД СМІТНИКІВ) -->
+        <!-- TAB: UPGRADER -->
         <div id="section-upgrader" class="hidden">
             <div style="display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; align-items: center;">
                 
-                <!-- Ви віддаєте -->
                 <div class="glass-box" style="text-align: center;">
                     <h3 class="cosmo-head" style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">ВИ ВІДДАЄТЕ</h3>
                     <div class="clean-slot-box" id="upgLeftBox">
@@ -431,7 +431,6 @@
                     </div>
                 </div>
 
-                <!-- Колесо -->
                 <div class="glass-box" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; min-height: 480px;">
                     <div style="display: flex; gap: 6px; background: #090b16; padding: 4px; border-radius: 8px;">
                         <button class="nav-link active" style="font-size: 10px; padding: 4px 10px;">x1.5</button>
@@ -451,7 +450,6 @@
                     <button id="upgradeBtn" onclick="startUpgrade()" disabled class="cosmo-btn" style="width: 100%; font-size: 14px; padding: 12px;">ПОКРАЩИТИ</button>
                 </div>
 
-                <!-- Ви отримуєте -->
                 <div class="glass-box" style="text-align: center;">
                     <h3 class="cosmo-head" style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">ВИ ОТРИМУЄТЕ</h3>
                     <div class="clean-slot-box" id="upgRightBox" style="border-color: #06b6d4;">
@@ -467,7 +465,6 @@
 
             </div>
 
-            <!-- Вибір предмета для апгрейду -->
             <div class="glass-box" style="margin-top: 25px;">
                 <h3 class="cosmo-head" style="font-size: 13px; color: #06b6d4; margin-bottom: 12px;">Оберіть цільовий предмет для апгрейду:</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;">
@@ -495,6 +492,29 @@
             </div>
         </div>
 
+        <!-- TAB: СМІХУЯТІНА (ВІДЕО ТА ПРИКОЛИ) -->
+        <div id="section-memes" class="hidden">
+            <div class="glass-box">
+                <h2 class="cosmo-head" style="font-size: 20px; color: #06b6d4; margin-bottom: 15px;"><i class="fa-solid fa-face-laugh-squint"></i> Відділ Сміхуятіни</h2>
+                <p style="font-size: 12px; color: #9ca3af; margin-bottom: 20px;">Збірка найкращих приколів та відео для гарного настрою:</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                    <div style="background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 12px; overflow: hidden; padding: 12px;">
+                        <h4 style="font-size: 14px; color: #fff; margin: 0 0 8px;">Космічний прикол #1</h4>
+                        <div style="width: 100%; height: 180px; background: #03040a; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                            <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" controls style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        </div>
+                    </div>
+                    <div style="background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 12px; overflow: hidden; padding: 12px;">
+                        <h4 style="font-size: 14px; color: #fff; margin: 0 0 8px;">Космічний прикол #2</h4>
+                        <div style="width: 100%; height: 180px; background: #03040a; border-radius: 8px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                            <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" controls style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TAB: PROFILE & WITHDRAWALS -->
         <div id="section-profile" class="hidden">
             <div style="display: grid; grid-template-columns: 320px 1fr; gap: 20px;">
@@ -505,6 +525,14 @@
                     <div>
                         <h2 id="profName" class="cosmo-head" style="font-size: 16px; color: #fff; margin: 0;">Гість</h2>
                         <span style="font-size: 11px; color: #06b6d4;">ID: <b id="profId">---</b></span>
+                    </div>
+
+                    <!-- Зміна ніку та аватара -->
+                    <div style="width: 100%; background: #090b16; padding: 10px; border-radius: 10px; border: 1px solid rgba(139,92,246,0.3); text-align: left;">
+                        <span style="font-size: 10px; color: #9ca3af; font-weight: 700; display: block; margin-bottom: 5px;">ЗМІНИТИ ПРОФІЛЬ</span>
+                        <input id="editNickInput" type="text" placeholder="Новий нікнейм..." style="width: 100%; margin-bottom: 6px;">
+                        <input id="editAvatarInput" type="text" placeholder="URL аватара..." style="width: 100%; margin-bottom: 8px;">
+                        <button onclick="saveProfileChanges()" class="cosmo-btn" style="width: 100%; padding: 6px; font-size: 10px;">Зберегти</button>
                     </div>
 
                     <button onclick="logoutUser()" class="cosmo-btn" style="width: 100%; background: #dc2626; font-size: 11px; padding: 8px;">Вийти</button>
@@ -708,26 +736,19 @@
         /* --- REAL STEAM AUTHENTICATION OPENID REDIRECT --- */
         function handleRealSteamLogin(e) {
             e.preventDefault();
-            // Справжній OpenID запит до Steam Community
             let realm = window.location.protocol + '//' + window.location.host;
             let returnTo = encodeURIComponent(window.location.href);
             let steamOpenIdUrl = `https://steamcommunity.com/login/openid/?openid.ns=http://specs.openid.net/auth/2.0&openid.mode=checkid_setup&openid.return_to=${returnTo}&openid.realm=${realm}&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select`;
-            
-            // Якщо локально тестиш і хочеш симулювати повернення зі справжнього Steam OpenID, якщо реальний редирект не потрібен:
-            // Але оскільки вимагається СПРАВЖНІЙ вхід без симуляцій: перенаправляємо гравця на офіційний Steam OpenID:
             window.location.href = steamOpenIdUrl;
         }
 
-        // Перевірка повернення зі Steam OpenID у URL
         function checkSteamOpenIDReturn() {
             const urlParams = new URLSearchParams(window.location.search);
             const claimedId = urlParams.get('openid.claimed_id');
             if (claimedId) {
-                // Витягуємо SteamID64 з claimed_id (напр. https://steamcommunity.com/openid/id/76561198...)
                 const matches = claimedId.match(/\/id\/(\d+)/);
                 if (matches && matches[1]) {
                     let steamId64 = matches[1];
-                    // Зберігаємо реального користувача
                     currentUser = {
                         id: steamId64.slice(-5),
                         steamId: steamId64,
@@ -735,20 +756,28 @@
                         avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
                     };
                     localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-                    // Очищаємо параметри з URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }
             }
         }
 
-        function switchTab(tab) {
-            ['cases-catalog', 'case-detail', 'upgrader', 'profile'].forEach(t => {
-                let sec = document.getElementById(`section-${t}`);
-                if(sec) sec.classList.add('hidden');
-            });
+        function saveProfileChanges() {
+            if(!currentUser) { showAlert("Увага", "Спочатку увійдіть через Steam!"); return; }
+            let newNick = document.getElementById('editNickInput').value.trim();
+            let newAvatar = document.getElementById('editAvatarInput').value.trim();
 
-            ['cases', 'upgrader', 'profile'].forEach(m => {
-                let link = document.getElementById(`tab-link-${m}`);
+            if(newNick) currentUser.name = newNick;
+            if(newAvatar) currentUser.avatar = newAvatar;
+
+            localStorage.setItem('cosm_user', JSON.stringify(currentUser));
+            updateUI();
+            updateProfileUI();
+            showAlert("Успіх", "Профіль успішно оновлено!");
+        }
+
+        function switchTab(tab) {
+            ['cases-catalog', 'case-detail', 'upgrader', 'memes', 'profile'].forEach(t => {
+                let sec = document.getElementById(`section-${t}`); if(sec) sec.classList.add('hidden'); });  ['cases', 'upgrader', 'memes', 'profile'].forEach(m => { let link = document.getElementById(`tab-link-${m}`);
                 if(link) link.classList.remove('active');
             });
 
@@ -759,8 +788,7 @@
                 document.getElementById('section-case-detail').classList.remove('hidden');
                 document.getElementById('tab-link-cases').classList.add('active');
             } else {
-                document.getElementById(`section-${tab}`).classList.remove('hidden');
-                let link = document.getElementById(`tab-link-${tab}`);
+                document.getElementById(`section-${tab}`).classList.remove('hidden'); let link = document.getElementById(`tab-link-${tab}`);
                 if(link) link.classList.add('active');
             }
 
@@ -790,575 +818,7 @@
                 headerBlock.innerHTML = `
                     <div style="background: #13162d; padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(139,92,246,0.3); display: flex; align-items: center; gap: 8px;">
                         <img src="${currentUser.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg'}" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
-                        <span style="font-size: 12px; font-weight: 700; color: #fff;">${currentUser.name} (ID: ${isAdmin ? '777' : currentUser.id})</span>
+                        <span style="font-size: 12px; font-weight: 700; color: #fff;">${currentUser.name} (ID:${isAdmin ? '777' : currentUser.id})</span>
                         <div style="width: 1px; height: 15px; background: rgba(139,92,246,0.3);"></div>
                         <span class="cosmo-head" style="font-size: 13px; color: #06b6d4;">${balance.toFixed(0)} CC</span>
-                        <button onclick="openDepositModal()" class="cosmo-btn" style="padding: 2px 8px; font-size: 10px; margin-left: 4px;">+</button>
-                    </div>
-                `;
-            } else {
-                headerBlock.innerHTML = `
-                    <a href="https://steamcommunity.com/login/home/?goto=" class="steam-auth-btn" onclick="handleRealSteamLogin(event)">Увійти через Steam <i class="fa-brands fa-steam"></i></a>
-                `;
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('cosm_user');
-            currentUser = null;
-            updateUI();
-            updateProfileUI();
-            showAlert("Вихід", "Ви вийшли з аккаунта.");
-        }
-
-        function openDepositModal() {
-            if(!currentUser) { showAlert("Увага", "Будь ласка, увійдіть через Steam!"); return; }
-            depositBonusPercent = 0;
-            document.getElementById('depPromoInput').value = '';
-            document.getElementById('depAmountInput').value = '500';
-            updateDepositCalculation();
-            document.getElementById('depositModal').classList.remove('hidden');
-        }
-
-        function setDepAmount(amt) {
-            document.getElementById('depAmountInput').value = amt;
-            updateDepositCalculation();
-        }
-
-        function applyDepPromo() {
-            let code = document.getElementById('depPromoInput').value.trim();
-            let found = promoList.find(p => p.code.toLowerCase() === code.toLowerCase() && p.type === 'dep_bonus');
-            
-            if(found) {
-                depositBonusPercent = found.value;
-                showAlert("Промокод активовано! 🎉", `Чудово! Промокод "${found.code}" успішно застосовано: +${found.value}% до депозиту.`);
-                updateDepositCalculation();
-            } else {
-                showAlert("Помилка", "Невірний або не депозитний промокод!");
-            }
-        }
-
-        function updateDepositCalculation() {
-            let amt = parseFloat(document.getElementById('depAmountInput').value) || 0;
-            let bonusAmt = amt + (amt * depositBonusPercent / 100);
-            let calcEl = document.getElementById('depCalcResult');
-            if(depositBonusPercent > 0) {
-                calcEl.innerHTML = `Сума до зарахування: <b style="color:#facc15">${bonusAmt.toFixed(0)} CC</b> (з урахуванням +${depositBonusPercent}% бонусу!)`;
-            } else {
-                calcEl.innerHTML = `Сума до зарахування: <b style="color:#22c55e">${amt.toFixed(0)} CC</b>`;
-            }
-        }
-
-        function applyGeneralPromo() {
-            let code = document.getElementById('generalPromoInput').value.trim();
-            let found = promoList.find(p => p.code.toLowerCase() === code.toLowerCase());
-            
-            if(found) {
-                if(found.type === 'coins') {
-                    balance += found.value;
-                    updateUI();
-                    updateProfileUI();
-                    showAlert("Промокод активовано! 💰", `Успіх! Нараховано +${found.value} CC на ваш баланс!`);
-                } else if(found.type === 'case') {
-                    inventory.push({ ...bomzhCaseItems[0], uniqueId: Date.now() });
-                    updateUI();
-                    updateProfileUI();
-                    showAlert("Промокод активовано! 📦", "Успіх! До вашого інвентарю додано безкоштовний предмет!");
-                } else {
-                    showAlert("Помилка", "Цей промокод призначений для поповнення (депозиту)!");
-                }
-                document.getElementById('generalPromoInput').value = '';
-            } else {
-                showAlert("Помилка", "Невірний промокод!");
-            }
-        }
-
-        function confirmDeposit() {
-            let amount = parseFloat(document.getElementById('depAmountInput').value);
-            if(isNaN(amount) || amount <= 0) { showAlert("Помилка", "Введіть суму депозиту!"); return; }
-            let total = amount + (amount * depositBonusPercent / 100);
-
-            depositRequests.push({
-                id: Date.now(),
-                userId: currentUser.id,
-                userName: currentUser.name,
-                amount: total,
-                status: 'Очікує'
-            });
-
-            updateUI();
-            updateProfileUI();
-            document.getElementById('depositModal').classList.add('hidden');
-            showAlert("Заявку створено! 💳", `Заявку на поповнення на ${total.toFixed(0)} CC надіслано адміністратору.`);
-        }
-
-        /* --- CASES & ROULETTE --- */
-        function renderCases() {
-            let grid = document.getElementById('casesGrid');
-            grid.innerHTML = '';
-            bomzhCaseItems.forEach(it => {
-                let d = document.createElement('div');
-                d.className = 'glass-box';
-                d.style.cssText = "padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: space-between;";
-                let glintClass = it.enchanted ? 'enchanted-glint' : '';
-                d.innerHTML = `
-                    <div class="item-icon-wrap ${glintClass}">
-                        <img src="${it.icon}" class="mc-icon">
-                    </div>
-                    <div style="font-size: 12px; font-weight: 700; color: #fff; min-height: 28px; display: flex; align-items: center;">${it.name}</div>
-                    <div style="font-size: 12px; color: #06b6d4; font-family:'Orbitron'; font-weight: 700; margin: 4px 0;">${it.price} CC</div>
-                    <div style="font-size: 10px; color: #9ca3af;">Шанс: ${it.chance}%</div>
-                `;
-                grid.appendChild(d);
-            });
-        }
-
-        function startRouletteOpening() {
-            if(!currentUser) { showAlert("Увага", "Будь ласка, увійдіть через Steam!"); return; }
-            let price = 45;
-            if(balance < price) { showAlert("Помилка", "Недостатньо коїнів на балансі!"); return; }
-            
-            balance -= price;
-            updateUI();
-
-            document.getElementById('openCaseBtn').disabled = true;
-
-            let rand = Math.random() * 100;
-            if(winStreakCounter > 2) rand += 15;
-
-            let cumulative = 0;
-            let won = bomzhCaseItems[0];
-            for(let it of bomzhCaseItems) {
-                cumulative += it.chance;
-                if(rand <= cumulative) { won = it; break; }
-            }
-
-            if(won.price > price) winStreakCounter++;
-            else winStreakCounter = Math.max(0, winStreakCounter - 1);
-
-            let rouletteBlock = document.getElementById('rouletteBlock');
-            let track = document.getElementById('rouletteTrack');
-            rouletteBlock.classList.remove('hidden');
-
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(0px)';
-            track.innerHTML = '';
-
-            let list = [];
-            for(let i = 0; i < 45; i++) {
-                if(i === 38) {
-                    list.push(won);
-                } else {
-                    list.push(bomzhCaseItems[Math.floor(Math.random() * bomzhCaseItems.length)]);
-                }
-            }
-
-            list.forEach(it => {
-                let div = document.createElement('div');
-                div.className = 'roulette-item';
-                let glintClass = it.enchanted ? 'enchanted-glint' : '';
-                div.innerHTML = `
-                    <div class="item-icon-wrap ${glintClass}" style="width:30px; height:30px; margin-bottom:4px;">
-                        <img src="${it.icon}" class="mc-icon" style="width:28px; height:28px;">
-                    </div>
-                    <span style="font-size:9px; color:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:100%;">${it.name}</span>
-                `;
-                track.appendChild(div);
-            });
-
-            setTimeout(() => {
-                track.style.transition = 'transform 4.5s cubic-bezier(0.1, 1, 0.1, 1)';
-                let offset = -(38 * 100 - 325 + 45);
-                track.style.transform = `translateX(${offset}px)`;
-            }, 50);
-
-            setTimeout(() => {
-                inventory.push({ ...won, uniqueId: Date.now() });
-                updateUI();
-                showAlert("Виграш! 🎉", `З кейсу "Бомженя" випало: ${won.name} (${won.price} CC)!`);
-                addLiveDrop(currentUser.name, won.name, won.price);
-                document.getElementById('openCaseBtn').disabled = false;
-            }, 4800);
-        }
-
-        function addLiveDrop(user, item, price) {
-            let ticker = document.getElementById('liveTicker');
-            let div = document.createElement('div');
-            div.className = 'live-card';
-            div.innerHTML = `<b style="color:#06b6d4">${user}</b> вибив <span style="color:#fff">${item}</span> (${price} CC)`;
-            ticker.prepend(div);
-        }
-
-        function updateRealOnline() {
-            let clientId = localStorage.getItem('cosm_client_id');
-            if(!clientId) {
-                clientId = 'client_' + Math.random();
-                localStorage.setItem('cosm_client_id', clientId);
-            }
-
-            let sessions = JSON.parse(localStorage.getItem('cosm_active_sessions')) || {};
-            sessions[clientId] = Date.now();
-
-            let now = Date.now();
-            let activeCount = 0;
-            for(let id in sessions) {
-                if(now - sessions[id] < 10000) activeCount++;
-                else delete sessions[id];
-            }
-
-            localStorage.setItem('cosm_active_sessions', JSON.stringify(sessions));
-            document.getElementById('onlineCounter').innerText = activeCount > 0 ? activeCount : 1;
-        }
-
-        setInterval(updateRealOnline, 3000);
-
-        /* --- UPGRADER LOGIC --- */
-        function selectUpgTarget(name, price, icon, enchanted, el) {
-            document.querySelectorAll('.mc-select-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedTarget = { name, price, icon, enchanted };
-            document.getElementById('targetItemName').innerText = name;
-            document.getElementById('targetItemPrice').innerText = `${price} CC`;
-            document.getElementById('targetSlotIcon').src = icon;
-            updateUpgraderCalc();
-        }
-
-        function updateUpgraderCalc() {
-            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            let winChance = Math.min(Math.max((bet / selectedTarget.price) * 100, 1), 80);
-            document.getElementById('wheelChanceText').innerText = `${winChance.toFixed(1)}%`;
-            document.getElementById('upgradeBtn').disabled = bet <= 0 || bet > balance;
-            drawWheel(0, winChance);
-        }
-
-        function drawWheel(angle, winChance) {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 220, 220);
-
-            ctx.save();
-            ctx.translate(110, 110);
-            ctx.rotate(angle);
-            ctx.translate(-110, -110);
-
-            ctx.beginPath(); ctx.arc(110, 110, 100, 0, Math.PI * 2); ctx.fillStyle = '#060710'; ctx.fill();
-            ctx.lineWidth = 4; ctx.strokeStyle = '#8b5cf6'; ctx.stroke();
-
-            // Синя зона 35%
-            let blueZoneAngle = (35 / 100) * (Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(110, 110);
-            ctx.arc(110, 110, 100, -Math.PI/2, blueZoneAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(59, 130, 246, 0.35)'; ctx.fill();
-
-            // Шанс виграшу
-            let winAngle = (winChance / 100) * (Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(110, 110);
-            ctx.arc(110, 110, 100, -Math.PI/2, winAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(6, 182, 212, 0.45)'; ctx.fill();
-
-            ctx.beginPath(); ctx.arc(110, 110, 70, 0, Math.PI * 2); ctx.fillStyle = '#090b16'; ctx.fill();
-            ctx.restore();
-        }
-
-        function startUpgrade() {
-            if(!currentUser) { showAlert("Увага", "Будь ласка, увійдіть через Steam!"); return; }
-            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            if(bet > balance) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
-
-            balance -= bet;
-            updateUI();
-            document.getElementById('upgradeBtn').disabled = true;
-
-            let winChance = Math.min(Math.max((bet / selectedTarget.price) * 100, 1), 80);
-            if(winStreakCounter > 2) winChance *= 0.85;
-
-            let isWin = Math.random() * 100 <= winChance;
-
-            if(isWin) winStreakCounter++;
-            else winStreakCounter = Math.max(0, winStreakCounter - 1);
-
-            let start = null;
-            let duration = 3000;
-            
-            let targetDegree = isWin 
-                ? (Math.random() * (winChance / 100) * 360) 
-                : ((winChance / 100) * 360 + Math.random() * (360 - (winChance / 100) * 360));
-            
-            let totalRotation = 360 * 5 + targetDegree;
-
-            function anim(timestamp) {
-                if(!start) start = timestamp;
-                let prog = Math.min((timestamp - start) / duration, 1);
-                let ease = 1 - Math.pow(1 - prog, 3);
-                let currentAngle = (totalRotation * ease * Math.PI) / 180;
-                
-                drawWheel(currentAngle, winChance);
-
-                if(prog < 1) {
-                    requestAnimationFrame(anim);
-                } else {
-                    document.getElementById('upgradeBtn').disabled = false;
-                    if(isWin) {
-                        inventory.push({ ...selectedTarget, uniqueId: Date.now() });
-                        updateUI();
-                        updateProfileUI();
-                        showAlert("Успішний Апгрейд! ✨", `Ви здобули предмет: ${selectedTarget.name}!`);
-                    } else {
-                        // Захід 2%
-                        let isZahod = Math.random() * 100 <= 2;
-                        if(isZahod) {
-                            let refund = bet * 1.2;
-                            balance += refund;
-                            updateUI();
-                            showAlert("Спрацював заход! ⚡", `Апгрейд не зайшов, але спрацював заход! Повернено: ${refund.toFixed(0)} CC`);
-                        } else {
-                            showAlert("Апгрейд не вдався ❌", "Спробуйте ще раз!");
-                        }
-                    }
-                }
-            }
-            requestAnimationFrame(anim);
-        }
-
-        /* --- MINECRAFT WITHDRAWALS & ADMIN --- */
-        function openMcWithdrawModal(idx) {
-            if(!currentUser) return;
-            selectedItemForMcWithdraw = idx;
-            document.getElementById('mcWithdrawNickInput').value = '';
-            document.getElementById('withdrawMcModal').classList.remove('hidden');
-        }
-
-        function confirmMcWithdraw() {
-            let nick = document.getElementById('mcWithdrawNickInput').value.trim();
-            if(!nick) { showAlert("Помилка", "Введіть ваш нікнейм у Minecraft!"); return; }
-
-            let item = inventory.splice(selectedItemForMcWithdraw, 1)[0];
-
-            withdrawals.push({
-                id: Date.now(),
-                userId: currentUser.id,
-                userName: currentUser.name,
-                mcNick: nick,
-                item: item,
-                status: 'Очікує'
-            });
-
-            updateUI();
-            updateProfileUI();
-            document.getElementById('withdrawMcModal').classList.add('hidden');
-            showAlert("Заявку створено! 📦", `Заявку на вивід предмету "${item.name}" для нікнейму "${nick}" надіслано адміну.`);
-        }
-
-        function promptAdminCode() {
-            if(isAdmin) openAdmin();
-            else {
-                document.getElementById('adminCodeInput').value = '';
-                document.getElementById('adminCodeModal').classList.remove('hidden');
-            }
-        }
-
-        function verifyAdminCode() {
-            let code = document.getElementById('adminCodeInput').value.trim();
-            if(code === "11111") {
-                isAdmin = true;
-                localStorage.setItem('cosm_is_admin', 'true');
-                document.getElementById('adminCodeModal').classList.add('hidden');
-                openAdmin();
-            } else {
-                showAlert("Доступ заборонено", "Невірний код адміністратора!");
-            }
-        }
-
-        function openAdmin() {
-            if(currentUser) {
-                currentUser.id = "777";
-                localStorage.setItem('cosm_user', JSON.stringify(currentUser));
-                updateProfileUI();
-            }
-            renderAdminData();
-            document.getElementById('adminModal').classList.remove('hidden');
-        }
-
-        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
-
-        function createAdminPromo() {
-            let code = document.getElementById('newPromoCode').value.trim();
-            let type = document.getElementById('newPromoType').value;
-            let val = parseFloat(document.getElementById('newPromoValue').value) || 0;
-
-            if(!code) { showAlert("Помилка", "Введіть назву промокоду!"); return; }
-
-            promoList.push({ code: code, type: type, value: val });
-            updateUI();
-            document.getElementById('newPromoCode').value = '';
-            showAlert("Промокод створено! 🎁", `Промокод "${code}" успішно додано!`);
-        }
-
-        function renderAdminData() {
-            let dList = document.getElementById('adminDepositsList');
-            if(depositRequests.length === 0) {
-                dList.innerHTML = "Немає нових заявок на поповнення.";
-            } else {
-                dList.innerHTML = '';
-                depositRequests.forEach((d, idx) => {
-                    let div = document.createElement('div');
-                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #03040a; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px;";
-                    div.innerHTML = `
-                        <span>Гравець ID:${d.userId} (${d.userName}) | Сума: <b style="color:#06b6d4">${d.amount.toFixed(0)} CC</b> | Статус: <b>${d.status}</b></span>
-                        <div>
-                            ${d.status === 'Очікує' ? `
-                                <button onclick="approveDeposit(${idx})" style="background: #22c55e; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; margin-right: 4px;">Підтвердити</button>
-                                <button onclick="rejectDeposit(${idx})" style="background: #dc2626; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">Відхилити</button>
-                            ` : ''}
-                        </div>
-                    `;
-                    dList.appendChild(div);
-                });
-            }
-
-            let wList = document.getElementById('adminWithdrawsList');
-            if(withdrawals.length === 0) {
-                wList.innerHTML = "Немає нових заяв на вивід.";
-            } else {
-                wList.innerHTML = '';
-                withdrawals.forEach((w, idx) => {
-                    let div = document.createElement('div');
-                    div.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #03040a; padding: 6px 10px; border-radius: 6px; margin-bottom: 6px;";
-                    div.innerHTML = `
-                        <span>ID:${w.userId} | MC Nick: <b style="color:#22c55e">${w.mcNick}</b> | Предмет: ${w.item.name} | Статус: <b>${w.status}</b></span>
-                        <div>
-                            ${w.status === 'Очікує' ? `<button onclick="rejectWithdraw(${idx})" style="background: #dc2626; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px;">Відхилити</button>` : ''}
-                        </div>
-                    `;
-                    wList.appendChild(div);
-                });
-            }
-
-            let cLog = document.getElementById('adminChatLog');
-            if(chatMessages.length === 0) {
-                cLog.innerHTML = "Історія чату порожня.";
-            } else {
-                cLog.innerHTML = chatMessages.map(m => `<div><b>[ID: ${m.targetId}]</b> ${m.text}</div>`).join('');
-            }
-        }
-
-        function approveDeposit(idx) {
-            let req = depositRequests[idx];
-            req.status = 'Підтверджено';
-            if(currentUser && currentUser.id == req.userId) {
-                balance += req.amount;
-            }
-            updateUI();
-            renderAdminData();
-            showAlert("Успіх", `Депозит гравця ID:${req.userId} підтверджено, нараховано ${req.amount.toFixed(0)} CC!`);
-        }
-
-        function rejectDeposit(idx) {
-            let req = depositRequests[idx];
-            req.status = 'Відхилено';
-            updateUI();
-            renderAdminData();
-            showAlert("Успіх", `Депозит гравця ID:${req.userId} відхилено.`);
-        }
-
-        function rejectWithdraw(idx) {
-            let w = withdrawals[idx];
-            w.status = 'Відхилено';
-            inventory.push(w.item);
-            updateUI();
-            renderAdminData();
-            showAlert("Успіх", "Заявку на вивід відхилено, предмет повернуто в інвентар.");
-        }
-
-        function adminModifyUserBalance() {
-            let uId = document.getElementById('adminChangeBalUserId').value.trim();
-            let amt = parseFloat(document.getElementById('adminChangeBalAmount').value);
-            if(!uId || isNaN(amt)) { showAlert("Помилка", "Введіть ID та суму!"); return; }
-
-            if(currentUser && currentUser.id == uId) {
-                balance += amt;
-            }
-            updateUI();
-            showAlert("Баланс змінено", `Баланс гравця ID:${uId} змінено на ${amt} CC!`);
-        }
-
-        function sendAdminMsg() {
-            let tId = document.getElementById('adminTargetId').value.trim();
-            let text = document.getElementById('adminMsgText').value.trim();
-            if(!tId || !text) { showAlert("Помилка", "Введіть ID гравця та текст!"); return; }
-
-            chatMessages.push({ targetId: tId, text: text });
-            document.getElementById('adminMsgText').value = '';
-            updateUI();
-            renderAdminData();
-            showAlert("Надіслано", `Повідомлення успішно відправлено гравцю з ID: ${tId}`);
-        }
-
-        function updateProfileUI() {
-            if(currentUser) {
-                document.getElementById('profName').innerText = currentUser.name;
-                document.getElementById('profId').innerText = isAdmin ? "777" : currentUser.id;
-                document.getElementById('profAvatar').src = currentUser.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';
-            }
-            document.getElementById('profBalance').innerText = `${balance.toFixed(0)} CC`;
-            document.getElementById('profItemsCount').innerText = inventory.length;
-
-            let grid = document.getElementById('inventoryGrid');
-            if(inventory.length === 0) {
-                grid.innerHTML = `<p style="color: #9ca3af; font-size: 12px; grid-column: span 3; text-align: center;">Інвентар порожній.</p>`;
-            } else {
-                grid.innerHTML = '';
-                inventory.forEach((item, idx) => {
-                    let d = document.createElement('div');
-                    d.style.cssText = "background: #090b16; border: 1px solid rgba(139,92,246,0.3); border-radius: 10px; padding: 10px; text-align: center;";
-                    let glintClass = item.enchanted ? 'enchanted-glint' : '';
-                    d.innerHTML = `
-                        <div class="item-icon-wrap ${glintClass}" style="width:35px; height:35px;">
-                            <img src="${item.icon || 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_sword.png'}" class="mc-icon" style="width:30px; height:30px;">
-                        </div>
-                        <div style="font-size: 12px; font-weight: 700; color: #fff;">${item.name}</div>
-                        <div style="font-size: 11px; color: #06b6d4; font-family:'Orbitron'; margin-top: 4px; font-weight: 700;">${item.price} CC</div>
-                        <div style="display:flex; gap:4px; margin-top:6px;">
-                            <button onclick="openMcWithdrawModal(${idx})" class="cosmo-btn" style="padding: 4px 6px; font-size: 8px; flex:1; background: #22c55e;">Вивести в MC</button>
-                            <button onclick="sellInventoryItem(${idx})" class="cosmo-btn" style="padding: 4px 6px; font-size: 8px; flex:1;">Продати</button>
-                        </div>
-                    `;
-                    grid.appendChild(d);
-                });
-            }
-
-            let dLog = document.getElementById('userDepositsLog');
-            let userD = depositRequests.filter(d => currentUser && d.userId == currentUser.id);
-            if(userD.length > 0) {
-                dLog.innerHTML = userD.map(d => `Заявка на поповнення (${d.amount.toFixed(0)} CC): <b>${d.status}</b>`).join('<br>');
-            } else {
-                dLog.innerHTML = "Заявки на поповнення відсутні.";
-            }
-
-            let wLog = document.getElementById('withdrawStatusLog');
-            let userW = withdrawals.filter(w => currentUser && w.userId == currentUser.id);
-            if(userW.length > 0) {
-                wLog.innerHTML = userW.map(w => `Вивід у Minecraft (${w.mcNick}): <b>${w.status}</b>`).join('<br>');
-            } else {
-                wLog.innerHTML = "Заявки на вивід відсутні.";
-            }
-        }
-
-        function sellInventoryItem(idx) {
-            let it = inventory.splice(idx, 1)[0];
-            balance += it.price;
-            updateUI();
-            updateProfileUI();
-            showAlert("Продано", `Предмет продано за ${it.price} CC!`);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            checkSteamOpenIDReturn();
-            updateUI();
-            renderCases();
-            updateUpgraderCalc();
-            updateRealOnline();
-        });
-    </script>
-</body>
-</html>
+                        <button onclick="openDepositModal()" class="cosmo-btn" style="
