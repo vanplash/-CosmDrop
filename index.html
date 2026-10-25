@@ -138,7 +138,7 @@
         input, select { background: #040508; color: #fff; border: 1px solid #1f243b; padding: 9px 12px; border-radius: 8px; outline: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 13px; }
         input:focus, select:focus { border-color: #f59e0b; }
 
-        /* CASE CARD WITH STYLED CONTAINER & NEON BORDER */
+        /* CASE CARD */
         .case-card {
             background: #0d101d;
             border: 2px solid #22273d;
@@ -173,6 +173,11 @@
             overflow: hidden;
             margin-bottom: 15px;
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+        .case-art-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .case-item-card {
@@ -237,7 +242,7 @@
 
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 12px;
@@ -289,7 +294,7 @@
             </a>
             <button onclick="openDepositModal()" class="sh-btn" style="padding: 8px 14px; font-size: 11px; background: #22c55e; color: #000;"><i class="fa-solid fa-wallet"></i> Поповнити</button>
             <div id="userHeaderBlock">
-                <button class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></button>
+                <button class="steam-btn" onclick="redirectToSteamLogin()">Steam Вхід <i class="fa-brands fa-steam"></i></button>
             </div>
             <button onclick="openAdminModal()" style="width: 38px; height: 38px; background: #0d101d; border: 1px solid #1f243b; border-radius: 50%; color: #3b82f6; cursor: pointer;" title="Адмін">
                 <i class="fa-solid fa-shield-halved"></i>
@@ -304,7 +309,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <div class="case-card" onclick="openCaseView('bomzhenya')">
                     <div class="case-art-box">
-                        <canvas id="bomzhCaseCanvas" width="220" height="220" style="width:100%; height:100%; image-rendering:pixelated;"></canvas>
+                        <img src="https://i.ibb.co/6P6X8S1/image.png" alt="Бомженя" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'">
                     </div>
                     <h3 class="sh-font" style="font-size: 16px; color: #fff; margin: 0 0 5px;">БОМЖЕНЯ</h3>
                     <span style="font-size: 11px; color: #3b82f6; margin-bottom: 12px;">6 предметів • Фіолетова Зона</span>
@@ -320,8 +325,8 @@
             <div style="display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px;">
                 <h2 class="sh-font" style="font-size: 22px; color: #fff; margin-bottom: 15px;">БОМЖЕНЯ</h2>
                 <div class="glass-box" style="width: 300px; text-align: center;">
-                    <div class="case-art-box" style="width: 180px; height: 180px; margin: 0 auto 15px;">
-                        <canvas id="bomzhCaseCanvasDetail" width="180" height="180" style="width:100%; height:100%; image-rendering:pixelated;"></canvas>
+                    <div class="case-art-box" style="width: 160px; height: 160px; margin: 0 auto 15px;">
+                        <img src="https://i.ibb.co/6P6X8S1/image.png" alt="Бомженя" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop'">
                     </div>
                     <button id="openCaseBtn" onclick="startRouletteOpening()" class="sh-btn" style="width: 100%;">Відкрити за 45 CC</button>
                 </div>
@@ -470,7 +475,7 @@
 
     </main>
 
-    <!-- DEPOSIT MODAL WITH QUICK 500, 1000, 1500 BUTTONS -->
+    <!-- DEPOSIT MODAL -->
     <div id="depositModal" class="modal hidden">
         <div class="glass-box" style="width: 400px; text-align: center; position: relative;">
             <button onclick="document.getElementById('depositModal').classList.add('hidden')" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
@@ -499,11 +504,11 @@
         </div>
     </div>
 
-    <!-- ADMIN MODAL (WITH PROMO & DEPOSIT MANAGEMENT) -->
+    <!-- ADMIN MODAL -->
     <div id="adminModal" class="modal hidden">
         <div class="glass-box" style="width: 500px; text-align: center; position: relative; max-height: 90vh; overflow-y: auto;">
             <button onclick="closeAdmin()" style="position: absolute; top: 10px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="sh-font" style="font-size: 16px; color: #3b82f6; margin-bottom: 12px;">Адмін-панель (ID 777)</h3>
+            <h3 class="sh-font" style="font-size: 16px; color: #3b82f6; margin-bottom: 12px;">Адмін-панель</h3>
             
             <div id="adminAuthBlock">
                 <input id="adminCodeInput" type="password" placeholder="Код доступу (11111)..." style="width: 100%; margin-bottom: 12px; text-align: center;">
@@ -544,7 +549,6 @@
 
     <!-- SCRIPT -->
     <script>
-        let userCounter = parseInt(localStorage.getItem('sh_user_seq')) || 1;
         let currentUser = JSON.parse(localStorage.getItem('sh_user')) || null;
         let balance = parseFloat(localStorage.getItem('sh_cc')) || 500.0;
         let inventory = JSON.parse(localStorage.getItem('sh_inventory')) || [];
@@ -568,88 +572,41 @@
             { id: '6', name: 'Залізна сокира (Еф. II)', price: 70, chance: 2, icon: 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.19/assets/minecraft/textures/item/iron_axe.png' }
         ];
 
-        function drawPixelArtCase(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
-            ctx.clearRect(0, 0, w, h);
-
-            // Background
-            ctx.fillStyle = '#06070b';
-            ctx.fillRect(0, 0, w, h);
-
-            // Container Lid Outer & Inner
-            ctx.fillStyle = '#223656';
-            ctx.fillRect(w*0.2, h*0.08, w*0.6, h*0.25);
-            ctx.fillStyle = '#0a1220';
-            ctx.fillRect(w*0.25, h*0.12, w*0.5, h*0.18);
-
-            // Main Bin Body
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(w*0.15, h*0.35, w*0.7, h*0.58);
-
-            // Blue Glowing Edges/Lights
-            ctx.fillStyle = '#3b82f6';
-            ctx.shadowColor = '#3b82f6';
-            ctx.shadowBlur = 10;
-            ctx.fillRect(w*0.15, h*0.35, w*0.7, h*0.05);
-            ctx.fillRect(w*0.15, h*0.88, w*0.7, h*0.05);
-            ctx.fillRect(w*0.18, h*0.1, w*0.64, h*0.03);
-
-            // Astronaut Head inside bin
-            ctx.shadowBlur = 0;
-            ctx.fillStyle = '#94a3b8'; // Helmet
-            ctx.fillRect(w*0.32, h*0.22, w*0.36, h*0.24);
-            ctx.fillStyle = '#38bdf8'; // Visor Glass
-            ctx.fillRect(w*0.36, h*0.25, w*0.28, h*0.15);
-            ctx.fillStyle = '#78350f'; // Suit/Jacket
-            ctx.fillRect(w*0.28, h*0.38, w*0.44, h*0.15);
-
-            // Eyes in Visor
-            ctx.fillStyle = '#000';
-            ctx.fillRect(w*0.42, h*0.29, w*0.05, h*0.05);
-            ctx.fillRect(w*0.53, h*0.29, w*0.05, h*0.05);
-
-            // Thumbs Up Hand
-            ctx.fillStyle = '#f59e0b';
-            ctx.fillRect(w*0.68, h*0.28, w*0.08, h*0.1);
-
-            // CosmDrop Front Emblem
-            ctx.fillStyle = '#090d16';
-            ctx.fillRect(w*0.18, h*0.58, w*0.64, h*0.22);
-            ctx.strokeStyle = '#3b82f6';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(w*0.18, h*0.58, w*0.64, h*0.22);
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = `900 ${Math.floor(w*0.1)}px 'Orbitron'`;
-            ctx.textAlign = 'center';
-            ctx.fillText('CosmDrop', w/2, h*0.73);
-        }
-
         function showAlert(title, msg) {
             document.getElementById('alertTitle').innerText = title;
             document.getElementById('alertMsg').innerText = msg;
             document.getElementById('alertModal').classList.remove('hidden');
         }
 
-        function handleRealSteamLogin(e) {
-            e.preventDefault();
-            if(!currentUser) {
-                let assignedId = userCounter++;
-                localStorage.setItem('sh_user_seq', userCounter);
+        // РЕАЛЬНИЙ STEAM OPENID ВХІД
+        function redirectToSteamLogin() {
+            const currentUrl = window.location.href.split('?')[0];
+            const steamOpenIdUrl = 'https://steamcommunity.com/openid/login' +
+                '?openid.ns=' + encodeURIComponent('http://specs.openid.net/auth/2.0') +
+                '&openid.mode=checkid_setup' +
+                '&openid.return_to=' + encodeURIComponent(currentUrl) +
+                '&openid.realm=' + encodeURIComponent(currentUrl) +
+                '&openid.identity=' + encodeURIComponent('http://specs.openid.net/auth/2.0/identifier_select') +
+                '&openid.claimed_id=' + encodeURIComponent('http://specs.openid.net/auth/2.0/identifier_select');
+            
+            window.location.href = steamOpenIdUrl;
+        }
+
+        // ПЕРЕВІРКА ПОВЕРНЕННЯ ВІД STEAM OPENID
+        function checkSteamReturn() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const claimedId = urlParams.get('openid.claimed_id');
+            if (claimedId) {
+                const steam64Id = claimedId.split('/').pop();
                 currentUser = {
-                    id: assignedId,
-                    name: "SteamUser_" + assignedId,
+                    id: steam64Id,
+                    name: "SteamUser_" + steam64Id.substring(steam64Id.length - 4),
                     avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
                 };
                 localStorage.setItem('sh_user', JSON.stringify(currentUser));
+                window.history.replaceState({}, document.title, window.location.pathname);
+                showAlert("Steam Вхід", `Реальна авторизація Steam успішна! Ваш SteamID64: ${currentUser.id}`);
             }
-            updateUI();
-            updateProfileUI();
-            showAlert("Steam Вхід", `Автентифікація успішна! Ваш ID: ${currentUser.id}`);
         }
 
         function saveProfileChanges() {
@@ -689,421 +646,4 @@
             if(tab === 'profile') updateProfileUI();
         }
 
-        function showCatalog() { switchTab('cases'); }
-        function openCaseView(type) { switchTab('case-detail'); document.getElementById('rouletteBlock').classList.add('hidden'); renderCases(); }
-
-        function updateUI() {
-            localStorage.setItem('sh_cc', balance);
-            localStorage.setItem('sh_inventory', JSON.stringify(inventory));
-            localStorage.setItem('sh_withdraws', JSON.stringify(withdrawals));
-            localStorage.setItem('sh_dep_requests', JSON.stringify(depositRequests));
-            localStorage.setItem('sh_winstreak', winStreakCounter);
-
-            let headerBlock = document.getElementById('userHeaderBlock');
-            if(currentUser) {
-                headerBlock.innerHTML = `
-                    <div style="background: #0d101d; padding: 4px 12px; border-radius: 8px; border: 1px solid #1f243b; display: flex; align-items: center; gap: 8px;">
-                        <img src="${currentUser.avatar}" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
-                        <span style="font-size: 11px; font-weight: 700; color: #fff;">${currentUser.name}</span>
-                        <span class="sh-font" style="font-size: 12px; color: #3b82f6;">${balance.toFixed(0)} CC</span>
-                    </div>
-                `;
-            } else {
-                headerBlock.innerHTML = `<button class="steam-btn" onclick="handleRealSteamLogin(event)">Steam Вхід <i class="fa-brands fa-steam"></i></button>`;
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('sh_user');
-            currentUser = null;
-            updateUI();
-            updateProfileUI();
-            showAlert("Вихід", "Ви вийшли з аккаунта.");
-        }
-
-        function openDepositModal() {
-            if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
-            depositBonusPercent = 0;
-            document.getElementById('depPromoInput').value = '';
-            document.getElementById('depAmountInput').value = '500';
-            updateDepositCalculation();
-            document.getElementById('depositModal').classList.remove('hidden');
-        }
-
-        function selectQuickDep(amt) {
-            document.getElementById('depAmountInput').value = amt;
-            updateDepositCalculation();
-        }
-
-        function applyDepPromo() {
-            let code = document.getElementById('depPromoInput').value.trim();
-            let found = promoList.find(p => p.code.toLowerCase() === code.toLowerCase());
-            if(found) {
-                depositBonusPercent = found.value;
-                showAlert("Промокод!", `Активовано промокод "${found.code}" (+${found.value}% до депу)!`);
-            } else {
-                depositBonusPercent = 0;
-            }
-            updateDepositCalculation();
-        }
-
-        function updateDepositCalculation() {
-            let amt = parseFloat(document.getElementById('depAmountInput').value) || 0;
-            let total = amt + (amt * depositBonusPercent / 100);
-            document.getElementById('depCalcResult').innerText = `Сума до зарахування: ${total.toFixed(0)} CC${depositBonusPercent > 0 ? ' (+'+depositBonusPercent+'%)' : ''}`;
-        }
-
-        function confirmDeposit() {
-            let amt = parseFloat(document.getElementById('depAmountInput').value);
-            if(isNaN(amt) || amt <= 0) return;
-            let total = amt + (amt * depositBonusPercent / 100);
-            depositRequests.push({ id: Date.now(), userName: currentUser.name, amount: total, status: 'Очікує' });
-            updateUI();
-            document.getElementById('depositModal').classList.add('hidden');
-            showAlert("Успіх", "Заявку на поповнення надіслано адміністратору!");
-        }
-
-        function renderCases() {
-            let grid = document.getElementById('casesGrid');
-            grid.innerHTML = '';
-            bomzhCaseItems.forEach(it => {
-                let d = document.createElement('div');
-                d.className = 'case-item-card';
-                d.innerHTML = `
-                    <div style="width:45px; height:45px; margin:0 auto 6px; display:flex; align-items:center; justify-content:center;">
-                        <img src="${it.icon}" style="width:38px; height:38px; image-rendering:pixelated;">
-                    </div>
-                    <div style="font-size:11px; font-weight:700; color:#fff;">${it.name}</div>
-                    <div style="font-size:11px; color:#3b82f6; font-family:'Orbitron'; margin-top:3px;">${it.price} CC</div>
-                    <div style="font-size:9px; color:#64748b;">Шанс: ${it.chance}%</div>
-                `;
-                grid.appendChild(d);
-            });
-        }
-
-        function startRouletteOpening() {
-            if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
-            if(balance < 45) { showAlert("Помилка", "Недостатньо коїнів!"); return; }
-            balance -= 45;
-            updateUI();
-
-            document.getElementById('openCaseBtn').disabled = true;
-
-            let rand = Math.random() * 100;
-            if (winStreakCounter > 2) rand += 18; 
-            else if (winStreakCounter < -1) rand = Math.max(0, rand - 10); 
-
-            let cumulative = 0;
-            let won = bomzhCaseItems[0];
-            for (let it of bomzhCaseItems) {
-                cumulative += it.chance;
-                if (rand <= cumulative) { won = it; break; }
-            }
-
-            if (won.price >= 40) winStreakCounter++;
-            else winStreakCounter = Math.max(-2, winStreakCounter - 1);
-
-            let rouletteBlock = document.getElementById('rouletteBlock');
-            let track = document.getElementById('rouletteTrack');
-            rouletteBlock.classList.remove('hidden');
-
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(0px)';
-            track.innerHTML = '';
-
-            let list = [];
-            for(let i = 0; i < 35; i++) {
-                list.push(i === 28 ? won : bomzhCaseItems[Math.floor(Math.random() * bomzhCaseItems.length)]);
-            }
-
-            list.forEach(it => {
-                let div = document.createElement('div');
-                div.className = 'roulette-item';
-                div.innerHTML = `<img src="${it.icon}" style="width:28px; height:28px; image-rendering:pixelated;"><span style="font-size:9px; margin-top:4px;">${it.name}</span>`;
-                track.appendChild(div);
-            });
-
-            setTimeout(() => {
-                track.style.transition = 'transform 4s cubic-bezier(0.1, 1, 0.1, 1)';
-                track.style.transform = `translateX(-${28 * 100 - 265}px)`;
-            }, 50);
-
-            setTimeout(() => {
-                inventory.push({ ...won, uniqueId: Date.now() });
-                updateUI();
-                showAlert("Виграш! 🎉", `Ви виграли: ${won.name} (${won.price} CC)!`);
-                addLiveDrop(currentUser.name, won.name, won.price);
-                document.getElementById('openCaseBtn').disabled = false;
-            }, 4200);
-        }
-
-        function addLiveDrop(user, item, price) {
-            let ticker = document.getElementById('liveTicker');
-            let div = document.createElement('div');
-            div.className = 'live-card';
-            div.innerHTML = `<b style="color:#3b82f6">${user}</b> вибив <span style="color:#fff">${item}</span> (${price} CC)`;
-            ticker.prepend(div);
-        }
-
-        function selectUpgTarget(name, price, icon, el) {
-            document.querySelectorAll('.mc-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedTarget = { name, price, icon };
-            document.getElementById('targetItemName').innerText = name;
-            document.getElementById('targetItemPrice').innerText = `${price} CC`;
-            document.getElementById('targetSlotIcon').src = icon;
-            updateUpgraderCalc();
-        }
-
-        function updateUpgraderCalc() {
-            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            let chance = Math.min(Math.max((bet / selectedTarget.price) * 100, 1), 80);
-            if (winStreakCounter > 2) chance *= 0.85;
-            document.getElementById('wheelChanceText').innerText = `${chance.toFixed(1)}%`;
-            document.getElementById('upgradeBtn').disabled = bet <= 0 || bet > balance || isUpgrading;
-            drawWheel(chance, 0);
-        }
-
-        function drawWheel(chance, rotationAngle = 0) {
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, 200, 200);
-
-            ctx.save();
-            ctx.translate(100, 100);
-            ctx.rotate(rotationAngle);
-            ctx.translate(-100, -100);
-
-            // Base Circle Background
-            ctx.beginPath(); ctx.arc(100, 100, 90, 0, Math.PI * 2); ctx.fillStyle = '#040508'; ctx.fill();
-            ctx.lineWidth = 3; ctx.strokeStyle = '#1f243b'; ctx.stroke();
-
-            // Purple Target Winning Sector
-            let winAngle = (chance / 100) * (Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(100, 100);
-            ctx.arc(100, 100, 90, -Math.PI/2, winAngle - Math.PI/2);
-            ctx.fillStyle = 'rgba(168, 85, 247, 0.6)'; ctx.fill(); // PURPLE ZONE
-
-            // Special 35% Multiplier Small Overlay Region
-            let specialStart = winAngle - Math.PI/2;
-            let specialAngle = (0.35 * Math.PI * 2);
-            ctx.beginPath(); ctx.moveTo(100, 100);
-            ctx.arc(100, 100, 90, specialStart, specialStart + specialAngle);
-            ctx.fillStyle = 'rgba(236, 72, 153, 0.35)'; ctx.fill();
-
-            // Inner Wheel Hub
-            ctx.beginPath(); ctx.arc(100, 100, 60, 0, Math.PI * 2); ctx.fillStyle = '#0d101d'; ctx.fill();
-
-            ctx.restore();
-        }
-
-        function startUpgrade() {
-            if(!currentUser) { showAlert("Увага", "Увійдіть через Steam!"); return; }
-            let bet = parseFloat(document.getElementById('upgCustomBet').value) || 45;
-            if(bet > balance || isUpgrading) return;
-            
-            isUpgrading = true;
-            balance -= bet;
-            updateUI();
-            document.getElementById('upgradeBtn').disabled = true;
-
-            let chance = Math.min(Math.max((bet / selectedTarget.price) * 100, 1), 80);
-            if (winStreakCounter > 2) chance *= 0.85;
-
-            let isWin = Math.random() * 100 <= chance;
-            let isSpecialBonus = Math.random() * 100 <= 2;
-
-            if (isWin) winStreakCounter++;
-            else winStreakCounter = Math.max(-2, winStreakCounter - 1);
-
-            // ANIMATION ROTATION
-            let duration = 3000;
-            let startTime = null;
-            let totalRotation = Math.PI * 2 * 6 + (isWin ? (Math.random() * (chance / 100) * Math.PI * 2) : (Math.PI * 2 * 0.7));
-
-            function animateWheel(timestamp) {
-                if(!startTime) startTime = timestamp;
-                let elapsed = timestamp - startTime;
-                let progress = Math.min(elapsed / duration, 1);
-                
-                // Ease Out Cubic
-                let easeProgress = 1 - Math.pow(1 - progress, 3);
-                let currentAngle = totalRotation * easeProgress;
-
-                drawWheel(chance, currentAngle);
-
-                if(progress < 1) {
-                    requestAnimationFrame(animateWheel);
-                } else {
-                    isUpgrading = false;
-                    document.getElementById('upgradeBtn').disabled = false;
-                    if(isWin) {
-                        inventory.push({ ...selectedTarget, uniqueId: Date.now() });
-                        inventory.push({ ...selectedTarget, uniqueId: Date.now() + 1 });
-                        updateUI();
-                        updateProfileUI();
-                        showAlert("Перемога! ✨✨", `Апгрейд зайшов! Ви отримали x2 ${selectedTarget.name}!`);
-                    } else if(isSpecialBonus) {
-                        let mult = (1.2 + Math.random() * 0.3).toFixed(2);
-                        let bonusWin = bet * mult;
-                        balance += bonusWin;
-                        updateUI();
-                        showAlert("Захід на Множник! ⚡", `Апгрейд зрізав, але спрацював шанс на фіолетову зону (x${mult})! Нараховано ${bonusWin.toFixed(0)} CC`);
-                    } else {
-                        showAlert("Невдача ❌", "Спробуйте ще раз!");
-                    }
-                }
-            }
-
-            requestAnimationFrame(animateWheel);
-        }
-
-        function openMcWithdrawModal(idx) {
-            selectedItemForMcWithdraw = idx;
-            document.getElementById('mcWithdrawNickInput').value = '';
-            document.getElementById('withdrawMcModal').classList.remove('hidden');
-        }
-
-        function confirmMcWithdraw() {
-            let nick = document.getElementById('mcWithdrawNickInput').value.trim();
-            if(!nick) return;
-            let item = inventory.splice(selectedItemForMcWithdraw, 1)[0];
-            withdrawals.push({ mcNick: nick, item: item, status: 'Очікує' });
-            updateUI();
-            updateProfileUI();
-            document.getElementById('withdrawMcModal').classList.add('hidden');
-            showAlert("Успіх", "Заявку на вивід у Minecraft надіслано!");
-        }
-
-        function openAdminModal() {
-            document.getElementById('adminModal').classList.remove('hidden');
-            if(isAdmin) {
-                document.getElementById('adminAuthBlock').classList.add('hidden');
-                document.getElementById('adminContentBlock').classList.remove('hidden');
-                renderAdminDepRequests();
-            } else {
-                document.getElementById('adminAuthBlock').classList.remove('hidden');
-                document.getElementById('adminContentBlock').classList.add('hidden');
-            }
-        }
-
-        function verifyAdminCode() {
-            let code = document.getElementById('adminCodeInput').value.trim();
-            if(code === "11111") {
-                isAdmin = true;
-                localStorage.setItem('sh_is_admin', 'true');
-                currentUser = {
-                    id: 777,
-                    name: "Admin_777",
-                    avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
-                };
-                localStorage.setItem('sh_user', JSON.stringify(currentUser));
-                updateUI();
-                updateProfileUI();
-                document.getElementById('adminAuthBlock').classList.add('hidden');
-                document.getElementById('adminContentBlock').classList.remove('hidden');
-                renderAdminDepRequests();
-                showAlert("Вітаємо Адмін", "Ви увійшли в Адмін-Панель з ID 777!");
-            } else {
-                showAlert("Помилка", "Невірний код доступу!");
-            }
-        }
-
-        function adminGiveBalance() {
-            let nick = document.getElementById('adminGiveUserNick').value.trim();
-            let amt = parseFloat(document.getElementById('adminGiveAmount').value) || 0;
-            if(amt <= 0) return;
-            balance += amt;
-            updateUI();
-            updateProfileUI();
-            showAlert("Адмін", `Успішно нараховано ${amt} CC користувачу ${nick || 'вам'}!`);
-        }
-
-        function adminAddPromo() {
-            let code = document.getElementById('adminNewPromoCode').value.trim();
-            let bonus = parseFloat(document.getElementById('adminNewPromoBonus').value) || 0;
-            if(!code || bonus <= 0) return;
-            promoList.push({ code: code, type: 'dep_bonus', value: bonus });
-            localStorage.setItem('sh_promos', JSON.stringify(promoList));
-            showAlert("Адмін", `Створено новий промокод "${code}" на +${bonus}%!`);
-        }
-
-        function renderAdminDepRequests() {
-            let list = document.getElementById('adminDepRequestsList');
-            list.innerHTML = '';
-            if(depositRequests.length === 0) {
-                list.innerHTML = `<p style="font-size: 11px; color: #94a3b8; text-align: center;">Заявок немає.</p>`;
-                return;
-            }
-            depositRequests.forEach((req, idx) => {
-                let div = document.createElement('div');
-                div.style.cssText = "display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1f243b; padding:6px 0; font-size:11px;";
-                div.innerHTML = `
-                    <span><b>${req.userName}</b>: ${req.amount} CC</span>
-                    <div>
-                        <button onclick="approveDep(${idx})" class="sh-btn" style="padding:2px 6px; font-size:9px; background:#22c55e; color:#000;">Прийняти</button>
-                        <button onclick="rejectDep(${idx})" class="sh-btn" style="padding:2px 6px; font-size:9px; background:#dc2626; color:#fff;">Відхилити</button>
-                    </div>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        function approveDep(idx) {
-            let req = depositRequests.splice(idx, 1)[0];
-            balance += req.amount;
-            updateUI();
-            updateProfileUI();
-            renderAdminDepRequests();
-            showAlert("Адмін", `Заявку на ${req.amount} CC підтверджено! Баланс нараховано.`);
-        }
-
-        function rejectDep(idx) {
-            depositRequests.splice(idx, 1);
-            updateUI();
-            renderAdminDepRequests();
-            showAlert("Адмін", "Заявку відхилено.");
-        }
-
-        function closeAdmin() { document.getElementById('adminModal').classList.add('hidden'); }
-
-        function updateProfileUI() {
-            if(currentUser) {
-                document.getElementById('profName').innerText = currentUser.name;
-                document.getElementById('profId').innerText = currentUser.id;
-                document.getElementById('profAvatar').src = currentUser.avatar;
-                document.getElementById('editNickInput').value = currentUser.name;
-                document.getElementById('editAvatarInput').value = currentUser.avatar;
-            }
-            document.getElementById('profBalance').innerText = `${balance.toFixed(0)} CC`;
-            document.getElementById('profItemsCount').innerText = inventory.length;
-
-            let grid = document.getElementById('inventoryGrid');
-            if(inventory.length === 0) {
-                grid.innerHTML = `<p style="color: #94a3b8; font-size: 11px; grid-column: span 3; text-align: center;">Інвентар порожній.</p>`;
-            } else {
-                grid.innerHTML = '';
-                inventory.forEach((item, idx) => {
-                    let d = document.createElement('div');
-                    d.style.cssText = "background: #040508; border: 1px solid #1f243b; border-radius: 8px; padding: 8px; text-align: center;";
-                    d.innerHTML = `
-                        <img src="${item.icon}" style="width:28px; height:28px; image-rendering:pixelated; margin-bottom:4px;">
-                        <div style="font-size:11px; font-weight:700; color:#fff;">${item.name}</div>
-                        <div style="font-size:10px; color:#3b82f6; font-family:'Orbitron'; margin:2px 0;">${item.price} CC</div>
-                        <button onclick="openMcWithdrawModal(${idx})" class="sh-btn" style="padding: 2px 6px; font-size: 8px; width:100%; margin-top:4px;">Вивести</button>
-                    `;
-                    grid.appendChild(d);
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            drawPixelArtCase('bomzhCaseCanvas');
-            drawPixelArtCase('bomzhCaseCanvasDetail');
-            updateUI();
-            renderCases();
-            updateUpgraderCalc();
-        });
-    </script>
-</body>
-</html>
+        function showCatalog()
