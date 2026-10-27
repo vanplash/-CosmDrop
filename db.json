@@ -1,0 +1,406 @@
+{
+ "users": {
+  "76561199663445528": {
+   "id": "76561199663445528",
+   "name": "vanplash",
+   "avatar": "https://avatars.steamstatic.com/5d5cd661e7f1ea3297c0814ffe2d19c06dd2eb04_full.jpg",
+   "bal": 119527.65,
+   "inv": [
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "b936c5d8-259e-4339-a0aa-9859c20e6898"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "dcb0a776-2283-4dbc-a15e-a34c2991228d"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "32902810-19d6-4450-b7d8-fa1574fee6b3"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "f341f242-0fb4-454c-9216-967b4e588f26"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "f44732a6-e023-45fb-bf01-ab0bf29e0993"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "2e5d9768-26ac-4eb0-873f-ec0f7095e036"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "0bfde136-b058-4469-9d20-7b7216f20276"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "9ee9d4b2-fcab-4c19-8d76-a66fd2179a20"
+    },
+    {
+     "id": "g2",
+     "name": "Золоте кайло (Еф. IV)",
+     "price": 120,
+     "chance": 32,
+     "icon": "golden_pickaxe",
+     "r": 1,
+     "uid": "26d3cc08-8245-4fed-8948-17cab7faaab7"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "d577cdfb-f828-4d56-ae56-340a41d471df"
+    },
+    {
+     "id": "g2",
+     "name": "Золоте кайло (Еф. IV)",
+     "price": 120,
+     "chance": 32,
+     "icon": "golden_pickaxe",
+     "r": 1,
+     "uid": "02f6dec9-ad6b-4edd-9f8c-c7516c4aa166"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "ff993084-1325-4aea-9833-dcb10371e52a"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "315359e7-3224-4ec2-b019-57e3f9bcd718"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "20d4286a-bb4a-4df2-a666-9a97ac3fefee"
+    },
+    {
+     "id": "w1",
+     "name": "Залізна мотика",
+     "price": 20,
+     "chance": 40,
+     "icon": "iron_hoe",
+     "r": 1,
+     "uid": "8c6f6194-1795-4e31-b8e9-100f65d08996"
+    },
+    {
+     "id": "w2",
+     "name": "Залізне кайло",
+     "price": 35,
+     "chance": 25,
+     "icon": "iron_pickaxe",
+     "r": 2,
+     "uid": "00c28e24-abc6-4c9a-a260-15010ccb600a"
+    },
+    {
+     "id": "w1",
+     "name": "Залізна мотика",
+     "price": 20,
+     "chance": 40,
+     "icon": "iron_hoe",
+     "r": 1,
+     "uid": "959f40fb-2cbe-484c-9f38-fb849f6043c4"
+    },
+    {
+     "id": "w1",
+     "name": "Залізна мотика",
+     "price": 20,
+     "chance": 40,
+     "icon": "iron_hoe",
+     "r": 1,
+     "uid": "458cb8bb-1d26-4b17-a91b-ada2597db108"
+    },
+    {
+     "id": "w1",
+     "name": "Залізна мотика",
+     "price": 20,
+     "chance": 40,
+     "icon": "iron_hoe",
+     "r": 1,
+     "uid": "734d9286-06fb-43a9-beb2-5650e311755e"
+    },
+    {
+     "id": "g1",
+     "name": "Золота лопата (Еф. IV)",
+     "price": 110,
+     "chance": 45,
+     "icon": "golden_shovel",
+     "r": 1,
+     "uid": "ba6cb4fe-7bd4-40ec-ab89-1db4c7496d89"
+    },
+    {
+     "id": "w2",
+     "name": "Залізне кайло",
+     "price": 35,
+     "chance": 25,
+     "icon": "iron_pickaxe",
+     "r": 2,
+     "uid": "21a59508-a8f8-4ee1-8214-944da0b1dcc4"
+    },
+    {
+     "id": "t_g6",
+     "name": "8 золотих яблук",
+     "price": 240,
+     "icon": "golden_apple",
+     "r": 5,
+     "uid": "5db32724-8f3a-4128-8652-0b27d1b7a181"
+    }
+   ],
+   "custom": false,
+   "pid": "777",
+   "admin": true,
+   "freeBy": {
+    "gold": 0,
+    "*": 0,
+    "wood": 0,
+    "silver": 0
+   }
+  },
+  "76561198665151824": {
+   "id": "76561198665151824",
+   "name": "NyaNazar445",
+   "avatar": "https://avatars.steamstatic.com/c718b0c234a3f5ff5fc8f0b99c3f64f0de4ccefe_full.jpg",
+   "bal": 62,
+   "inv": [],
+   "custom": false,
+   "pid": "1002"
+  }
+ },
+ "promos": [
+  {
+   "type": "dep",
+   "uses": 0,
+   "count": 1,
+   "used": [],
+   "caseId": "",
+   "code": "322",
+   "value": 7
+  },
+  {
+   "code": "COSM_7XB2N4K",
+   "type": "coins",
+   "value": 50,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_M9WP1RT",
+   "type": "coins",
+   "value": 70,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_3VL8ZQP",
+   "type": "coins",
+   "value": 40,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_2BN7MWQ",
+   "type": "coins",
+   "value": 60,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_ZX4R8WT",
+   "type": "coins",
+   "value": 100,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_5MQ2KPB",
+   "type": "coins",
+   "value": 10,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_T9V1XRS",
+   "type": "coins",
+   "value": 130,
+   "uses": 4,
+   "caseId": "",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_4KL7ZNW",
+   "type": "case",
+   "value": 1,
+   "uses": 4,
+   "caseId": "silver",
+   "count": 0,
+   "used": []
+  },
+  {
+   "code": "COSM_KR5X9TF",
+   "type": "case",
+   "value": 4,
+   "uses": 4,
+   "caseId": "gold",
+   "count": 0,
+   "used": []
+  }
+ ],
+ "deps": [],
+ "wds": [
+  {
+   "id": "10031565-0861-49f3-a277-de42d6ea7a39",
+   "steamid": "76561198665151824",
+   "user": "NyaNazar445",
+   "mc": "CHelll",
+   "item": "Залізна сокира (Еф. II)",
+   "done": true
+  }
+ ],
+ "feed": [
+  {
+   "user": "vanplash",
+   "item": "Алмазне кайло (Еф. I)",
+   "price": 105
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізне кайло",
+   "price": 35
+  },
+  {
+   "user": "vanplash",
+   "item": "Золота лопата (Еф. IV)",
+   "price": 110
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізна мотика",
+   "price": 20
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізна мотика",
+   "price": 20
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізна мотика",
+   "price": 20
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізне кайло",
+   "price": 35
+  },
+  {
+   "user": "vanplash",
+   "item": "Залізна мотика",
+   "price": 20
+  },
+  {
+   "user": "vanplash",
+   "item": "Золоте кайло (Еф. V)",
+   "price": 135
+  },
+  {
+   "user": "vanplash",
+   "item": "Золота лопата (Еф. IV)",
+   "price": 110
+  },
+  {
+   "user": "vanplash",
+   "item": "Золота лопата (Еф. IV)",
+   "price": 110
+  },
+  {
+   "user": "vanplash",
+   "item": "Золоте кайло (Еф. IV)",
+   "price": 120
+  },
+  {
+   "user": "vanplash",
+   "item": "Золота лопата (Еф. IV)",
+   "price": 110
+  },
+  {
+   "user": "vanplash",
+   "item": "Золота лопата (Еф. IV)",
+   "price": 110
+  },
+  {
+   "user": "vanplash",
+   "item": "Золоте кайло (Еф. IV)",
+   "price": 120
+  }
+ ],
+ "nextPid": 1003,
+ "opens": {
+  "gold": 11,
+  "wood": 6,
+  "silver": 1
+ }
+}
